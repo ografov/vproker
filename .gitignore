@@ -1,3 +1,6 @@
 *.user
 *.sln
 node_modules
+bin
+obj
+.vs
