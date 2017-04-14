@@ -1,0 +1,29 @@
+﻿@model vproker.Models.Tool
+
+@{
+    ViewBag.Title = "Инструмент";
+}
+
+<h2>Описание инструмента</h2>
+<div>
+    <dl class="dl-horizontal">
+        <dt>@Html.DisplayNameFor(model => model.Name)</dt>
+        <dd>@Html.DisplayFor(model => model.Name)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.Description)</dt>
+        <dd>@Html.DisplayFor(model => model.Description)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.Pledge)</dt>
+        <dd>@Html.DisplayFor(model => model.Pledge)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.DayPrice)</dt>
+        <dd>@Html.DisplayFor(model => model.DayPrice)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.WorkShiftPrice)</dt>
+        <dd>@Html.DisplayFor(model => model.WorkShiftPrice)</dd>
+    </dl>
+</div>
+<p>
+    <a asp-action="Edit" asp-route-id="@Model.ID">Изменить</a> |
+    <a asp-action="Index">Назад</a>
+</p> 

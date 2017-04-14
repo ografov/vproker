@@ -1,0 +1,126 @@
+﻿@model vproker.Models.Client
+
+<div>
+    <form asp-controller="Client" asp-action="Create" method="post">
+        <div asp-validation-summary="ValidationSummary.ModelOnly" class="text-danger"></div>
+
+        <div class="form-group row">
+            <label asp-for="FirstName" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="FirstName" class="form-control" placeholder="Имя" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label asp-for="MiddleName" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="MiddleName" class="form-control" placeholder="Отчество" />
+                <span asp-validation-for="MiddleName" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label asp-for="LastName" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="LastName" class="form-control" placeholder="Фамилия" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label asp-for="DateOfBirth" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="DateOfBirth" class="form-control" />
+                <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label asp-for="Phone1" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Phone1" class="form-control" />
+                <span asp-validation-for="Phone1" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label asp-for="Phone2" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Phone2" class="form-control" />
+                <span asp-validation-for="Phone2" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label asp-for="Phone3" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Phone3" class="form-control" />
+                <span asp-validation-for="Phone3" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label asp-for="RegistrationAddress" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="RegistrationAddress" class="form-control" />
+                <span asp-validation-for="RegistrationAddress" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label asp-for="LivingAddress" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="LivingAddress" class="form-control" />
+                <span asp-validation-for="LivingAddress" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label asp-for="WorkingAddress" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="WorkingAddress" class="form-control" />
+                <span asp-validation-for="WorkingAddress" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label asp-for="DiscountPercent" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="DiscountPercent" class="form-control" placeholder="5" />
+                <span asp-validation-for="DiscountPercent" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label asp-for="KnowSourceID" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <select asp-for="KnowSourceID" asp-items="@ViewBag.KnowSources" class="form-control"></select>
+                <span asp-validation-for="KnowSourceID" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label asp-for="Note" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <textarea id="TextArea1" rows="2" cols="20" asp-for="Note" class="form-control" placeholder="Примечание"></textarea>
+                <span asp-validation-for="Note" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-md-2">
+                <input type="submit" class="btn btn-success pull-right" value="Создать" />
+            </div>
+            <div class="col-md-10">
+                <a asp-action="Index" class="btn btn-danger">Отмена</a>
+            </div>
+        </div>
+
+    </form>
+</div>
+
+@section Scripts {
+    <script src="~/lib/jquery-validation/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+}

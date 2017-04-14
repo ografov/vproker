@@ -1,0 +1,60 @@
+﻿@model vproker.Models.Order
+
+<div>
+    <form asp-controller="Order" asp-action="Create" method="post">
+        <div asp-validation-summary="ValidationSummary.ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="ToolID" class="control-label"></label>
+            <div>
+                <select asp-for="ToolID" class="form-control" asp-items="@ViewBag.Tools"></select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="ClientName"></label>
+            <input asp-for="ClientName" class="form-control" placeholder="Клиент" />
+            <span asp-validation-for="ClientName" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="ClientPhoneNumber"></label>
+            <input asp-for="ClientPhoneNumber" class="form-control" placeholder="Телефон" />
+            <span asp-validation-for="ClientPhoneNumber" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Description"></label>
+            <input asp-for="Description" class="form-control" placeholder="Примечание" />
+        </div>
+
+        <div class="form-group">
+            <label asp-for="PaidPledge"></label>
+            <input asp-for="PaidPledge" class="form-control" />
+            <span asp-validation-for="PaidPledge" class="text-danger"></span>
+        </div>        
+
+        <div class="form-group">
+            <label asp-for="Price"></label>
+            <input asp-for="Price" class="form-control" />
+            <span asp-validation-for="Price" class="text-danger"></span>
+        </div>      
+
+        @*<div class="form-group">
+            <div>
+                <input type="submit" class="btn btn-primary" value="Создать" />
+            </div>
+            <div>
+                <a asp-action="Index" class="btn btn-default">Отмена</a>
+            </div>
+        </div>*@
+        <p>
+                <input type="submit" class="btn btn-primary" value="Создать" />
+                <a asp-action="Index" class="btn btn-default">Отмена</a>
+        </p>
+    </form>
+</div>
+
+@section Scripts {
+    <script src="~/lib/jquery-validation/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+}

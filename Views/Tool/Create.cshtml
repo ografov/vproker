@@ -1,0 +1,47 @@
+﻿@model vproker.Models.Tool
+
+<div>
+    <form asp-controller="Tool" asp-action="Create" method="post">
+        <div asp-validation-summary="ValidationSummary.ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="Name"></label>
+            <input asp-for="Name" class="form-control" placeholder="Наименование" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Description"></label>
+            <input asp-for="Description" class="form-control" placeholder="Характеристики" />
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+
+        <!-- Price's -->
+        <div class="form-group">
+            <label asp-for="Pledge"></label>
+            <input asp-for="Pledge" class="form-control" />
+            <span asp-validation-for="Pledge" class="text-danger"></span>
+        </div>        
+        <div class="form-group">
+            <label asp-for="DayPrice"></label>
+            <input asp-for="DayPrice" class="form-control" />
+            <span asp-validation-for="DayPrice" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="WorkShiftPrice"></label>
+            <input asp-for="WorkShiftPrice" class="form-control" />
+            <span asp-validation-for="WorkShiftPrice" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Price"></label>
+            <input asp-for="Price" class="form-control" />
+            <span asp-validation-for="Price" class="text-danger"></span>
+        </div>
+        <!--end prices -->
+
+        <input type="submit" class="btn btn-default" value="Создать" />
+    </form>
+</div>
+
+@section Scripts {
+    <script src="~/lib/jquery-validation/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+}

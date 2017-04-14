@@ -1,0 +1,28 @@
+﻿@model vproker.Models.Order
+
+@{
+    ViewBag.Title = "Заказ";
+}
+
+<h2>Информация о заказе</h2>
+<div>
+    <dl class="dl-horizontal">
+        <dt>@Html.DisplayNameFor(model => model.StartDate)</dt>
+        <dd>@Html.DisplayFor(model => model.EndDate)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.ClientName)</dt>
+        <dd>
+            @Html.DisplayFor(model => model.ClientName)
+            @Html.DisplayFor(model => model.ClientPhoneNumber)
+        </dd>
+
+        <dt>@Html.DisplayNameFor(model => model.Tool)</dt>
+        <dd>
+            @Html.DisplayFor(model => model.Tool.Name)
+        </dd>
+    </dl>
+</div>
+<p>
+    <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.ID">Сохранить</a> |
+    <a class="btn btn-default" asp-action="Index">Назад</a>
+</p> 

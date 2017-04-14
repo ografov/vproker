@@ -1,0 +1,14 @@
+﻿@model vproker.Models.Order
+
+<div>
+    <form asp-controller="Order" asp-action="Update" method="post" asp-route-id="@Model.ID">
+        <div asp-validation-summary="ValidationSummary.ModelOnly" class="text-danger"></div>
+       
+        <input type="submit" class="btn btn-primary" value="Сохранить" />
+    </form>
+</div>
+
+@section Scripts {
+    <script src="~/lib/jquery-validation/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+}

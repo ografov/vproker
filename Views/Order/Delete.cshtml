@@ -1,0 +1,49 @@
+﻿@model vproker.Models.Order
+
+@{
+    ViewBag.Title = "Подтвердите удаление";
+}
+
+<h3>Удалить этот заказ?</h3>
+
+@if (ViewBag.Retry)
+{
+    <p class="alert-danger">Ошибка при удалении. Повторить?</p>
+}
+
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ClientName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ClientName)
+        </dd>
+    </dl>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Tool.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Tool.Name)
+        </dd>
+    </dl>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.StartDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.StartDate)
+        </dd>
+    </dl>
+
+    <div>
+        <form asp-controller="Order" asp-action="Delete" method="post">
+            <div class="form-group">
+                <input type="submit" class="btn btn-default" value="Удалить" />
+            </div>
+        </form>
+
+        <p><a asp-controller="Order" asp-action="Index">Назад к списку</a></p>
+    </div>
+</div>
