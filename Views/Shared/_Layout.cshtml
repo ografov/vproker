@@ -36,7 +36,7 @@
                     <li><a asp-controller="Order" asp-action="ActiveOrders">Активные Заказы</a></li>
                     @if (User.Identity.Name == vproker.Models.AuthData.ADMIN_ID)
                     {
-                        <li><a asp-controller="Order" asp-action="Index">История</a></li>
+                        <li><a asp-controller="Order" asp-action="History">История</a></li>
                         @*<li><a asp-controller="Client" asp-action="Index">Клиенты</a></li>*@
                         <li><a asp-controller="Tool" asp-action="Index">Инструменты</a></li>
                     }
@@ -51,7 +51,6 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; 2015 - vproker</p>
         </footer>
     </div>
 

@@ -22,8 +22,13 @@ namespace vproker.Controllers
         [FromServices]
         public ILogger<OrderController> Logger { get; set; }
 
+        public IActionResult Index()
+        {
+            return User.Identity.Name == AuthData.ADMIN_ID ? History() : ActiveOrders();
+        }
+
         [Authorize(Roles = AuthData.ADMIN_ROLE)]
-        public IActionResult Index(string sortOrder, string searchString)
+        public IActionResult History(string sortOrder = "", string searchString = "")
         {
             var orders = new Order[0];
 
@@ -56,11 +61,11 @@ namespace vproker.Controllers
                 orders = orders.Where(o => o.IsClosed).ToArray();
             }
 
-            return View(orders);
+            return View("History", orders);
         }
 
         [Authorize(Roles = AuthData.USER_ROLE)]
-        public IActionResult ActiveOrders(string sortOrder, string searchString)
+        public IActionResult ActiveOrders(string sortOrder = "", string searchString = "")
         {
             var orders = new Order[0];
 
@@ -94,7 +99,7 @@ namespace vproker.Controllers
                 orders = orders.Where(o => !o.IsClosed).ToArray();
             }
 
-            return View(orders);
+            return View("ActiveOrders", orders);
         }
 
         public async Task<ActionResult> Details(string id)
@@ -196,7 +201,7 @@ namespace vproker.Controllers
                 AppContext.Orders.Attach(order);
                 AppContext.Entry(order).State = EntityState.Modified;
                 await AppContext.SaveChangesAsync();
-                return RedirectToAction("Index");
+                return RedirectToAction("History");
             }
             catch (Exception)
             {
@@ -238,7 +243,7 @@ namespace vproker.Controllers
             {
                 return RedirectToAction("Delete", new { id = id, retry = true });
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("History");
         }
 
         [HttpGet]
@@ -272,7 +277,7 @@ namespace vproker.Controllers
                 AppContext.Orders.Attach(order);
                 AppContext.Entry(order).State = EntityState.Modified;
                 await AppContext.SaveChangesAsync();
-                return RedirectToAction("Index");
+                return RedirectToAction("ActiveOrders");
             }
             catch (Exception)
             {
