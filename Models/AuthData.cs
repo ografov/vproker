@@ -11,6 +11,9 @@ namespace vproker.Models
     {
         internal const string ADMIN_ROLE = "Administrator";
         internal const string USER_ROLE = "User";
+
+        public const string ADMIN_ID = "admin";
+        public const string USER_ID = "user";
         
         private static readonly string[] Roles = new string[] { ADMIN_ROLE, USER_ROLE };
 
@@ -33,8 +36,8 @@ namespace vproker.Models
                 // add default users
 
                 var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
-                await AddUser(userManager, "admin", "120385", new string[] { USER_ROLE, ADMIN_ROLE });
-                await AddUser(userManager, "user" , "123456", new string[] { USER_ROLE });
+                await AddUser(userManager, ADMIN_ID, "120385", new string[] { USER_ROLE, ADMIN_ROLE });
+                await AddUser(userManager, USER_ID, "123456", new string[] { USER_ROLE });
             }
         }
 

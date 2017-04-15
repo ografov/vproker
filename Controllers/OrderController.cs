@@ -138,7 +138,7 @@ namespace vproker.Controllers
             return View(order);
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = AuthData.ADMIN_ROLE)]
         public async Task<ActionResult> Edit(string id)
         {
             Order order = await FindOrderAsync(id);
@@ -228,30 +228,24 @@ namespace vproker.Controllers
         }
 
         [HttpPost]
-        //[ValidateAntiForgeryToken]
-        public async Task<ActionResult> Close(string id)
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Close(string id, Decimal payment)
         {
             try
             {
                 Order order = await FindOrderAsync(id);
-                if(order.EndDate != null)
-                {
-                    throw new Exception("Заказ не может быть закрыт дважды. Дата закрытия заказа уже указана - " + order.EndDate);
-                }
-                CloseOrder(order);
+                order.Payment = payment;
+                order.EndDate = DateTime.Now;
+
+                AppContext.Orders.Attach(order);
+                AppContext.Entry(order).State = EntityState.Modified;
                 await AppContext.SaveChangesAsync();
+                return RedirectToAction("Index");
             }
             catch (Exception)
             {
                 return RedirectToAction("Close", new { id = id, retry = true });
             }
-            return RedirectToAction("Index");
-        }
-
-        private void CloseOrder(Order order)
-        {
-            order.EndDate = DateTime.Now;
-            order.Price = CalculatePaymentForDays(order.EndDate.Value, order.StartDate, order.Price);
         }
 
         public static Decimal CalculatePaymentForDays(DateTime start, DateTime end, Decimal dayPrice)

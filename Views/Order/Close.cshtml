@@ -4,17 +4,18 @@
     ViewBag.Title = "Подтвердите завершение";
 
     DateTime endDate = DateTime.Now;
-    Decimal payment = vproker.Controllers.OrderController.CalculatePaymentForDays(Model.StartDate, endDate, Model.Price);
+    Model.Payment = vproker.Controllers.OrderController.CalculatePaymentForDays(Model.StartDate, endDate, Model.Price);
 }
 
 <h3>Завершить этот заказ?</h3>
 
 @if (ViewBag.Retry)
 {
-    <p class="alert-danger">Ошибка при завершении заказа. Повторить?</p>
+    <p class="alert alert-danger">Ошибка при завершении заказа. Повторить?</p>
 }
 
 <div>
+    <form asp-controller="Order" asp-action="Close" method="post" asp-route-id="@Model.ID" asp-route-payment="@Model.Payment">
     <dl class="dl-horizontal">
         <dt>
             @Html.DisplayNameFor(model => model.ClientName)
@@ -46,21 +47,22 @@
         <dd>
             @endDate
         </dd>
-    </dl> 
+    </dl>
     <dl class="dl-horizontal">
         <dt>
-            Сумма заказа:
+            <label asp-for="Payment"></label>
         </dt>
         <dd>
-            @payment
+            @*<input asp-for="Payment" class="form-control" />*@
+            @Html.EditorFor(m => m.Payment)
+            <span asp-validation-for="Payment" class="text-danger"></span>
         </dd>
     </dl> 
     <div>
-        <form asp-controller="Order" asp-action="Close" method="post">
             <p>
-                <input type="submit" class="btn btn-primary" value="Завершить" />
+                <input type="submit" class="btn btn-primary" value="Закрыть" />
                 <a asp-controller="Order" asp-action="Index" class="btn btn-default">Отмена</a>
             </p>
-        </form>
     </div>
+    </form>
 </div>

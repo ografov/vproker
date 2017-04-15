@@ -28,13 +28,16 @@ namespace vproker.Models
 
         [Required]
         [Display(Name = "Телефон клиента")]
+        [DataType(DataType.PhoneNumber)]
+        [RegularExpression(@"^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7}$", ErrorMessage = "Invalid phone")]
         public string ClientPhoneNumber { get; set; }
 
         [Display(Name = "Примечание")]
+        [DataType(DataType.MultilineText)]
         public string Description { get; set; }
 
         [Required]
-        [Display(Name = "Внесенная Залоговая стоимость заказа")]
+        [Display(Name = "Залог")]
         [DataType(DataType.Currency)]
         public Decimal PaidPledge { get; set; }
 
@@ -56,6 +59,7 @@ namespace vproker.Models
         public DateTime? EndDate { get; set; }
 
         [DataType(DataType.Currency)]
+        [Display(Name = "Сумма заказа")]
         public Decimal? Payment { get; set; }
         
         //[HiddenInput(DisplayValue = false)]

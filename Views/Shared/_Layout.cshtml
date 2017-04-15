@@ -30,15 +30,18 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-@if (User.Identity.IsAuthenticated)
-{
+                @if (User.Identity.IsAuthenticated)
+                {
                     <li><a asp-controller="Order" asp-action="Create">Новый Заказ</a></li>
                     <li><a asp-controller="Order" asp-action="Index" asp-route-filter="active">Активные Заказы</a></li>
-                    <li><a asp-controller="Order" asp-action="Index" asp-route-filter="closed">История</a></li>
-                    @*<li><a asp-controller="Client" asp-action="Index">Клиенты</a></li>*@
-                    <li><a asp-controller="Tool" asp-action="Index">Инструменты</a></li>
-}
-                    <li><a asp-controller="Home" asp-action="About">О компании</a></li>
+                    @if (User.Identity.Name == vproker.Models.AuthData.ADMIN_ID)
+                    {
+                        <li><a asp-controller="Order" asp-action="Index" asp-route-filter="closed">История</a></li>
+                        @*<li><a asp-controller="Client" asp-action="Index">Клиенты</a></li>*@
+                        <li><a asp-controller="Tool" asp-action="Index">Инструменты</a></li>
+                    }
+                }
+                <li><a asp-controller="Home" asp-action="About">О компании</a></li>
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
             </div>
