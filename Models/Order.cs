@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace vproker.Models
 {
-    public class Order: INotifyPropertyChanged
+    public class Order 
     {
         public Order()
         {
@@ -21,9 +21,6 @@ namespace vproker.Models
         public String ToolID { get; set; }
 
         private Tool tool;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
         [Display(Name = "Инструмент")]
         public Tool Tool
         {
