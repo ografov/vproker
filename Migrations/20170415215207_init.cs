@@ -4,12 +4,10 @@ using Microsoft.Data.Entity.Migrations;
 
 namespace vproker.Migrations
 {
-    public partial class m_auth : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            //migrationBuilder.DropForeignKey(name: "FK_Client_KnowledgeSource_KnowSourceID", table: "Client");
-            //migrationBuilder.DropForeignKey(name: "FK_Order_Tool_ToolID", table: "Order");
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
@@ -46,6 +44,22 @@ namespace vproker.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ApplicationUser", x => x.Id);
+                });
+            migrationBuilder.CreateTable(
+                name: "Tool",
+                columns: table => new
+                {
+                    ID = table.Column<string>(nullable: false),
+                    DayPrice = table.Column<decimal>(nullable: false),
+                    Description = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: false),
+                    Pledge = table.Column<decimal>(nullable: false),
+                    Price = table.Column<decimal>(nullable: false),
+                    WorkShiftPrice = table.Column<decimal>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tool", x => x.ID);
                 });
             migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
@@ -129,6 +143,32 @@ namespace vproker.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+            migrationBuilder.CreateTable(
+                name: "Order",
+                columns: table => new
+                {
+                    ID = table.Column<string>(nullable: false),
+                    ClientName = table.Column<string>(nullable: false),
+                    ClientPhoneNumber = table.Column<string>(nullable: false),
+                    CreatedBy = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
+                    EndDate = table.Column<DateTime>(nullable: true),
+                    PaidPledge = table.Column<decimal>(nullable: false),
+                    Payment = table.Column<decimal>(nullable: true),
+                    Price = table.Column<decimal>(nullable: false),
+                    StartDate = table.Column<DateTime>(nullable: false),
+                    ToolID = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Order", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_Order_Tool_ToolID",
+                        column: x => x.ToolID,
+                        principalTable: "Tool",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                });
             migrationBuilder.CreateIndex(
                 name: "RoleNameIndex",
                 table: "AspNetRoles",
@@ -141,46 +181,18 @@ namespace vproker.Migrations
                 name: "UserNameIndex",
                 table: "AspNetUsers",
                 column: "NormalizedUserName");
-            //migrationBuilder.AddForeignKey(
-            //    name: "FK_Client_KnowledgeSource_KnowSourceID",
-            //    table: "Client",
-            //    column: "KnowSourceID",
-            //    principalTable: "KnowledgeSource",
-            //    principalColumn: "ID",
-            //    onDelete: ReferentialAction.Cascade);
-            //migrationBuilder.AddForeignKey(
-            //    name: "FK_Order_Tool_ToolID",
-            //    table: "Order",
-            //    column: "ToolID",
-            //    principalTable: "Tool",
-            //    principalColumn: "ID",
-            //    onDelete: ReferentialAction.Cascade);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            //migrationBuilder.DropForeignKey(name: "FK_Client_KnowledgeSource_KnowSourceID", table: "Client");
-            //migrationBuilder.DropForeignKey(name: "FK_Order_Tool_ToolID", table: "Order");
             migrationBuilder.DropTable("AspNetRoleClaims");
             migrationBuilder.DropTable("AspNetUserClaims");
             migrationBuilder.DropTable("AspNetUserLogins");
             migrationBuilder.DropTable("AspNetUserRoles");
+            migrationBuilder.DropTable("Order");
             migrationBuilder.DropTable("AspNetRoles");
             migrationBuilder.DropTable("AspNetUsers");
-            //migrationBuilder.AddForeignKey(
-            //    name: "FK_Client_KnowledgeSource_KnowSourceID",
-            //    table: "Client",
-            //    column: "KnowSourceID",
-            //    principalTable: "KnowledgeSource",
-            //    principalColumn: "ID",
-            //    onDelete: ReferentialAction.Restrict);
-            //migrationBuilder.AddForeignKey(
-            //    name: "FK_Order_Tool_ToolID",
-            //    table: "Order",
-            //    column: "ToolID",
-            //    principalTable: "Tool",
-            //    principalColumn: "ID",
-            //    onDelete: ReferentialAction.Restrict);
+            migrationBuilder.DropTable("Tool");
         }
     }
 }

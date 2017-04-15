@@ -19,8 +19,8 @@ namespace vproker.Models
         {
             ApplicationDbContext context = serviceProvider.GetService(typeof(ApplicationDbContext)) as ApplicationDbContext;
 
-            AddSampleKnowledgeSources(context);
-            AddSampleClients(context);
+            //AddSampleKnowledgeSources(context);
+            //AddSampleClients(context);
             AddSampleTools(context);
             AddSampleOrders(context);
         }
@@ -56,13 +56,13 @@ namespace vproker.Models
             }
         }
 
-        private static void AddSampleKnowledgeSources(ApplicationDbContext context)
-        {
-            if (!context.KnowSources.Any())
-            {
-                context.KnowSources.AddRange(KnowledgeSource.GetDefaultSources());
-            }
-        }
+        //private static void AddSampleKnowledgeSources(ApplicationDbContext context)
+        //{
+        //    if (!context.KnowSources.Any())
+        //    {
+        //        context.KnowSources.AddRange(KnowledgeSource.GetDefaultSources());
+        //    }
+        //}
 
         private static void AddSampleTools(ApplicationDbContext context)
         {
@@ -92,41 +92,37 @@ namespace vproker.Models
             }
         }
 
-        private static Client CreateClient(string id, string firstName, string lastName)
-        {
-            return new Client
-            {
-                ID = id,
-                LastName = lastName,
-                FirstName = firstName,
-                DocumentSerial = "1234",
-                DocumentNumber = "123456",
-                DocumentGivenWhen = DateTime.Now,
-                DocumentGivenBy = "ОФМС",
-                Phone1 = "777",
-                Phone2 = "777",
-                DiscountPercent = 5,
-            };
-        }
+        //private static Client CreateClient(string id, string firstName, string lastName)
+        //{
+        //    return new Client
+        //    {
+        //        ID = id,
+        //        LastName = lastName,
+        //        FirstName = firstName,
+        //        DocumentSerial = "1234",
+        //        DocumentNumber = "123456",
+        //        DocumentGivenWhen = DateTime.Now,
+        //        DocumentGivenBy = "ОФМС",
+        //        Phone1 = "777",
+        //        Phone2 = "777",
+        //        DiscountPercent = 5,
+        //    };
+        //}
 
-        private static void AddSampleClients(ApplicationDbContext context)
-        {
-            if (!context.Clients.Any())
-            {
-                Client[] clients = new Client[]
-                {
-                    CreateClient(PETROV_ID, "Вася", "Петров"),
-                    CreateClient(SIDOROV_ID, "Алеша", "Сидоров"),
-                    CreateClient(IVANOV_ID, "Гена", "Иванов"),
-                };
-                context.Clients.AddRange(clients);                   
+        //private static void AddSampleClients(ApplicationDbContext context)
+        //{
+        //    if (!context.Clients.Any())
+        //    {
+        //        Client[] clients = new Client[]
+        //        {
+        //            CreateClient(PETROV_ID, "Вася", "Петров"),
+        //            CreateClient(SIDOROV_ID, "Алеша", "Сидоров"),
+        //            CreateClient(IVANOV_ID, "Гена", "Иванов"),
+        //        };
+        //        context.Clients.AddRange(clients);                   
 
-                context.SaveChanges();
-            }
-        }
-
-
-        
-
+        //        context.SaveChanges();
+        //    }
+        //}
     }
 }

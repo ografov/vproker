@@ -29,7 +29,7 @@ namespace vproker.Models
         [Required]
         [Display(Name = "Телефон клиента")]
         [DataType(DataType.PhoneNumber)]
-        [RegularExpression(@"^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7}$", ErrorMessage = "Invalid phone")]
+        [RegularExpression(@"^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7}$", ErrorMessage = "Неправильно набран номер")]
         public string ClientPhoneNumber { get; set; }
 
         [Display(Name = "Примечание")]
@@ -42,20 +42,23 @@ namespace vproker.Models
         public Decimal PaidPledge { get; set; }
 
         [Required]
-        [Display(Name = "Цена аренды")]
+        [Display(Name = "Цена")]
         [DataType(DataType.Currency)]
         public Decimal Price { get; set; }
 
         // not user fields
         [Required]
-        [Display(Name = "Дата и время начала аренды")]
+        [Display(Name = "Начало аренды")]
         [DataType(DataType.DateTime)]
         [DisplayFormat(DataFormatString = "{0:f}", ApplyFormatInEditMode = true)]
         public DateTime StartDate { get; set; }
 
+        [Display(Name = "Кем создан")]
+        public string CreatedBy { get; set; }
+
         [DataType(DataType.DateTime)]
         [DisplayFormat(DataFormatString = "{0:f}", ApplyFormatInEditMode = true)]
-        [Display(Name = "Дата и время конца аренды")]
+        [Display(Name = "Конец aренды")]
         public DateTime? EndDate { get; set; }
 
         [DataType(DataType.Currency)]

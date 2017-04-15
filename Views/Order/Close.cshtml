@@ -53,8 +53,7 @@
             <label asp-for="Payment"></label>
         </dt>
         <dd>
-            @*<input asp-for="Payment" class="form-control" />*@
-            @Html.EditorFor(m => m.Payment)
+            <input asp-for="Payment" class="form-control" />
             <span asp-validation-for="Payment" class="text-danger"></span>
         </dd>
     </dl> 

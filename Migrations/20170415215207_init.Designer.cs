@@ -8,9 +8,10 @@ using vproker.Models;
 namespace vproker.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class VprokerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170415215207_init")]
+    partial class init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "7.0.0-rc1-16348");
@@ -145,66 +146,6 @@ namespace vproker.Migrations
                     b.HasAnnotation("Relational:TableName", "AspNetUsers");
                 });
 
-            modelBuilder.Entity("vproker.Models.Client", b =>
-                {
-                    b.Property<string>("ID");
-
-                    b.Property<DateTime>("DateOfBirth");
-
-                    b.Property<int>("DiscountPercent");
-
-                    b.Property<byte[]>("DocumentData");
-
-                    b.Property<string>("DocumentGivenBy")
-                        .IsRequired();
-
-                    b.Property<DateTime>("DocumentGivenWhen");
-
-                    b.Property<string>("DocumentNumber")
-                        .IsRequired();
-
-                    b.Property<string>("DocumentSerial")
-                        .IsRequired();
-
-                    b.Property<string>("DocumentUnitCode");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired();
-
-                    b.Property<string>("KnowSourceID")
-                        .IsRequired();
-
-                    b.Property<string>("LastName")
-                        .IsRequired();
-
-                    b.Property<string>("LivingAddress");
-
-                    b.Property<string>("MiddleName");
-
-                    b.Property<string>("Note");
-
-                    b.Property<string>("Phone1");
-
-                    b.Property<string>("Phone2");
-
-                    b.Property<string>("Phone3");
-
-                    b.Property<string>("RegistrationAddress");
-
-                    b.Property<string>("WorkingAddress");
-
-                    b.HasKey("ID");
-                });
-
-            modelBuilder.Entity("vproker.Models.KnowledgeSource", b =>
-                {
-                    b.Property<string>("ID");
-
-                    b.Property<string>("Name");
-
-                    b.HasKey("ID");
-                });
-
             modelBuilder.Entity("vproker.Models.Order", b =>
                 {
                     b.Property<string>("ID");
@@ -214,6 +155,8 @@ namespace vproker.Migrations
 
                     b.Property<string>("ClientPhoneNumber")
                         .IsRequired();
+
+                    b.Property<string>("CreatedBy");
 
                     b.Property<string>("Description");
 
@@ -283,13 +226,6 @@ namespace vproker.Migrations
                     b.HasOne("vproker.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId");
-                });
-
-            modelBuilder.Entity("vproker.Models.Client", b =>
-                {
-                    b.HasOne("vproker.Models.KnowledgeSource")
-                        .WithMany()
-                        .HasForeignKey("KnowSourceID");
                 });
 
             modelBuilder.Entity("vproker.Models.Order", b =>

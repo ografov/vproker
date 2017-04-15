@@ -22,8 +22,8 @@ namespace vproker.Controllers
         [FromServices]
         public ILogger<OrderController> Logger { get; set; }
 
-        [Authorize(Roles = "User")]
-        public IActionResult Index(string sortOrder, string searchString, string filter)
+        [Authorize(Roles = AuthData.ADMIN_ROLE)]
+        public IActionResult Index(string sortOrder, string searchString)
         {
             var orders = new Order[0];
 
@@ -33,7 +33,6 @@ namespace vproker.Controllers
 
                 ViewBag.ClientSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
                 ViewBag.ToolSortParm = sortOrder == "Tool" ? "tool_desc" : "Tool";
-                ViewBag.FilterParm = String.IsNullOrEmpty(filter) ? "active" : filter;
 
                 if (!String.IsNullOrEmpty(searchString))
                 {
@@ -54,16 +53,45 @@ namespace vproker.Controllers
                         orders = orders.OrderBy(s => s.ClientName).ToArray();
                         break;
                 }
-                switch((string)ViewBag.FilterParm)
-                {
-                    case "active":
-                        orders = orders.Where(o => !o.IsClosed).ToArray();
-                        break;
+                orders = orders.Where(o => o.IsClosed).ToArray();
+            }
 
-                    case "closed":
-                        orders = orders.Where(o => o.IsClosed).ToArray();
+            return View(orders);
+        }
+
+        [Authorize(Roles = AuthData.USER_ROLE)]
+        public IActionResult ActiveOrders(string sortOrder, string searchString)
+        {
+            var orders = new Order[0];
+
+            if (AppContext.Orders.Count() > 0)
+            {
+                orders = AppContext.Orders.Include(o => o.Tool).ToArray();
+
+                ViewBag.ClientSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+                ViewBag.ToolSortParm = sortOrder == "Tool" ? "tool_desc" : "Tool";
+
+                if (!String.IsNullOrEmpty(searchString))
+                {
+                    orders = orders.Where(o => o.ClientName.IndexOf(searchString, StringComparison.OrdinalIgnoreCase) != -1).ToArray();
+                }
+                switch (sortOrder)
+                {
+                    case "name_desc":
+                        orders = orders.OrderByDescending(s => s.ClientName).ToArray();
+                        break;
+                    case "Tool":
+                        orders = orders.OrderBy(o => o.Tool.Name).ToArray();
+                        break;
+                    case "tool_desc":
+                        orders = orders.OrderByDescending(o => o.Tool.Name).ToArray();
+                        break;
+                    default: //name ascending
+                        orders = orders.OrderBy(s => s.ClientName).ToArray();
                         break;
                 }
+
+                orders = orders.Where(o => !o.IsClosed).ToArray();
             }
 
             return View(orders);
@@ -84,25 +112,25 @@ namespace vproker.Controllers
 
         public ActionResult Create()
         {
-            ViewBag.Clients = GetClientsListItems();
+            //ViewBag.Clients = GetClientsListItems();
             ViewBag.Tools = GetToolsListItems();
             return View();
         }
 
-        private IEnumerable<SelectListItem> GetClientsListItems(string selectedId = null)
-        {
-            var tmp = AppContext.Clients.ToList();  // Workaround for https://github.com/aspnet/EntityFramework/issues/2246
+        //private IEnumerable<SelectListItem> GetClientsListItems(string selectedId = null)
+        //{
+        //    var tmp = AppContext.Clients.ToList();  // Workaround for https://github.com/aspnet/EntityFramework/issues/2246
 
-            // Create authors list for <select> dropdown
-            return tmp
-                .OrderBy(client => client.LastName)
-                .Select(client => new SelectListItem
-                {
-                    Text = client.FullName,
-                    Value = client.ID.ToString(),
-                    Selected = client.ID == selectedId
-                });
-        }
+        //    // Create authors list for <select> dropdown
+        //    return tmp
+        //        .OrderBy(client => client.LastName)
+        //        .Select(client => new SelectListItem
+        //        {
+        //            Text = client.FullName,
+        //            Value = client.ID.ToString(),
+        //            Selected = client.ID == selectedId
+        //        });
+        //}
 
         private IEnumerable<SelectListItem> GetToolsListItems(string selectedId = null)
         {
@@ -126,15 +154,19 @@ namespace vproker.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    order.CreatedBy = User.Identity.Name;
                     AppContext.Orders.Add(order);
                     await AppContext.SaveChangesAsync();
-                    return RedirectToAction("Index");
+                    return RedirectToAction("ActiveOrders");
                 }
             }
             catch (Exception)
             {
                 ModelState.AddModelError(string.Empty, "Unable to save changes.");
             }
+
+            //ViewBag.Clients = GetClientsListItems();
+            ViewBag.Tools = GetToolsListItems();
             return View(order);
         }
 

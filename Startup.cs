@@ -52,7 +52,7 @@ namespace vproker
                 .AddSqlite()
                 .AddDbContext<ApplicationDbContext>(options =>
                     options.UseSqlite(
-                        new SqliteConnectionStringBuilder { DataSource = "vpoker.db" }.ToString()));
+                        new SqliteConnectionStringBuilder { DataSource = "vproker.db" }.ToString()));
             var passwordOptions = new Microsoft.AspNet.Identity.PasswordOptions()
             {
                 RequireDigit = false,
