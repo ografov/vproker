@@ -7,19 +7,22 @@ using vproker.Models;
 using Microsoft.Data.Entity;
 using Microsoft.AspNet.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNet.Authorization;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace vproker.Controllers
 {
+    [Authorize]
     public class OrderController : Controller
     {
         [FromServices]
-        public VprokerDbContext AppContext { get; set; }
+        public ApplicationDbContext AppContext { get; set; }
 
         [FromServices]
         public ILogger<OrderController> Logger { get; set; }
 
+        [Authorize(Roles = "User")]
         public IActionResult Index(string sortOrder, string searchString, string filter)
         {
             var orders = new Order[0];
@@ -79,6 +82,7 @@ namespace vproker.Controllers
             return View(order);
         }
 
+        [Authorize(Roles = "User")]
         public ActionResult Create()
         {
             ViewBag.Clients = GetClientsListItems();
@@ -135,6 +139,7 @@ namespace vproker.Controllers
             return View(order);
         }
 
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> Edit(string id)
         {
             Order order = await FindOrderAsync(id);
@@ -168,8 +173,6 @@ namespace vproker.Controllers
             }
             return View(order);
         }
-
-        
 
         private Task<Order> FindOrderAsync(string id)
         {

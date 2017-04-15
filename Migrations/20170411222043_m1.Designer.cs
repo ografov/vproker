@@ -7,7 +7,7 @@ using vproker.Models;
 
 namespace vproker.Migrations
 {
-    [DbContext(typeof(VprokerDbContext))]
+    [DbContext(typeof(ApplicationDbContext))]
     [Migration("20170411222043_m1")]
     partial class m1
     {

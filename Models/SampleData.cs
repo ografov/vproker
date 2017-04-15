@@ -17,7 +17,7 @@ namespace vproker.Models
 
         public static void Initialize(IServiceProvider serviceProvider)
         {
-            VprokerDbContext context = serviceProvider.GetService(typeof(VprokerDbContext)) as VprokerDbContext;
+            ApplicationDbContext context = serviceProvider.GetService(typeof(ApplicationDbContext)) as ApplicationDbContext;
 
             AddSampleKnowledgeSources(context);
             AddSampleClients(context);
@@ -37,7 +37,7 @@ namespace vproker.Models
                 StartDate = startedAt
             };
         }
-        private static void AddSampleOrders(VprokerDbContext context)
+        private static void AddSampleOrders(ApplicationDbContext context)
         {
             if (!context.Orders.Any())
             {
@@ -56,7 +56,7 @@ namespace vproker.Models
             }
         }
 
-        private static void AddSampleKnowledgeSources(VprokerDbContext context)
+        private static void AddSampleKnowledgeSources(ApplicationDbContext context)
         {
             if (!context.KnowSources.Any())
             {
@@ -64,7 +64,7 @@ namespace vproker.Models
             }
         }
 
-        private static void AddSampleTools(VprokerDbContext context)
+        private static void AddSampleTools(ApplicationDbContext context)
         {
             if (!context.Tools.Any())
             {
@@ -109,7 +109,7 @@ namespace vproker.Models
             };
         }
 
-        private static void AddSampleClients(VprokerDbContext context)
+        private static void AddSampleClients(ApplicationDbContext context)
         {
             if (!context.Clients.Any())
             {
@@ -123,7 +123,10 @@ namespace vproker.Models
 
                 context.SaveChanges();
             }
-
         }
+
+
+        
+
     }
 }

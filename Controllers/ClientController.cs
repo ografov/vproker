@@ -7,15 +7,17 @@ using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using Microsoft.AspNet.Mvc.Rendering;
 using System.Linq;
+using Microsoft.AspNet.Authorization;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace vproker.Controllers
 {
+    [Authorize]
     public class ClientController : Controller
     {
         [FromServices]
-        public VprokerDbContext AppContext { get; set; }
+        public ApplicationDbContext AppContext { get; set; }
 
         [FromServices]
         public ILogger<ClientController> Logger { get; set; }

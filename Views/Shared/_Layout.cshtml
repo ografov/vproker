@@ -32,10 +32,10 @@
                 <ul class="nav navbar-nav">
                     <li><a asp-controller="Order" asp-action="Create">Новый Заказ</a></li>
                     <li><a asp-controller="Order" asp-action="Index" asp-route-filter="active">Активные Заказы</a></li>
-                    <li><a asp-controller="Order" asp-action="Index" asp-route-filter="closed">Завершенные Заказы</a></li>
+                    <li><a asp-controller="Order" asp-action="Index" asp-route-filter="closed">История</a></li>
                     @*<li><a asp-controller="Client" asp-action="Index">Клиенты</a></li>*@
                     <li><a asp-controller="Tool" asp-action="Index">Инструменты</a></li>
-
+                    <li><a asp-controller="Account" asp-action="Login">Login</a></li>  
                     <li><a asp-controller="Home" asp-action="About">О компании</a></li>
                 </ul>
             </div>

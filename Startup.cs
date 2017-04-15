@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using vproker.Models;
 using Microsoft.Data.Entity;
 using Microsoft.Data.Sqlite;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace vproker
 {
@@ -46,13 +47,25 @@ namespace vproker
             //    .AddSqlServer()
             //    .AddDbContext<VprokerDbContext>(options =>
             //        options.UseSqlServer(Configuration["Data:DefaultConnection:ConnectionString"]));
-            
+
             services.AddEntityFramework()
                 .AddSqlite()
-                .AddDbContext<VprokerDbContext>(options =>
+                .AddDbContext<ApplicationDbContext>(options =>
                     options.UseSqlite(
                         new SqliteConnectionStringBuilder { DataSource = "vpoker.db" }.ToString()));
+            var passwordOptions = new Microsoft.AspNet.Identity.PasswordOptions()
+            {
+                RequireDigit = false,
+                RequiredLength = 6,
+                RequireLowercase = false,
+                RequireUppercase = false,
+                RequireNonLetterOrDigit = false
+            };
+            services.AddIdentity<ApplicationUser, IdentityRole>(options => options.Password = passwordOptions)
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
 
+            services.AddAntiforgery();
             services.AddMvc();
         }
 
@@ -78,18 +91,18 @@ namespace vproker
 					using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>()
 						.CreateScope())
 					{
-						serviceScope.ServiceProvider.GetService<VprokerDbContext>()
+						serviceScope.ServiceProvider.GetService<ApplicationDbContext>()
 							 .Database.Migrate();
 					}
 				}
 				catch { }
 			}
 
-			app.UseIISPlatformHandler(options => options.AuthenticationDescriptions.Clear());
+            app.UseIISPlatformHandler(); // options => options.AuthenticationDescriptions.Clear());
 
             app.UseStaticFiles();
 
-			//app.UseIdentity();
+			app.UseIdentity();
 
 			// To configure external authentication please see http://go.microsoft.com/fwlink/?LinkID=532715
 
@@ -101,6 +114,7 @@ namespace vproker
             });
 
             SampleData.Initialize(app.ApplicationServices);
+            AuthData.SeedAuth(app.ApplicationServices).Wait();
         }
 
         // Entry point for the application.

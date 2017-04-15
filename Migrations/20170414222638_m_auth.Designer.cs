@@ -8,9 +8,10 @@ using vproker.Models;
 namespace vproker.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class VprokerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170414222638_m_auth")]
+    partial class m_auth
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "7.0.0-rc1-16348");

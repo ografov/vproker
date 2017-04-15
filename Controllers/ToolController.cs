@@ -5,15 +5,17 @@ using Microsoft.Data.Entity;
 using Microsoft.Data.Entity.Storage;
 using Microsoft.Extensions.Logging;
 using System;
+using Microsoft.AspNet.Authorization;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace vproker.Controllers
 {
+    [Authorize]
     public class ToolController : Controller
     {
         [FromServices]
-        public VprokerDbContext AppContext { get; set; }
+        public ApplicationDbContext AppContext { get; set; }
 
         [FromServices]
         public ILogger<ToolController> Logger { get; set; }
