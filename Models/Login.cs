@@ -9,13 +9,15 @@ namespace vproker.Models
     public class Login
     {
         [Required]
+        [Display(Name = "Пользователь")]
         public string UserId { get; set; }
 
         [Required]
+        [Display(Name = "Пароль")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
-        [Display(Name = "Remember me?")]
+        [Display(Name = "Запомнить?")]
         public bool RememberMe { get; set; }
     }
 }

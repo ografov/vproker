@@ -13,7 +13,7 @@ using Microsoft.AspNet.Authorization;
 
 namespace vproker.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = AuthData.ADMIN_ROLE)]
     public class ClientController : Controller
     {
         [FromServices]

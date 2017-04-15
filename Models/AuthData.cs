@@ -9,8 +9,10 @@ namespace vproker.Models
 {
     public class AuthData
     {
-    
-        private static readonly string[] Roles = new string[] { "Administrator", "User" };
+        internal const string ADMIN_ROLE = "Administrator";
+        internal const string USER_ROLE = "User";
+        
+        private static readonly string[] Roles = new string[] { ADMIN_ROLE, USER_ROLE };
 
         public static async Task SeedAuth(IServiceProvider serviceProvider)
         {
@@ -31,8 +33,8 @@ namespace vproker.Models
                 // add default users
 
                 var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
-                await AddUser(userManager, "admin", "120385", new string[] { "User", "Administrator" });
-                await AddUser(userManager, "user" , "123456", new string[] { "User" });
+                await AddUser(userManager, "admin", "120385", new string[] { USER_ROLE, ADMIN_ROLE });
+                await AddUser(userManager, "user" , "123456", new string[] { USER_ROLE });
             }
         }
 
@@ -43,11 +45,11 @@ namespace vproker.Models
             {
                 user = new ApplicationUser();
                 user.UserName = name;
-                var createUserTask = userManager.CreateAsync(user, password);
-                createUserTask.Wait();
-                if (createUserTask.IsCompleted && createUserTask.Result == IdentityResult.Success)
+                user.Email = name;
+                var createUserTask = await userManager.CreateAsync(user, password);
+                if (createUserTask.Succeeded)
                 {
-                    var result = userManager.AddToRolesAsync(user, roles);
+                    var result = await userManager.AddToRolesAsync(user, roles);
                 }
             }
         }

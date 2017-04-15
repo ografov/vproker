@@ -66,7 +66,7 @@ namespace vproker.Controllers
         //6
         [HttpPost]
         [AllowAnonymous]
-        //[ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(Login model, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;

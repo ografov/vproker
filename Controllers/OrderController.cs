@@ -82,7 +82,6 @@ namespace vproker.Controllers
             return View(order);
         }
 
-        [Authorize(Roles = "User")]
         public ActionResult Create()
         {
             ViewBag.Clients = GetClientsListItems();
