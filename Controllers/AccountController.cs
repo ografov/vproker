@@ -94,7 +94,7 @@ namespace vproker.Controllers
         {
             await signInManager.SignOutAsync();
 
-            return RedirectToAction(nameof(HomeController.Index), "Home");
+            return RedirectToAction(nameof(AccountController.Login), "Account");
         }
         //8
         private IActionResult RedirectToReturnUrl(string returnUrl)

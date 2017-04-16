@@ -1,19 +1,42 @@
 ﻿@model IEnumerable<vproker.Models.Order>
 @{
-    ViewBag.Title = (ViewBag.FilterParm == "active") ? "Активные Заказы" : "История";
+    ViewBag.Title = "История";
 }
 
 @*<p>
     <a asp-action="Create">Новый Заказ</a>
 </p>*@
 
-@*@using (Html.BeginForm("Index", "Order", FormMethod.Get))
-{
+@*@using (Html.BeginForm("Index", "Order", FormMethod.Get)) {
     <p>
         Поиск по клиенту: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
         <input type="submit" value="Search" />
     </p>
 }*@
+@using (Html.BeginForm("History", "Order", FormMethod.Get))
+{
+    <div class="form-horizontal">
+        <dl class="dl-horizontal">
+            <dt>Начало</dt>
+            <dd>
+                @Html.TextBox("start", DateTime.Now.AddMonths(-2), new { @class = "form-control" })
+             </dd>
+        </dl>
+        <dl class="dl-horizontal">
+            <dt>Конец</dt>
+            <dd>
+               @Html.TextBox("end", DateTime.Now, new { @class = "form-control" })
+                </dd>
+            </dl>
+        <dl class="dl-horizontal">
+            <dd>
+                <p>
+                <input type="submit" value="Фильтр" class="btn btn-primary" /> <span> </span>
+                    </p>
+            <dd/>
+            </dl>
+    </div>
+}
 <!-- Small modal -->
 <!--
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-sm">Small modal</button>
@@ -49,7 +72,7 @@
     </tr>
     @foreach (var item in Model)
     {
-        <tr class="success">
+        <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.CreatedBy)
             </td>

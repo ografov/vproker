@@ -1,10 +1,7 @@
-﻿@model vproker.Models.Order
+﻿@model vproker.Models.CloseOrderModel
 
 @{
     ViewBag.Title = "Подтвердите завершение";
-
-    DateTime endDate = DateTime.Now;
-    Model.Payment = vproker.Controllers.OrderController.CalculatePaymentForDays(Model.StartDate, endDate, Model.Price);
 }
 
 <h3>Завершить этот заказ?</h3>
@@ -15,29 +12,29 @@
 }
 
 <div>
-    <form asp-controller="Order" asp-action="Close" method="post" asp-route-id="@Model.ID" asp-route-payment="@Model.Payment">
+    <form asp-controller="Order" asp-action="Close" method="post" asp-route-id="@Model.ID">
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.ClientName)
+            @Html.DisplayNameFor(model => model.Order.ClientName)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.ClientName)
+            @Html.DisplayFor(model => model.Order.ClientName)
         </dd>
     </dl>
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Tool.Name)
+            @Html.DisplayNameFor(model => model.Order.Tool.Name)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Tool.Name)
+            @Html.DisplayFor(model => model.Order.Tool.Name)
         </dd>
     </dl>
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.StartDate)
+            @Html.DisplayNameFor(model => model.Order.StartDate)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.StartDate)
+            @Html.DisplayFor(model => model.Order.StartDate)
         </dd>
     </dl>
     <dl class="dl-horizontal">
@@ -45,7 +42,8 @@
             Заказ будет закрыт:
         </dt>
         <dd>
-            @endDate
+            <input asp-for="EndDate" class="form-control" />
+            <span asp-validation-for="EndDate" class="text-danger"></span>
         </dd>
     </dl>
     <dl class="dl-horizontal">

@@ -28,7 +28,7 @@ namespace vproker.Controllers
         }
 
         [Authorize(Roles = AuthData.ADMIN_ROLE)]
-        public IActionResult History(string sortOrder = "", string searchString = "")
+        public IActionResult History(string sortOrder = "", string searchString = "", DateTime? start = null, DateTime? end = null)
         {
             var orders = new Order[0];
 
@@ -59,6 +59,17 @@ namespace vproker.Controllers
                         break;
                 }
                 orders = orders.Where(o => o.IsClosed).ToArray();
+                if (start != null && end != null)
+                {
+                    orders = orders.Where(o => o.StartDate >= start.Value && o.EndDate <= end.Value).ToArray();
+                }
+                else
+                {
+                    if (start != null)
+                        orders = orders.Where(o => o.StartDate >= start.Value).ToArray();
+                    if (end != null)
+                        orders = orders.Where(o => o.EndDate <= end.Value).ToArray();
+                }
             }
 
             return View("History", orders);
@@ -261,18 +272,18 @@ namespace vproker.Controllers
                 return HttpNotFound();
             }
             ViewBag.Retry = retry ?? false;
-            return View(order);
+            return View(new CloseOrderModel(order));
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Close(string id, Decimal payment)
+        public async Task<ActionResult> Close(string id, CloseOrderModel model)
         {
             try
             {
                 Order order = await FindOrderAsync(id);
-                order.Payment = payment;
-                order.EndDate = DateTime.Now;
+                order.Payment = model.Payment;
+                order.EndDate = model.EndDate;
 
                 AppContext.Orders.Attach(order);
                 AppContext.Entry(order).State = EntityState.Modified;
@@ -285,6 +296,10 @@ namespace vproker.Controllers
             }
         }
 
+        public static Decimal CalculatePaymentForDays(Order order, DateTime end)
+        {
+            return CalculatePaymentForDays(order.StartDate, end, order.Price);
+        }
         public static Decimal CalculatePaymentForDays(DateTime start, DateTime end, Decimal dayPrice)
         {
             TimeSpan period = end.Subtract(start);
