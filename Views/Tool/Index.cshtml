@@ -12,7 +12,7 @@
             @Html.DisplayNameFor(model => model.Name)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Description)
+            @Html.DisplayNameFor(model => model.Price)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Pledge)
@@ -23,6 +23,9 @@
         <th>
             @Html.DisplayNameFor(model => model.WorkShiftPrice)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
         <th></th>
     </tr>
     @foreach (var item in Model)
@@ -32,7 +35,7 @@
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Description)
+                @Html.DisplayFor(modelItem => item.Price)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Pledge)
@@ -44,9 +47,12 @@
                 @Html.DisplayFor(modelItem => item.WorkShiftPrice)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.ID">Изменить</a> |
-                <a asp-action="Details" asp-route-id="@item.ID">Подробнее</a> |
-                <a asp-action="Delete" asp-route-id="@item.ID">Удалить</a>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-warning btn-sm" title="Редактировать"><span class="glyphicon glyphicon-edit"></span></a>
+                <a asp-action="Details" asp-route-id="@item.ID" class="btn btn-info btn-sm" title="Просмотр"><span class="glyphicon glyphicon-info-sign"></span></a>
+                <a asp-action="Delete" asp-route-id="@item.ID" class="btn btn-danger btn-sm" title="Удалить"><span class="glyphicon glyphicon-remove"></span></a>
             </td>
         </tr>
     }

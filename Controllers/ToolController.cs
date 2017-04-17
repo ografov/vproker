@@ -55,9 +55,9 @@ namespace vproker.Controllers
                     return RedirectToAction("Index");
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                ModelState.AddModelError(string.Empty, "Unable to save changes.");
+                ModelState.AddModelError(string.Empty, "Не удалось сохранить изменения: " + ex.ToString());
             }
             return View(tool);
         }
@@ -86,9 +86,9 @@ namespace vproker.Controllers
                 await AppContext.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                ModelState.AddModelError(string.Empty, "Unable to save changes.");
+                ModelState.AddModelError(string.Empty, "Не удалось сохранить изменения: " + ex.ToString());
             }
             return View(tool);
         }

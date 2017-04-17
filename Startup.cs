@@ -11,6 +11,8 @@ using vproker.Models;
 using Microsoft.Data.Entity;
 using Microsoft.Data.Sqlite;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.Globalization;
+using System.Threading;
 
 namespace vproker
 {
@@ -31,6 +33,9 @@ namespace vproker
 
 			builder.AddEnvironmentVariables();
             Configuration = builder.Build();
+
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("ru-RU");
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("ru-RU");
         }
 
         public IConfigurationRoot Configuration { get; set; }

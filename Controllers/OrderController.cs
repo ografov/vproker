@@ -24,7 +24,8 @@ namespace vproker.Controllers
 
         public IActionResult Index()
         {
-            return User.Identity.Name == AuthData.ADMIN_ID ? History() : ActiveOrders();
+            //return User.Identity.Name == AuthData.ADMIN_ID ? History() : ActiveOrders();
+            return ActiveOrders();
         }
 
         [Authorize(Roles = AuthData.ADMIN_ROLE)]
@@ -84,9 +85,17 @@ namespace vproker.Controllers
             {
                 orders = AppContext.Orders.Include(o => o.Tool).ToArray();
 
+                orders = orders.Where(o => !o.IsClosed).ToArray();
+
+                // if not admin, restrict by who created
+                if(User.Identity.Name != AuthData.ADMIN_ID)
+                {
+                    orders = orders.Where(o => o.CreatedBy == User.Identity.Name).ToArray();
+                }
+
+                // sort and filter
                 ViewBag.ClientSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
                 ViewBag.ToolSortParm = sortOrder == "Tool" ? "tool_desc" : "Tool";
-
                 if (!String.IsNullOrEmpty(searchString))
                 {
                     orders = orders.Where(o => o.ClientName.IndexOf(searchString, StringComparison.OrdinalIgnoreCase) != -1).ToArray();
@@ -107,7 +116,6 @@ namespace vproker.Controllers
                         break;
                 }
 
-                orders = orders.Where(o => !o.IsClosed).ToArray();
             }
 
             return View("ActiveOrders", orders);
@@ -176,9 +184,9 @@ namespace vproker.Controllers
                     return RedirectToAction("ActiveOrders");
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                ModelState.AddModelError(string.Empty, "Unable to save changes.");
+                ModelState.AddModelError(string.Empty, "Не удалось сохранить изменения: "+ex.ToString());
             }
 
             //ViewBag.Clients = GetClientsListItems();
@@ -214,9 +222,9 @@ namespace vproker.Controllers
                 await AppContext.SaveChangesAsync();
                 return RedirectToAction("History");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                ModelState.AddModelError(string.Empty, "Unable to save changes.");
+                ModelState.AddModelError(string.Empty, "Не удалось сохранить изменения: "+ex.ToString());
             }
             return View(order);
         }

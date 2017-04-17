@@ -20,25 +20,28 @@ namespace vproker.Models
         public String Name { get; set; }
 
         [Display(Name = "Описание")]
+        [DataType(DataType.MultilineText)]
         public String Description { get; set; }
 
         #region стоимость
+
+        [Display(Name = "Цена", GroupName = "Стоимость")]
+        [DataType(DataType.Currency)]
+        public Decimal Price { get; set; }
+
         [Required]
-        [Display(Name = "Залоговая стоимость", GroupName = "Стоимость")]
+        [Display(Name = "Залог", GroupName = "Стоимость")]
         [DataType(DataType.Currency)]
         public Decimal Pledge { get; set; }
 
-        [Display(Name = "Стоимость за сутки", GroupName = "Стоимость")]
+        [Display(Name = "За сутки", GroupName = "Стоимость")]
         [DataType(DataType.Currency)]
         public Decimal DayPrice { get; set; }
 
-        [Display(Name = "Стоимость за смену", GroupName = "Стоимость")]
+        [Display(Name = "За смену", GroupName = "Стоимость")]
         [DataType(DataType.Currency)]
-        public Decimal WorkShiftPrice { get; set; }
+        public Decimal? WorkShiftPrice { get; set; }
 
-        [Display(Name = "Стоимость инструмента", GroupName = "Стоимость")]
-        [DataType(DataType.Currency)]
-        public Decimal Price { get; set; }
         #endregion
     }
 }
