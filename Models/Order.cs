@@ -63,7 +63,6 @@ namespace vproker.Models
         // not user fields
         [Required]
         [Display(Name = "Начало аренды")]
-        [UIHint("UTCTime")]
         [DataType(DataType.DateTime)]
         public DateTime StartDate { get; set; }
 
@@ -71,7 +70,6 @@ namespace vproker.Models
         public string CreatedBy { get; set; }
 
         [Display(Name = "Конец aренды")]
-        //[UIHint("UTCTime")]
         [DataType(DataType.DateTime)]
         public DateTime? EndDate { get; set; }
 

@@ -42,19 +42,10 @@
             <input asp-for="Price" class="form-control" />
             <span asp-validation-for="Price" class="text-danger"></span>
         </div>      
-
-        @*<div class="form-group">
-            <div>
-                <input type="submit" class="btn btn-primary" value="Создать" />
-            </div>
-            <div>
-                <a asp-action="Index" class="btn btn-default">Отмена</a>
-            </div>
-        </div>*@
         <p>
                 <input type="submit" class="btn btn-primary" value="Создать" />
-                <a asp-action="ActiveOrders" class="btn btn-default">Отмена</a>
-                @*<a href="javascript:void(0)" onClick="backAway()" class="btn btn-default">Назад</a>*@
+                <a href="javascript:void(0)" onClick="goBack()" class="btn btn-default">Назад</a>
+        </p>
     </form>
 </div>
 

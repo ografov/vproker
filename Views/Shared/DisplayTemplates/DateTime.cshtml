@@ -1,5 +1,2 @@
-﻿@model DateTime?
-@if (Model.HasValue)
-{
-    @Model.Value.ToString("MM/dd/yyyy HH:mm")
-}
+﻿@model DateTime
+<span class="UTCTime">@vproker.Controllers.DateTimeConverter.ToLocalDatetime(Model).ToString()</span>

@@ -24,7 +24,6 @@ namespace vproker.Models
         public Decimal Payment { get; set; }
 
         [Required]
-        [UIHint("UTCTime")]
         [Display(Name = "Конец аренды")]
         [DataType(DataType.DateTime)]
         public DateTime EndDate { get; set; }

@@ -7,12 +7,14 @@
 
     <environment names="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/lib/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" />
         <link rel="stylesheet" href="~/css/site.css" />
     </environment>
     <environment names="Staging,Production">
         <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.5/css/bootstrap.min.css"
               asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+        <link rel="stylesheet" href="~/lib/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" />
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
     </environment>
 </head>
@@ -30,18 +32,18 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                @if (User.Identity.IsAuthenticated)
-                {
-                    <li><a asp-controller="Order" asp-action="Create">Новый Заказ</a></li>
-                    <li><a asp-controller="Order" asp-action="ActiveOrders">Активные Заказы</a></li>
-                    @if (User.Identity.Name == vproker.Models.AuthData.ADMIN_ID)
+                    @if (User.Identity.IsAuthenticated)
                     {
-                        <li><a asp-controller="Order" asp-action="History">История</a></li>
-                        @*<li><a asp-controller="Client" asp-action="Index">Клиенты</a></li>*@
-                        <li><a asp-controller="Tool" asp-action="Index">Инструменты</a></li>
+                        <li><a asp-controller="Order" asp-action="Create">Новый Заказ</a></li>
+                        <li><a asp-controller="Order" asp-action="ActiveOrders">Активные Заказы</a></li>
+                        @if (User.Identity.Name == vproker.Models.AuthData.ADMIN_ID)
+                        {
+                            <li><a asp-controller="Order" asp-action="History">История</a></li>
+                            @*<li><a asp-controller="Client" asp-action="Index">Клиенты</a></li>*@
+                            <li><a asp-controller="Tool" asp-action="Index">Инструменты</a></li>
+                        }
                     }
-                }
-                <li><a asp-controller="Home" asp-action="About">О компании</a></li>
+                    <li><a asp-controller="Home" asp-action="About">О компании</a></li>
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
             </div>
@@ -50,13 +52,16 @@
     <div class="container-fluid body-content" style="padding:15px">
         @RenderBody()
         <hr />
-        <footer>
-        </footer>
+        <footer></footer>
     </div>
 
     <environment names="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+
+        <script type="text/javascript" src="~/lib/moment/min/moment.min.js"></script>
+        <script type="text/javascript" src="~/lib/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
+
         <script src="~/js/site.js" asp-append-version="true"></script>
     </environment>
     <environment names="Staging,Production">
@@ -68,7 +73,12 @@
                 asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
                 asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal">
         </script>
+
+        <script type="text/javascript" src="~/lib/moment/min/moment.min.js"></script>
+        <script type="text/javascript" src="~/lib/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
+
         <script src="~/js/site.min.js" asp-append-version="true"></script>
+
     </environment>
 
     @RenderSection("scripts", required: false)

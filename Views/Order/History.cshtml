@@ -4,38 +4,80 @@
 }
 
 @*<p>
-    <a asp-action="Create">Новый Заказ</a>
-</p>*@
+        <a asp-action="Create">Новый Заказ</a>
+    </p>*@
 
 @*@using (Html.BeginForm("Index", "Order", FormMethod.Get)) {
-    <p>
-        Поиск по клиенту: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
-        <input type="submit" value="Search" />
-    </p>
-}*@
-@using (Html.BeginForm("History", "Order", FormMethod.Get))
+        <p>
+            Поиск по клиенту: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+            <input type="submit" value="Search" />
+        </p>
+    }*@
+@using (Html.BeginForm("History", "Order", FormMethod.Get, new { id = "history-form" }))
 {
     <div class="form-horizontal">
-        <dl class="dl-horizontal">
-            <dt>Начало</dt>
-            <dd>
-                @Html.TextBox("start", DateTime.Now.AddMonths(-2), new { @class = "form-control" })
-             </dd>
-        </dl>
-        <dl class="dl-horizontal">
-            <dt>Конец</dt>
-            <dd>
-               @Html.TextBox("end", DateTime.Now, new { @class = "form-control" })
-                </dd>
-            </dl>
-        <dl class="dl-horizontal">
-            <dd>
-                <p>
-                <input type="submit" value="Фильтр" class="btn btn-primary" /> <span> </span>
-                    </p>
-            <dd/>
-            </dl>
+        <div style="width: 220px; ">
+            <div class="input-group date" style="padding: 10px;" id="startDatePicker">
+                <input type="text" id="start" name="start" class="form-control">
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+            </div>
+            <div class="input-group date" style="padding: 10px;" id="endDatePicker">
+                <input type="text" id="end" name="end" class="form-control">
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+            </div>
+            <div style="padding: 10px"><input id="btnSubmit" type="submit" value="Фильтр" class="btn btn-primary"/></div>
+        </div>
+
+        @*<input id="start" name="start" style="display:none"/>
+        <input id="end" name="end" style="display:none"/>*@
     </div>
+}
+
+@section Scripts {
+    <script type="text/javascript">
+        $(function () {
+            debugger;
+            var end = new Date();
+            var start = new Date(new Date().setMonth(new Date().getMonth() - 1));
+
+            $("#startDatePicker").datetimepicker({
+                //defaultDate: start.toDateString(),
+                format: 'MM.D.YYYY'
+            });
+            //$("#start").val(start.toString('D/MM/YYYY'));
+
+            $("#endDatePicker").datetimepicker({
+                //defaultDate: end.toDateString(),
+                format: 'MM.D.YYYY'
+            });
+            //$("#end").val(end.toString('D/MM/YYYY'));
+            //$("#btnSubmit").click(function (e) {
+            //    var startDate = $('#startDatePicker').data('DateTimePicker').date();
+            //    if (startDate) {
+            //        $("#start").val(startDate.format('MM.D.YYYY'));
+            //    }
+
+            //    var endDate = $('#endDatePicker').data('DateTimePicker').date();
+            //    if (endDate) {
+            //        $("#end").val(endDate.format('MM.D.YYYY'));
+            //    }
+
+            //    $("#history-form").submit();
+            //});
+            //$("#startDatePicker").on("dp.change", function (e) {
+            //    var dateStr = e.date.format('MM.D.YYYY');
+            //    $("#start").val(dateStr);
+            //});
+            //$("#endDatePicker").on("dp.change", function (e) {
+            //    var dateStr = e.date.format('MM.D.YYYY');
+            //    $("#end").val(dateStr);
+            //});
+        });
+    </script>
 }
 <!-- Small modal -->
 <!--
@@ -60,6 +102,9 @@
             @Html.ActionLink(@Html.DisplayNameFor(model => model.Tool), "History", new { sortOrder = ViewBag.ToolSortParm })
         </th>
         <th>
+            @Html.DisplayNameFor(model => model.ClientName)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.StartDate)
         </th>
         <th>
@@ -80,6 +125,9 @@
                 @Html.DisplayFor(modelItem => item.Tool.Name)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.ClientName)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.StartDate)
             </td>
             <td>
@@ -96,3 +144,4 @@
         </tr>
     }
 </table>
+
