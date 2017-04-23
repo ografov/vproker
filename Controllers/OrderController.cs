@@ -212,6 +212,7 @@ namespace vproker.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = AuthData.ADMIN_ROLE)]
         public async Task<ActionResult> Update(string id, Order order)
         {
             try
@@ -236,6 +237,7 @@ namespace vproker.Controllers
 
         [HttpGet]
         [ActionName("Delete")]
+        [Authorize(Roles = AuthData.ADMIN_ROLE)]
         public async Task<ActionResult> ConfirmDelete(string id, bool? retry)
         {
             Order order = await FindOrderAsync(id);
@@ -249,6 +251,7 @@ namespace vproker.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = AuthData.ADMIN_ROLE)]
         //[ValidateAntiForgeryToken]
         public async Task<ActionResult> Delete(string id)
         {
@@ -291,7 +294,7 @@ namespace vproker.Controllers
             {
                 Order order = await FindOrderAsync(id);
                 order.Payment = model.Payment;
-                order.EndDate = model.EndDate;
+                order.EndDate = DateTime.UtcNow;
 
                 AppContext.Orders.Attach(order);
                 AppContext.Entry(order).State = EntityState.Modified;

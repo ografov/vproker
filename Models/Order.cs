@@ -55,10 +55,9 @@ namespace vproker.Models
         [DataType(DataType.Currency)]
         public Decimal PaidPledge { get; set; }
 
-        [Required]
         [Display(Name = "Цена")]
         [DataType(DataType.Currency)]
-        public Decimal Price { get; set; }
+        public Decimal Price { get; set; } = 0;
 
         // not user fields
         [Required]

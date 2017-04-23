@@ -36,8 +36,16 @@
                 @Html.DisplayFor(modelItem => item.ClientPhoneNumber)
             </td>
             <td>
-                <a asp-action="Close" asp-route-id="@item.ID" class="btn btn-success btn-sm" title="Завершить"><span class="glyphicon glyphicon-ok"></span></a>
-                <a asp-action="Details" asp-route-id="@item.ID" class="btn btn-info btn-sm" title="Просмотр"><span class="glyphicon glyphicon-info-sign"></span></a>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <a asp-action="Close" asp-route-id="@item.ID" class="btn btn-success btn-sm" title="Закрыть"><span class="glyphicon glyphicon-ok"></span></a>
+                    @if (User.Identity.Name == vproker.Models.AuthData.ADMIN_ID)
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-warning btn-sm" title="Редактировать"><span class="glyphicon glyphicon-edit"></span></a>
+                        <a asp-action="Details" asp-route-id="@item.ID" class="btn btn-info btn-sm" title="Просмотр"><span class="glyphicon glyphicon-info-sign"></span></a>
+                        <a asp-action="Delete" asp-route-id="@item.ID" class="btn btn-danger btn-sm" title="Удалить"><span class="glyphicon glyphicon-remove"></span></a>
+                    }
+                }
             </td>
         </tr>
     }

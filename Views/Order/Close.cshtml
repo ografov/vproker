@@ -39,16 +39,7 @@
     </dl>
     <dl class="dl-horizontal">
         <dt>
-            Заказ будет закрыт:
-        </dt>
-        <dd>
-            <input asp-for="EndDate" class="form-control" />
-            <span asp-validation-for="EndDate" class="text-danger"></span>
-        </dd>
-    </dl>
-    <dl class="dl-horizontal">
-        <dt>
-            <label asp-for="Payment"></label>
+            @Html.DisplayNameFor(model => model.Order.Payment)
         </dt>
         <dd>
             <input asp-for="Payment" class="form-control" />
@@ -56,10 +47,15 @@
         </dd>
     </dl> 
     <div>
-            <p>
-                <input type="submit" class="btn btn-primary" value="Закрыть" />
-                <a asp-controller="Order" asp-action="ActiveOrders" class="btn btn-default">Отмена</a>
-            </p>
+        <p>
+            <input type="submit" class="btn btn-primary" value="Закрыть" />
+            <a asp-controller="Order" asp-action="ActiveOrders" class="btn btn-default">Отмена</a>
+        </p>
     </div>
     </form>
 </div>
+
+@section Scripts {
+    <script src="~/lib/jquery-validation/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+}
