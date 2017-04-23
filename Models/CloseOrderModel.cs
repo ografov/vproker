@@ -12,7 +12,7 @@ namespace vproker.Models
         {
             this.Order = order;
             this.ID = order.ID;
-            this.EndDate = DateTime.Now;
+            this.EndDate = DateTime.UtcNow;
             this.Payment = vproker.Controllers.OrderController.CalculatePaymentForDays(order, this.EndDate); 
         }
 
@@ -24,6 +24,7 @@ namespace vproker.Models
         public Decimal Payment { get; set; }
 
         [Required]
+        [UIHint("UTCTime")]
         [Display(Name = "Конец аренды")]
         [DataType(DataType.DateTime)]
         public DateTime EndDate { get; set; }

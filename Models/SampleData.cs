@@ -43,9 +43,9 @@ namespace vproker.Models
             {
                 Order[] orders = new Order[]
                 {
-                    CreateSampleOrder(IVANOV_ID, MOKITA_ID, DateTime.Now),
-                    CreateSampleOrder(PETROV_ID, MOKITA_ID, DateTime.Now),
-                    CreateSampleOrder(SIDOROV_ID, MOKITA_ID, DateTime.Now),
+                    CreateSampleOrder(IVANOV_ID, MOKITA_ID, DateTime.UtcNow),
+                    CreateSampleOrder(PETROV_ID, MOKITA_ID, DateTime.UtcNow),
+                    CreateSampleOrder(SIDOROV_ID, MOKITA_ID, DateTime.UtcNow)
 
                     //CreateSampleOrder(IVANOV_ID+"-2", VIBROPLITA_ID, DateTime.Now),
                     //CreateSampleOrder(PETROV_ID+"-2", VIBROPLITA_ID, DateTime.Now),

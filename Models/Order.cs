@@ -11,7 +11,7 @@ namespace vproker.Models
         public Order()
         {
             ID = Guid.NewGuid().ToString();
-            StartDate = DateTime.Now;
+            StartDate = DateTime.UtcNow;
         }
 
         public String ID { get; set; }
@@ -63,16 +63,16 @@ namespace vproker.Models
         // not user fields
         [Required]
         [Display(Name = "Начало аренды")]
+        [UIHint("UTCTime")]
         [DataType(DataType.DateTime)]
-        [DisplayFormat(DataFormatString = "{0:f}", ApplyFormatInEditMode = true)]
         public DateTime StartDate { get; set; }
 
         [Display(Name = "Кем создан")]
         public string CreatedBy { get; set; }
 
-        [DataType(DataType.DateTime)]
-        [DisplayFormat(DataFormatString = "{0:f}", ApplyFormatInEditMode = true)]
         [Display(Name = "Конец aренды")]
+        //[UIHint("UTCTime")]
+        [DataType(DataType.DateTime)]
         public DateTime? EndDate { get; set; }
 
         [DataType(DataType.Currency)]
