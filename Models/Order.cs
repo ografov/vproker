@@ -48,7 +48,7 @@ namespace vproker.Models
 
         [Required(ErrorMessage = "Номер договора лучше ввести")]
         [Display(Name = "Номер договора")]
-        [RegularExpression("[0-9]", ErrorMessage = "Проверь номер договора")]
+        [RegularExpression("^[0-9]*$", ErrorMessage = "Уверен?")]
         public string ContractNumber { get; set; }
 
         [Display(Name = "Примечание")]
@@ -58,7 +58,7 @@ namespace vproker.Models
         [Required(ErrorMessage = "Залог бы взять")]
         [Display(Name = "Залог")]
         [DataType(DataType.Currency)]
-        public Decimal PaidPledge { get; set; }
+        public Decimal PaidPledge { get; set; } = 0;
 
         [Display(Name = "Цена")]
         [DataType(DataType.Currency)]
