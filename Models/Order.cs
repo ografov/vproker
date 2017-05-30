@@ -16,7 +16,7 @@ namespace vproker.Models
 
         public String ID { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Инструмент - самое главное!")]
         [Display(Name = "Инструмент")]
         public String ToolID { get; set; }
 
@@ -36,21 +36,26 @@ namespace vproker.Models
             }
         }
 
-        [Required]
+        [Required(ErrorMessage = "Клиент всегда прав")]
         [Display(Name = "Клиент")]
         public string ClientName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Неправильно набран номер")]
         [Display(Name = "Телефон клиента")]
         [DataType(DataType.PhoneNumber)]
         [RegularExpression(@"^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7}$", ErrorMessage = "Неправильно набран номер")]
         public string ClientPhoneNumber { get; set; }
 
+        [Required(ErrorMessage = "Номер договора лучше ввести")]
+        [Display(Name = "Номер договора")]
+        [RegularExpression("[0-9]", ErrorMessage = "Проверь номер договора")]
+        public string ContractNumber { get; set; }
+
         [Display(Name = "Примечание")]
         [DataType(DataType.MultilineText)]
         public string Description { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Залог бы взять")]
         [Display(Name = "Залог")]
         [DataType(DataType.Currency)]
         public Decimal PaidPledge { get; set; }

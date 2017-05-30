@@ -1,6 +1,5 @@
 ﻿//// Write your Javascript code.
 $(function () {
-    debugger;
     $('.vp-datetime').each(function () {
         $(this).datetimepicker({
             //defaultDate: start.toDateString(),

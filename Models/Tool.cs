@@ -40,7 +40,7 @@ namespace vproker.Models
 
         [Display(Name = "За смену", GroupName = "Стоимость")]
         [DataType(DataType.Currency)]
-        public Decimal? WorkShiftPrice { get; set; }
+        public Decimal? WorkShiftPrice { get; set; } = 0;
 
         #endregion
     }

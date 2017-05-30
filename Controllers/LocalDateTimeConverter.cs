@@ -58,9 +58,38 @@ namespace vproker.Controllers
 
     public static class DateTimeConverter
     {
-        public static DateTime ToLocalDatetime(DateTime serverDate, int offset = 3)
+        const int TIME_ZONE_OFFSET = 3;
+        public static DateTime ToLocalDatetime(DateTime serverDate)
         {
-            return serverDate.AddHours(offset);
+            return serverDate.AddHours(TIME_ZONE_OFFSET);
+        }
+
+
+        /// <summary>
+        /// Returns TimeZone adjusted time for a given from a Utc or local time.
+        /// Date is first converted to UTC then adjusted.
+        /// </summary>
+        /// <param name="time"></param>
+        /// <param name="timeZoneId"></param>
+        /// <returns></returns>
+        public static DateTime ToTimeZoneTime(this DateTime time, string timeZoneId = "Moscow Standard Time")
+        {
+            TimeZoneInfo tzi = TimeZoneInfo.FindSystemTimeZoneById(timeZoneId);
+            return time.ToTimeZoneTime(tzi);
+        }
+
+        /// <summary>
+        /// Returns TimeZone adjusted time for a given from a Utc or local time.
+        /// Date is first converted to UTC then adjusted.
+        /// </summary>
+        /// <param name="time"></param>
+        /// <param name="timeZoneId"></param>
+        /// <returns></returns>
+        public static DateTime ToTimeZoneTime(this DateTime time, TimeZoneInfo tzi)
+        {
+            return TimeZoneInfo.ConvertTimeFromUtc(time, tzi);
         }
     }
+
+
 }

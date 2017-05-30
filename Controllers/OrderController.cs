@@ -76,6 +76,11 @@ namespace vproker.Controllers
             return View("History", orders);
         }
 
+        public JsonResult GetHistory()
+        {
+            return new JsonResult(AppContext.Orders.Where(o => o.IsClosed).Include(o => o.Tool));
+        }
+
         [Authorize(Roles = AuthData.USER_ROLE)]
         public IActionResult ActiveOrders(string sortOrder = "", string searchString = "")
         {
@@ -213,12 +218,28 @@ namespace vproker.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = AuthData.ADMIN_ROLE)]
-        public async Task<ActionResult> Update(string id, Order order)
+        public async Task<ActionResult> Update(string id, Order newOrder)
         {
             try
             {
-                order.ID = id;
-                AppContext.Orders.Attach(order);
+                Order order = AppContext.Orders.SingleOrDefault(o => o.ID == id);
+                if (order == null)
+                {
+                    Logger.LogInformation("Update: Item not found {0}", id);
+                    return HttpNotFound();
+                }
+
+                order.ToolID = newOrder.ToolID;
+                order.ClientName = newOrder.ClientName;
+                order.ClientPhoneNumber = newOrder.ClientPhoneNumber;
+                order.Description = newOrder.Description;
+                order.PaidPledge = newOrder.PaidPledge;
+                order.Price = newOrder.Price;
+                order.StartDate = newOrder.StartDate;
+                order.EndDate = newOrder.EndDate;
+                order.Payment = newOrder.Payment;
+
+                //AppContext.Orders.Attach(order);
                 AppContext.Entry(order).State = EntityState.Modified;
                 await AppContext.SaveChangesAsync();
                 return RedirectToAction("History");
@@ -227,7 +248,7 @@ namespace vproker.Controllers
             {
                 ModelState.AddModelError(string.Empty, "Не удалось сохранить изменения: "+ex.ToString());
             }
-            return View(order);
+            return View(newOrder);
         }
 
         private Task<Order> FindOrderAsync(string id)
@@ -309,7 +330,7 @@ namespace vproker.Controllers
 
         public static Decimal CalculatePaymentForDays(Order order, DateTime end)
         {
-            return CalculatePaymentForDays(order.StartDate, end, order.Price);
+            return (order != null && order.Tool != null) ? CalculatePaymentForDays(order.StartDate, end, order.Tool.DayPrice) : 0;
         }
         public static Decimal CalculatePaymentForDays(DateTime start, DateTime end, Decimal dayPrice)
         {

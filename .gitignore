@@ -5,3 +5,4 @@ bin
 obj
 .vs
 Properties/PublishProfiles
+wwwroot/lib

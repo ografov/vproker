@@ -1,4 +1,5 @@
-﻿@model IEnumerable<vproker.Models.Order>
+﻿@using vproker.Controllers;
+@model IEnumerable<vproker.Models.Order>
 @{
     ViewBag.Title = "История";
 }
@@ -15,7 +16,7 @@
     }*@
 @using (Html.BeginForm("History", "Order", FormMethod.Get, new { id = "history-form" }))
 {
-    <div class="form-horizontal">
+    @*<div class="form-horizontal">
         <div style="width: 220px; ">
             <div class="input-group date" style="padding: 10px;" id="startDatePicker">
                 <input type="text" id="start" name="start" class="form-control">
@@ -31,16 +32,12 @@
             </div>
             <div style="padding: 10px"><input id="btnSubmit" type="submit" value="Фильтр" class="btn btn-primary"/></div>
         </div>
-
-        @*<input id="start" name="start" style="display:none"/>
-        <input id="end" name="end" style="display:none"/>*@
-    </div>
+    </div>*@
 }
 
 @section Scripts {
     <script type="text/javascript">
         $(function () {
-            debugger;
             var end = new Date();
             var start = new Date(new Date().setMonth(new Date().getMonth() - 1));
 
@@ -79,6 +76,30 @@
             //    $("#end").val(dateStr);
             //});
         });
+
+        function idToActionsFormatter(value) {
+            
+            var editBnt = '<a class="edit" href="/Order/Edit/'+value+'" title="Редактировать" style="margin: 3px"><i class="glyphicon glyphicon-edit"></i></a>';
+            var detailsBtn = '<a class="info-sign" href="/Order/Details/' + value + '" title="Просмотр" style="margin: 3px"><i class="glyphicon glyphicon-info-sign"></i></a>';
+            var deleteBtn = '<a class="edit" href="/Order/Delete/' + value + '" title="Удалить" style="margin: 3px"><i class="glyphicon glyphicon-remove"></i></a>';
+
+            return editBnt + detailsBtn + deleteBtn;
+        }
+
+        function dateTimeFormatter(value) {
+            var date = new Date(value + 'Z');
+            return '<span title="' + date + '">'+date.toLocaleString('ru-RU')+'</span>';
+        }
+
+        //function queryParams() {
+        //    return {
+        //        type: 'owner',
+        //        //sort: 'updated',
+        //        //direction: 'desc',
+        //        per_page: 25,
+        //        page: 1
+        //    };
+        //}
     </script>
 }
 <!-- Small modal -->
@@ -95,55 +116,28 @@
     </div>
 </div>
 -->
-<table class="table table-striped">
-    <tr>
-        <th>
-            @Html.ActionLink(@Html.DisplayNameFor(model => model.CreatedBy), "History", new { sortOrder = ViewBag.ToolSortParm })
-        </th>
-        <th>
-            @Html.ActionLink(@Html.DisplayNameFor(model => model.Tool), "History", new { sortOrder = ViewBag.ToolSortParm })
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ClientName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.StartDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.EndDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Payment)
-        </th>
-        <th></th>
-    </tr>
-    @foreach (var item in Model)
-    {
+<table class="table table-striped"
+       data-toggle="table"
+       data-url="GetHistory"
+       data-query-params="queryParams"
+       data-sort-name="StartDate"
+       data-pagination="true"
+       data-search="true" 
+       data-locale="ru-RU"
+       data-show-refresh="true"
+       data-show-toggle="true"
+       data-show-columns="true"
+       data-page-size="20">
+    <thead>
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatedBy)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Tool.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ClientName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StartDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EndDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Payment)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-warning btn-sm" title="Редактировать"><span class="glyphicon glyphicon-edit"></span></a>
-                <a asp-action="Details" asp-route-id="@item.ID" class="btn btn-info btn-sm" title="Просмотр"><span class="glyphicon glyphicon-info-sign"></span></a>
-                <a asp-action="Delete" asp-route-id="@item.ID" class="btn btn-danger btn-sm" title="Удалить"><span class="glyphicon glyphicon-remove"></span></a>
-            </td>
+            <th data-field="Tool.Name" data-sortable="true">@Html.DisplayNameFor(model => model.Tool)</th>
+            <th data-field="ClientName" data-sortable="true">@Html.DisplayNameFor(model => model.ClientName)</th>
+            <th data-field="ContractNumber" data-sortable="true">@Html.DisplayNameFor(model => model.ContractNumber)</th>
+            <th data-field="StartDate" data-sortable="true" data-formatter="dateTimeFormatter">@Html.DisplayNameFor(model => model.StartDate) </th>
+            <th data-field="EndDate" data-sortable="true" data-formatter="dateTimeFormatter">@Html.DisplayNameFor(model => model.EndDate)</th>
+            <th data-field="Payment" data-sortable="true">@Html.DisplayNameFor(model => model.Payment)</th>
+            <th data-field="CreatedBy" data-sortable="true">@Html.DisplayNameFor(model => model.CreatedBy)</th>
+            <th data-field="ID" data-width="50" data-align="center" data-halign="center" data-formatter="idToActionsFormatter">Управление</th>
         </tr>
-    }
+    </thead>
 </table>
-
