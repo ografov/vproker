@@ -1,7 +1,6 @@
-﻿using Microsoft.Data.Entity;
+﻿using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
-using Microsoft.Data.Entity.Storage;
 
 namespace vproker.Models
 {
@@ -17,12 +16,15 @@ namespace vproker.Models
 
         public static void Initialize(IServiceProvider serviceProvider)
         {
-            ApplicationDbContext context = serviceProvider.GetService(typeof(ApplicationDbContext)) as ApplicationDbContext;
+            using (var serviceScope = serviceProvider.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            {
+                ApplicationDbContext context = serviceScope.ServiceProvider.GetService(typeof(ApplicationDbContext)) as ApplicationDbContext;
 
-            //AddSampleKnowledgeSources(context);
-            //AddSampleClients(context);
-            AddSampleTools(context);
-            AddSampleOrders(context);
+                //AddSampleKnowledgeSources(context);
+                //AddSampleClients(context);
+                AddSampleTools(context);
+                AddSampleOrders(context);
+            }
         }
 
         private static Order CreateSampleOrder(string clientName, string toolId, DateTime startedAt)

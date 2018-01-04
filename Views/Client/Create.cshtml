@@ -2,7 +2,7 @@
 
 <div>
     <form asp-controller="Client" asp-action="Create" method="post">
-        <div asp-validation-summary="ValidationSummary.ModelOnly" class="text-danger"></div>
+        @*<div asp-validation-summary="ValidationSummary.ModelOnly" class="text-danger"></div>*@
 
         <div class="form-group row">
             <label asp-for="FirstName" class="col-md-2 control-label"></label>
@@ -92,13 +92,13 @@
             </div>
         </div>
 
-        <div class="form-group row">
+        @*<div class="form-group row">
             <label asp-for="KnowSourceID" class="col-md-2 control-label"></label>
             <div class="col-md-10">
                 <select asp-for="KnowSourceID" asp-items="@ViewBag.KnowSources" class="form-control"></select>
                 <span asp-validation-for="KnowSourceID" class="text-danger"></span>
             </div>
-        </div>
+        </div>*@
 
         <div class="form-group row">
             <label asp-for="Note" class="col-md-2 control-label"></label>

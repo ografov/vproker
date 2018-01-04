@@ -1,11 +1,11 @@
-﻿using Microsoft.AspNet.Mvc;
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace vproker.Models
 {
+    [Table(nameof(Order))]
     public class Order 
     {
         public Order()
