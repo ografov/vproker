@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace vproker.Controllers
 {
+    [Route("[controller]/[action]")]
     [Authorize(Roles = AuthData.ADMIN_ROLE)]
     public class ToolController : Controller
     {
@@ -21,6 +22,26 @@ namespace vproker.Controllers
             AppContext = context;
             Logger = loggerFactory.CreateLogger<ToolController>();
         }
+
+        #region REST API
+
+        [AllowAnonymous]
+        [HttpGet("/api/[controller]")]
+        public JsonResult GetAll()
+        {
+            var tools = AppContext.Tools;
+            return Json(tools);
+        }
+
+        [AllowAnonymous]
+        [HttpGet("/api/[controller]/{id}")]
+        public async Task<JsonResult> Get(string id)
+        {
+            Tool tool = await AppContext.Tools.SingleOrDefaultAsync(b => b.ID == id);
+            return Json(tool);
+        }
+
+        #endregion
 
         public IActionResult Index()
         {
