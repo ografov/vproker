@@ -1,24 +1,47 @@
 ﻿using System.Threading.Tasks;
-using Microsoft.AspNet.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using vproker.Models;
-using Microsoft.Data.Entity;
-using Microsoft.Data.Entity.Storage;
 using Microsoft.Extensions.Logging;
 using System;
-using Microsoft.AspNet.Authorization;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace vproker.Controllers
 {
+    [Route("[controller]/[action]")]
     [Authorize(Roles = AuthData.ADMIN_ROLE)]
     public class ToolController : Controller
     {
-        [FromServices]
         public ApplicationDbContext AppContext { get; set; }
-
-        [FromServices]
         public ILogger<ToolController> Logger { get; set; }
+
+        public ToolController(ILoggerFactory loggerFactory, ApplicationDbContext context)
+        {
+            AppContext = context;
+            Logger = loggerFactory.CreateLogger<ToolController>();
+        }
+
+        #region REST API
+
+        [AllowAnonymous]
+        [HttpGet("/api/[controller]")]
+        public JsonResult GetAll()
+        {
+            var tools = AppContext.Tools;
+            return Json(tools);
+        }
+
+        [AllowAnonymous]
+        [HttpGet("/api/[controller]/{id}")]
+        public async Task<JsonResult> Get(string id)
+        {
+            Tool tool = await AppContext.Tools.SingleOrDefaultAsync(b => b.ID == id);
+            return Json(tool);
+        }
+
+        #endregion
 
         public IActionResult Index()
         {
@@ -32,7 +55,7 @@ namespace vproker.Controllers
             if (tool == null)
             {
                 Logger.LogInformation("Details: Item not found {0}", id);
-                return HttpNotFound();
+                return NotFound();
             }
             return View(tool);
         }
@@ -68,7 +91,7 @@ namespace vproker.Controllers
             if (tool == null)
             {
                 Logger.LogInformation("Edit: Item not found {0}", id);
-                return HttpNotFound();
+                return NotFound();
             }
 
             return View(tool);
@@ -106,7 +129,7 @@ namespace vproker.Controllers
             if (tool == null)
             {
                 Logger.LogInformation("Delete: Item not found {0}", id);
-                return HttpNotFound();
+                return NotFound();
             }
             ViewBag.Retry = retry ?? false;
             return View(tool);

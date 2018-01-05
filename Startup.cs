@@ -1,70 +1,44 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNet.Builder;
-using Microsoft.AspNet.Hosting;
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using vproker.Models;
-using Microsoft.Data.Entity;
 using Microsoft.Data.Sqlite;
-using Microsoft.AspNet.Identity.EntityFramework;
 using System.Globalization;
 using System.Threading;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore;
 
 namespace vproker
 {
     public class Startup
     {
-        public Startup(IHostingEnvironment env)
+        public Startup(IConfiguration configuration, IHostingEnvironment hosting)
         {
-            // Set up configuration sources.
-            var builder = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json")
-				.AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
-
-			if (env.IsDevelopment())
-			{
-				// For more details on using the user secret store see http://go.microsoft.com/fwlink/?LinkID=532709
-				builder.AddUserSecrets();
-			}
-
-			builder.AddEnvironmentVariables();
-            Configuration = builder.Build();
-
-            Thread.CurrentThread.CurrentCulture = new CultureInfo("ru-RU");
-            Thread.CurrentThread.CurrentUICulture = new CultureInfo("ru-RU");
+            Configuration = configuration;
+            HostingEnvironment = hosting;
         }
 
-        public IConfigurationRoot Configuration { get; set; }
+        public IHostingEnvironment HostingEnvironment { get; set; }
+        public IConfiguration Configuration { get; set; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            SqliteConnectionStringBuilder connectionStringBuilder = new SqliteConnectionStringBuilder { DataSource = "vproker.db" };
-            string connectionString = connectionStringBuilder.ToString();
-            SqliteConnection connection = new SqliteConnection(connectionString);
-
-            // Add framework services.
-            //services.AddEntityFramework()
-            //    .AddSqlServer()
-            //    .AddDbContext<VprokerDbContext>(options =>
-            //        options.UseSqlServer(Configuration["Data:DefaultConnection:ConnectionString"]));
-
-            services.AddEntityFramework()
-                .AddSqlite()
+            services.AddEntityFrameworkSqlite()
                 .AddDbContext<ApplicationDbContext>(options =>
                     options.UseSqlite(
-                        new SqliteConnectionStringBuilder { DataSource = "vproker.db" }.ToString()));
-            var passwordOptions = new Microsoft.AspNet.Identity.PasswordOptions()
+                        new SqliteConnectionStringBuilder { DataSource = $"vproker.db" }.ToString()));
+
+            var passwordOptions = new PasswordOptions()
             {
                 RequireDigit = false,
                 RequiredLength = 6,
                 RequireLowercase = false,
                 RequireUppercase = false,
-                RequireNonLetterOrDigit = false
             };
             services.AddIdentity<ApplicationUser, IdentityRole>(options => options.Password = passwordOptions)
                 .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -75,7 +49,10 @@ namespace vproker
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app,
+            IHostingEnvironment env,
+            ILoggerFactory loggerFactory,
+            ApplicationDbContext context)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
@@ -84,32 +61,21 @@ namespace vproker
             {
                 app.UseBrowserLink();
                 app.UseDeveloperExceptionPage();
-				app.UseDatabaseErrorPage();
+                app.UseDatabaseErrorPage();
             }
             else
             {
                 app.UseExceptionHandler("/Home/Error");
+            }
 
-				// For more details on creating database during deployment see http://go.microsoft.com/fwlink/?LinkID=615859
-				try
-				{
-					using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>()
-						.CreateScope())
-					{
-						serviceScope.ServiceProvider.GetService<ApplicationDbContext>()
-							 .Database.Migrate();
-					}
-				}
-				catch { }
-			}
-
-            app.UseIISPlatformHandler(); // options => options.AuthenticationDescriptions.Clear());
+            Migrate(app);
+            //app.UseIISPlatformHandler(); // options => options.AuthenticationDescriptions.Clear());
 
             app.UseStaticFiles();
 
-			app.UseIdentity();
+            app.UseAuthentication();
 
-			// To configure external authentication please see http://go.microsoft.com/fwlink/?LinkID=532715
+            // To configure external authentication please see http://go.microsoft.com/fwlink/?LinkID=532715
 
             app.UseMvc(routes =>
             {
@@ -122,7 +88,19 @@ namespace vproker
             AuthData.SeedAuth(app.ApplicationServices).Wait();
         }
 
-        // Entry point for the application.
-        public static void Main(string[] args) => WebApplication.Run<Startup>(args);
+        private void Migrate(IApplicationBuilder app)
+        {
+            // For more details on creating database during deployment see http://go.microsoft.com/fwlink/?LinkID=615859
+            try
+            {
+                using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>()
+                    .CreateScope())
+                {
+                    serviceScope.ServiceProvider.GetService<ApplicationDbContext>()
+                         .Database.Migrate();
+                }
+            }
+            catch { }
+        }
     }
 }

@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -24,7 +23,7 @@ namespace vproker.Models
                 var dbContext = serviceScope.ServiceProvider.GetService<ApplicationDbContext>();
 
                 // add default roles
-                var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+                var roleManager = serviceScope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
                 foreach (var role in Roles)
                 {
                     if (!await roleManager.RoleExistsAsync(role))
@@ -35,13 +34,13 @@ namespace vproker.Models
 
                 // add default users
 
-                var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+                var userManager = serviceScope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
                 await AddUser(userManager, ADMIN_ID, "120385", new string[] { USER_ROLE, ADMIN_ROLE });
                 await AddUser(userManager, USER_ID, "123456", new string[] { USER_ROLE });
             }
         }
 
-        private static async Task AddUser(Microsoft.AspNet.Identity.UserManager<ApplicationUser> userManager, string name, string password, IEnumerable<string> roles)
+        private static async Task AddUser(UserManager<ApplicationUser> userManager, string name, string password, IEnumerable<string> roles)
         {
             ApplicationUser user = await userManager.FindByNameAsync(name);
             if (user == null)

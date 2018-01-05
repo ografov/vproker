@@ -10,17 +10,28 @@
   "profiles": {
     "IIS Express": {
       "commandName": "IISExpress",
+      "launchBrowser": true,
+      "launchUrl": "http://localhost:56644/",
       "environmentVariables": {
         "Hosting:Environment": "Development"
       }
     },
     "web": {
-      "commandName": "web",
+      "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "http://localhost:5000",
       "environmentVariables": {
         "Hosting:Environment": "Development"
       }
+    },
+    "console": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "http://localhost:56644/",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "http://localhost:56644/"
     }
   }
 }

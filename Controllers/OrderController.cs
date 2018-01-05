@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNet.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using vproker.Models;
-using Microsoft.Data.Entity;
-using Microsoft.AspNet.Mvc.Rendering;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
-using Microsoft.AspNet.Authorization;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -16,11 +16,15 @@ namespace vproker.Controllers
     [Authorize]
     public class OrderController : Controller
     {
-        [FromServices]
         public ApplicationDbContext AppContext { get; set; }
 
-        [FromServices]
         public ILogger<OrderController> Logger { get; set; }
+
+        public OrderController(ILoggerFactory loggerFactory, ApplicationDbContext appContext)
+        {
+            Logger = loggerFactory.CreateLogger<OrderController>();
+            AppContext = appContext;
+        }
 
         public IActionResult Index()
         {
@@ -134,7 +138,7 @@ namespace vproker.Controllers
             if (order == null)
             {
                 Logger.LogInformation("Details: Item not found {0}", id);
-                return HttpNotFound();
+                return NotFound();
             }
             return View(order);
         }
@@ -206,7 +210,7 @@ namespace vproker.Controllers
             if (order == null)
             {
                 Logger.LogInformation("Edit: Item not found {0}", id);
-                return HttpNotFound();
+                return NotFound();
             }
 
             //ViewBag.Clients = GetClientsListItems(order.ClientID);
@@ -226,7 +230,7 @@ namespace vproker.Controllers
                 if (order == null)
                 {
                     Logger.LogInformation("Update: Item not found {0}", id);
-                    return HttpNotFound();
+                    return NotFound();
                 }
 
                 order.ToolID = newOrder.ToolID;
@@ -265,7 +269,7 @@ namespace vproker.Controllers
             if (order == null)
             {
                 Logger.LogInformation("Delete: Item not found {0}", id);
-                return HttpNotFound();
+                return NotFound();
             }
             ViewBag.Retry = retry ?? false;
             return View(order);
@@ -301,7 +305,7 @@ namespace vproker.Controllers
             if (order == null)
             {
                 Logger.LogInformation("Close: Item not found {0}", id);
-                return HttpNotFound();
+                return NotFound();
             }
             ViewBag.Retry = retry ?? false;
             return View(new CloseOrderModel(order));
