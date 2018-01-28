@@ -11,11 +11,15 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore;
+using Microsoft.AspNetCore.Cors.Infrastructure;
+using vproker.Services;
 
 namespace vproker
 {
     public class Startup
     {
+        private const string CORS_POLICY_NAME = "allowAll";
+
         public Startup(IConfiguration configuration, IHostingEnvironment hosting)
         {
             Configuration = configuration;
@@ -28,6 +32,9 @@ namespace vproker
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Configure CORS
+            ConfigureCors(services);
+
             services.AddEntityFrameworkSqlite()
                 .AddDbContext<ApplicationDbContext>(options =>
                     options.UseSqlite(
@@ -44,8 +51,11 @@ namespace vproker
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
+            services.AddTransient<OrderService>();
+
             services.AddAntiforgery();
             services.AddMvc();
+            services.AddCors();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -72,6 +82,7 @@ namespace vproker
             //app.UseIISPlatformHandler(); // options => options.AuthenticationDescriptions.Clear());
 
             app.UseStaticFiles();
+            app.UseCors(CORS_POLICY_NAME);
 
             app.UseAuthentication();
 
@@ -86,6 +97,20 @@ namespace vproker
 
             SampleData.Initialize(app.ApplicationServices);
             AuthData.SeedAuth(app.ApplicationServices).Wait();
+        }
+
+        private void ConfigureCors(IServiceCollection services)
+        {
+            var corsBuilder = new CorsPolicyBuilder();
+            corsBuilder.AllowAnyHeader();
+            corsBuilder.AllowAnyMethod();
+            corsBuilder.AllowAnyOrigin();
+            corsBuilder.AllowCredentials();
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy(CORS_POLICY_NAME, corsBuilder.Build());
+            });
         }
 
         private void Migrate(IApplicationBuilder app)

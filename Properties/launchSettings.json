@@ -26,7 +26,6 @@
     },
     "console": {
       "commandName": "Project",
-      "launchBrowser": true,
       "launchUrl": "http://localhost:56644/",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"

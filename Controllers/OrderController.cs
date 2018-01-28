@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
+using vproker.Services;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -20,8 +21,11 @@ namespace vproker.Controllers
 
         public ILogger<OrderController> Logger { get; set; }
 
-        public OrderController(ILoggerFactory loggerFactory, ApplicationDbContext appContext)
+        private OrderService _service { get; set; }
+
+        public OrderController(ILoggerFactory loggerFactory, ApplicationDbContext appContext, OrderService service)
         {
+            _service = service;
             Logger = loggerFactory.CreateLogger<OrderController>();
             AppContext = appContext;
         }
@@ -92,39 +96,11 @@ namespace vproker.Controllers
 
             if (AppContext.Orders.Count() > 0)
             {
-                orders = AppContext.Orders.Include(o => o.Tool).ToArray();
-
-                orders = orders.Where(o => !o.IsClosed).ToArray();
-
-                // if not admin, restrict by who created
-                if(User.Identity.Name != AuthData.ADMIN_ID)
-                {
-                    orders = orders.Where(o => o.CreatedBy == User.Identity.Name).ToArray();
-                }
-
                 // sort and filter
                 ViewBag.ClientSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
                 ViewBag.ToolSortParm = sortOrder == "Tool" ? "tool_desc" : "Tool";
-                if (!String.IsNullOrEmpty(searchString))
-                {
-                    orders = orders.Where(o => o.ClientName.IndexOf(searchString, StringComparison.OrdinalIgnoreCase) != -1).ToArray();
-                }
-                switch (sortOrder)
-                {
-                    case "name_desc":
-                        orders = orders.OrderByDescending(s => s.ClientName).ToArray();
-                        break;
-                    case "Tool":
-                        orders = orders.OrderBy(o => o.Tool.Name).ToArray();
-                        break;
-                    case "tool_desc":
-                        orders = orders.OrderByDescending(o => o.Tool.Name).ToArray();
-                        break;
-                    default: //name ascending
-                        orders = orders.OrderBy(s => s.ClientName).ToArray();
-                        break;
-                }
 
+                orders = _service.GetActiveOrders(User, sortOrder, searchString).ToArray();
             }
 
             return View("ActiveOrders", orders);
@@ -195,7 +171,7 @@ namespace vproker.Controllers
             }
             catch (Exception ex)
             {
-                ModelState.AddModelError(string.Empty, "Не удалось сохранить изменения: "+ex.ToString());
+                ModelState.AddModelError(string.Empty, "Не удалось сохранить изменения: " + ex.ToString());
             }
 
             //ViewBag.Clients = GetClientsListItems();
@@ -250,7 +226,7 @@ namespace vproker.Controllers
             }
             catch (Exception ex)
             {
-                ModelState.AddModelError(string.Empty, "Не удалось сохранить изменения: "+ex.ToString());
+                ModelState.AddModelError(string.Empty, "Не удалось сохранить изменения: " + ex.ToString());
             }
             return View(newOrder);
         }
