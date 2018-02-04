@@ -33,5 +33,28 @@ namespace vproker.Controllers.ApiControllers
             var orders = _service.GetActiveOrders(User, sortOrder, searchString);
             return Json(orders);
         }
+
+        [AllowAnonymous]
+        [HttpPost]
+        public async Task<ActionResult> Store([FromBody]Order order)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var savedStore = await _service.Store(order);
+                    return Json(savedStore);
+                }
+                else
+                {
+                    return BadRequest();
+                }
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(string.Empty, "Не удалось сохранить изменения: " + ex.ToString());
+                return StatusCode(500);
+            }
+        }
     }
 }

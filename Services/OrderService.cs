@@ -21,6 +21,30 @@ namespace vproker.Services
             AppContext = appContext;
         }
 
+        public async Task<Order> Store(Order order)
+        {
+            if (AppContext.Orders.Any(e => e.ID == order.ID))
+            {
+                AppContext.Orders.Attach(order);
+                AppContext.Entry(order).State = EntityState.Modified;
+            }
+            else
+            {
+                AppContext.Orders.Add(order);
+            }
+
+            AppContext.SaveChanges();
+
+            return await GetById(order.ID);
+        }
+
+        public async Task<Order> GetById(string id)
+        {
+            Order order = await AppContext.Orders.Include(b => b.Tool).SingleOrDefaultAsync(b => b.ID == id);
+
+            return order;
+        }
+
         public IEnumerable<Order> GetActiveOrders(ClaimsPrincipal user, string sortOrder, string searchString)
         {
             IEnumerable<Order> orders = new Order[0];

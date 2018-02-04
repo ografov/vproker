@@ -108,9 +108,8 @@ namespace vproker.Controllers
 
         public async Task<ActionResult> Details(string id)
         {
-            Order order = await AppContext.Orders
-                /*.Include(b => b.Client)*/.Include(b => b.Tool)
-                .SingleOrDefaultAsync(b => b.ID == id);
+            Order order = await _service.GetById(id);
+
             if (order == null)
             {
                 Logger.LogInformation("Details: Item not found {0}", id);
