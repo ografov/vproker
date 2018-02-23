@@ -12,6 +12,7 @@ namespace vproker
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                .UseUrls("http://*:56644")
                 .UseStartup<Startup>()
                 .Build();
     }
