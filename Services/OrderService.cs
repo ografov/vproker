@@ -84,5 +84,11 @@ namespace vproker.Services
 
             return orders;
         }
+
+
+        public IEnumerable<Order> GetHistory(ClaimsPrincipal user, string sortOrder, string searchString)
+        {
+            return AppContext.Orders.Where(o => o.IsClosed);
+        }
     }
 }

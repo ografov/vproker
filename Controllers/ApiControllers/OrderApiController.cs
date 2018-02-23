@@ -34,6 +34,13 @@ namespace vproker.Controllers.ApiControllers
             return Json(orders);
         }
 
+        [HttpGet("history/{sortOrder?}/{searchString?}")]
+        public JsonResult GetHistory(string sortOrder = "", string searchString = "")
+        {
+            var orders = _service.GetHistory(User, sortOrder, searchString);
+            return Json(orders);
+        }
+
         [AllowAnonymous]
         [HttpPost]
         public async Task<ActionResult> Store([FromBody]Order order)
