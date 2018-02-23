@@ -41,6 +41,32 @@ namespace vproker.Controllers
             return Json(tool);
         }
 
+        [AllowAnonymous]
+        [HttpPost("/api/[controller]")]
+        public async Task<ActionResult> Store([FromBody]Tool tool)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    AppContext.Tools.Add(tool);
+                    await AppContext.SaveChangesAsync();
+
+                    tool = AppContext.Tools.Find(tool.ID);
+                    return Json(tool);
+                }
+                else
+                {
+                    return BadRequest();
+                }
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(string.Empty, "Не удалось сохранить изменения: " + ex.ToString());
+                return StatusCode(500);
+            }
+        }
+
         #endregion
 
         public IActionResult Index()
