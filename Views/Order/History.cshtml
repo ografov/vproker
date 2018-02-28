@@ -1,19 +1,8 @@
-﻿@using vproker.Controllers;
-@model IEnumerable<vproker.Models.Order>
+﻿@model IEnumerable<vproker.Models.Order>
 @{
     ViewBag.Title = "История";
 }
 
-@*<p>
-        <a asp-action="Create">Новый Заказ</a>
-    </p>*@
-
-@*@using (Html.BeginForm("Index", "Order", FormMethod.Get)) {
-        <p>
-            Поиск по клиенту: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
-            <input type="submit" value="Search" />
-        </p>
-    }*@
 @using (Html.BeginForm("History", "Order", FormMethod.Get, new { id = "history-form" }))
 {
     @*<div class="form-horizontal">
@@ -33,6 +22,31 @@
             <div style="padding: 10px"><input id="btnSubmit" type="submit" value="Фильтр" class="btn btn-primary"/></div>
         </div>
     </div>*@
+    <table class="table table-striped"
+           data-toggle="table"
+           data-url="/api/order/historyWithTool"
+           data-query-params="queryParams"
+           data-sort-name="StartDate"
+           data-pagination="true"
+           data-search="true" 
+           data-locale="ru-RU"
+           data-show-refresh="true"
+           data-show-toggle="true"
+           data-show-columns="true"
+           data-page-size="20">
+        <thead>
+            <tr>
+                <th data-field="tool.Name" data-sortable="true">@Html.DisplayNameFor(model => model.Tool)</th>
+                <th data-field="clientName" data-sortable="true">@Html.DisplayNameFor(model => model.ClientName)</th>
+                <th data-field="contractNumber" data-sortable="true">@Html.DisplayNameFor(model => model.ContractNumber)</th>
+                <th data-field="startDate" data-sortable="true" data-formatter="dateTimeFormatter">@Html.DisplayNameFor(model => model.StartDate) </th>
+                <th data-field="endDate" data-sortable="true" data-formatter="dateTimeFormatter">@Html.DisplayNameFor(model => model.EndDate)</th>
+                <th data-field="payment" data-sortable="true">@Html.DisplayNameFor(model => model.Payment)</th>
+                <th data-field="createdBy" data-sortable="true">@Html.DisplayNameFor(model => model.CreatedBy)</th>
+                <th data-field="id" data-width="50" data-align="center" data-halign="center" data-formatter="idToActionsFormatter">Управление</th>
+            </tr>
+        </thead>
+    </table>
 }
 
 @section Scripts {
@@ -90,16 +104,6 @@
             var date = new Date(value + 'Z');
             return '<span title="' + date + '">'+date.toLocaleString('ru-RU')+'</span>';
         }
-
-        //function queryParams() {
-        //    return {
-        //        type: 'owner',
-        //        //sort: 'updated',
-        //        //direction: 'desc',
-        //        per_page: 25,
-        //        page: 1
-        //    };
-        //}
     </script>
 }
 <!-- Small modal -->
@@ -116,28 +120,3 @@
     </div>
 </div>
 -->
-<table class="table table-striped"
-       data-toggle="table"
-       data-url="/api/order/historyWithTool"
-       data-query-params="queryParams"
-       data-sort-name="StartDate"
-       data-pagination="true"
-       data-search="true" 
-       data-locale="ru-RU"
-       data-show-refresh="true"
-       data-show-toggle="true"
-       data-show-columns="true"
-       data-page-size="20">
-    <thead>
-        <tr>
-            <th data-field="tool.Name" data-sortable="true">@Html.DisplayNameFor(model => model.Tool)</th>
-            <th data-field="clientName" data-sortable="true">@Html.DisplayNameFor(model => model.ClientName)</th>
-            <th data-field="contractNumber" data-sortable="true">@Html.DisplayNameFor(model => model.ContractNumber)</th>
-            <th data-field="startDate" data-sortable="true" data-formatter="dateTimeFormatter">@Html.DisplayNameFor(model => model.StartDate) </th>
-            <th data-field="endDate" data-sortable="true" data-formatter="dateTimeFormatter">@Html.DisplayNameFor(model => model.EndDate)</th>
-            <th data-field="payment" data-sortable="true">@Html.DisplayNameFor(model => model.Payment)</th>
-            <th data-field="createdBy" data-sortable="true">@Html.DisplayNameFor(model => model.CreatedBy)</th>
-            <th data-field="id" data-width="50" data-align="center" data-halign="center" data-formatter="idToActionsFormatter">Управление</th>
-        </tr>
-    </thead>
-</table>
