@@ -6,29 +6,29 @@
 @using (Html.BeginForm("History", "Order", FormMethod.Get, new { id = "history-form" }))
 {
     @*<div class="form-horizontal">
-        <div style="width: 220px; ">
-            <div class="input-group date" style="padding: 10px;" id="startDatePicker">
-                <input type="text" id="start" name="start" class="form-control">
-                <span class="input-group-addon">
-                    <span class="glyphicon glyphicon-calendar"></span>
-                </span>
+            <div style="width: 220px; ">
+                <div class="input-group date" style="padding: 10px;" id="startDatePicker">
+                    <input type="text" id="start" name="start" class="form-control">
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+                <div class="input-group date" style="padding: 10px;" id="endDatePicker">
+                    <input type="text" id="end" name="end" class="form-control">
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+                <div style="padding: 10px"><input id="btnSubmit" type="submit" value="Фильтр" class="btn btn-primary"/></div>
             </div>
-            <div class="input-group date" style="padding: 10px;" id="endDatePicker">
-                <input type="text" id="end" name="end" class="form-control">
-                <span class="input-group-addon">
-                    <span class="glyphicon glyphicon-calendar"></span>
-                </span>
-            </div>
-            <div style="padding: 10px"><input id="btnSubmit" type="submit" value="Фильтр" class="btn btn-primary"/></div>
-        </div>
-    </div>*@
+        </div>*@
     <table class="table table-striped"
            data-toggle="table"
            data-url="/api/order/historyWithTool"
            data-query-params="queryParams"
            data-sort-name="StartDate"
            data-pagination="true"
-           data-search="true" 
+           data-search="true"
            data-locale="ru-RU"
            data-show-refresh="true"
            data-show-toggle="true"
@@ -47,6 +47,8 @@
             </tr>
         </thead>
     </table>
+    <a href='./DownloadHistory'>Export</a>
+
 }
 
 @section Scripts {
@@ -92,8 +94,8 @@
         });
 
         function idToActionsFormatter(value) {
-            
-            var editBnt = '<a class="edit" href="/Order/Edit/'+value+'" title="Редактировать" style="margin: 3px"><i class="glyphicon glyphicon-edit"></i></a>';
+
+            var editBnt = '<a class="edit" href="/Order/Edit/' + value + '" title="Редактировать" style="margin: 3px"><i class="glyphicon glyphicon-edit"></i></a>';
             var detailsBtn = '<a class="info-sign" href="/Order/Details/' + value + '" title="Просмотр" style="margin: 3px"><i class="glyphicon glyphicon-info-sign"></i></a>';
             var deleteBtn = '<a class="edit" href="/Order/Delete/' + value + '" title="Удалить" style="margin: 3px"><i class="glyphicon glyphicon-remove"></i></a>';
 
@@ -102,7 +104,7 @@
 
         function dateTimeFormatter(value) {
             var date = new Date(value + 'Z');
-            return '<span title="' + date + '">'+date.toLocaleString('ru-RU')+'</span>';
+            return '<span title="' + date + '">' + date.toLocaleString('ru-RU') + '</span>';
         }
     </script>
 }

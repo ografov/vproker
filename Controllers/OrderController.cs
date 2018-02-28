@@ -302,6 +302,14 @@ namespace vproker.Controllers
             }
         }
 
+        public async Task<FileResult> DownloadHistory()
+        {
+            string fileName = "vproker-history.csv";
+            byte[] fileBytes = _service.GetHistoryReport();
+
+            return File(fileBytes, "text/csv; charset=utf-8", fileName); // this is the key!
+        }
+
         public static Decimal CalculatePaymentForDays(Order order, DateTime end)
         {
             return (order != null && order.Tool != null) ? CalculatePaymentForDays(order.StartDate, end, order.Tool.DayPrice) : 0;
