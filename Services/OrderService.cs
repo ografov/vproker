@@ -90,5 +90,10 @@ namespace vproker.Services
         {
             return AppContext.Orders.Where(o => o.IsClosed);
         }
+
+        public IEnumerable<Order> GetHistoryWithTool(ClaimsPrincipal user, string sortOrder, string searchString)
+        {
+            return AppContext.Orders.Where(o => o.IsClosed).Include(o => o.Tool);
+        }
     }
 }

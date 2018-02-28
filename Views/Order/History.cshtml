@@ -118,7 +118,7 @@
 -->
 <table class="table table-striped"
        data-toggle="table"
-       data-url="GetHistory"
+       data-url="/api/order/historyWithTool"
        data-query-params="queryParams"
        data-sort-name="StartDate"
        data-pagination="true"
@@ -130,14 +130,14 @@
        data-page-size="20">
     <thead>
         <tr>
-            <th data-field="Tool.Name" data-sortable="true">@Html.DisplayNameFor(model => model.Tool)</th>
-            <th data-field="ClientName" data-sortable="true">@Html.DisplayNameFor(model => model.ClientName)</th>
-            <th data-field="ContractNumber" data-sortable="true">@Html.DisplayNameFor(model => model.ContractNumber)</th>
-            <th data-field="StartDate" data-sortable="true" data-formatter="dateTimeFormatter">@Html.DisplayNameFor(model => model.StartDate) </th>
-            <th data-field="EndDate" data-sortable="true" data-formatter="dateTimeFormatter">@Html.DisplayNameFor(model => model.EndDate)</th>
-            <th data-field="Payment" data-sortable="true">@Html.DisplayNameFor(model => model.Payment)</th>
-            <th data-field="CreatedBy" data-sortable="true">@Html.DisplayNameFor(model => model.CreatedBy)</th>
-            <th data-field="ID" data-width="50" data-align="center" data-halign="center" data-formatter="idToActionsFormatter">Управление</th>
+            <th data-field="tool.Name" data-sortable="true">@Html.DisplayNameFor(model => model.Tool)</th>
+            <th data-field="clientName" data-sortable="true">@Html.DisplayNameFor(model => model.ClientName)</th>
+            <th data-field="contractNumber" data-sortable="true">@Html.DisplayNameFor(model => model.ContractNumber)</th>
+            <th data-field="startDate" data-sortable="true" data-formatter="dateTimeFormatter">@Html.DisplayNameFor(model => model.StartDate) </th>
+            <th data-field="endDate" data-sortable="true" data-formatter="dateTimeFormatter">@Html.DisplayNameFor(model => model.EndDate)</th>
+            <th data-field="payment" data-sortable="true">@Html.DisplayNameFor(model => model.Payment)</th>
+            <th data-field="createdBy" data-sortable="true">@Html.DisplayNameFor(model => model.CreatedBy)</th>
+            <th data-field="id" data-width="50" data-align="center" data-halign="center" data-formatter="idToActionsFormatter">Управление</th>
         </tr>
     </thead>
 </table>

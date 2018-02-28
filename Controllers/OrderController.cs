@@ -84,11 +84,6 @@ namespace vproker.Controllers
             return View("History", orders);
         }
 
-        public JsonResult GetHistory()
-        {
-            return new JsonResult(AppContext.Orders.Where(o => o.IsClosed).Include(o => o.Tool));
-        }
-
         [Authorize(Roles = AuthData.USER_ROLE)]
         public IActionResult ActiveOrders(string sortOrder = "", string searchString = "")
         {

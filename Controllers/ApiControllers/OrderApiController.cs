@@ -41,6 +41,14 @@ namespace vproker.Controllers.ApiControllers
             return Json(orders);
         }
 
+        [Authorize(Roles = AuthData.ADMIN_ROLE)]
+        [HttpGet("historyWithTool/{sortOrder?}/{searchString?}")]
+        public JsonResult GetHistoryWithTool(string sortOrder = "", string searchString = "")
+        {
+            var orders = _service.GetHistory(User, sortOrder, searchString);
+            return Json(orders);
+        }
+
         [AllowAnonymous]
         [HttpPost]
         public async Task<ActionResult> Store([FromBody]Order order)
