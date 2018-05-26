@@ -34,6 +34,7 @@ namespace vproker.Controllers.ApiControllers
             return Json(orders);
         }
 
+        [Authorize(Roles = AuthData.ADMIN_ROLE)]
         [HttpGet("history/{sortOrder?}/{searchString?}")]
         public JsonResult GetHistory(string sortOrder = "", string searchString = "")
         {
@@ -41,13 +42,13 @@ namespace vproker.Controllers.ApiControllers
             return Json(orders);
         }
 
-        [Authorize(Roles = AuthData.ADMIN_ROLE)]
-        [HttpGet("historyWithTool/{sortOrder?}/{searchString?}")]
-        public JsonResult GetHistoryWithTool(string sortOrder = "", string searchString = "")
-        {
-            var orders = _service.GetHistory(User, sortOrder, searchString);
-            return Json(orders);
-        }
+        //[Authorize(Roles = AuthData.ADMIN_ROLE)]
+        //[HttpGet("historyWithTool/{sortOrder?}/{searchString?}")]
+        //public JsonResult GetHistoryWithTool(string sortOrder = "", string searchString = "")
+        //{
+        //    var orders = _service.GetHistoryWithTool(User, sortOrder, searchString);
+        //    return Json(orders);
+        //}
 
         [AllowAnonymous]
         [HttpPost]

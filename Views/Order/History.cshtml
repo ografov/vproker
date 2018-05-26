@@ -2,30 +2,47 @@
 @{
     ViewBag.Title = "История";
 }
+@section Scripts {
+    @*<script src="~/js/history.js"></script>*@
+    <script type="text/javascript">
+        vproker.History.render();
+    </script>
+}
 
-@using (Html.BeginForm("History", "Order", FormMethod.Get, new { id = "history-form" }))
-{
-    @*<div class="form-horizontal">
-            <div style="width: 220px; ">
-                <div class="input-group date" style="padding: 10px;" id="startDatePicker">
-                    <input type="text" id="start" name="start" class="form-control">
+<div class="container">
+    <div id="toolbar">
+        <div class="form-inline" role="form">
+            <div class="form-group">
+                <div class='input-group date' id='startPicker'>
+                    <input name="start" type='text' class="form-control" />
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
                     </span>
                 </div>
-                <div class="input-group date" style="padding: 10px;" id="endDatePicker">
-                    <input type="text" id="end" name="end" class="form-control">
-                    <span class="input-group-addon">
-                        <span class="glyphicon glyphicon-calendar"></span>
-                    </span>
-                </div>
-                <div style="padding: 10px"><input id="btnSubmit" type="submit" value="Фильтр" class="btn btn-primary"/></div>
             </div>
-        </div>*@
-    <table class="table table-striped"
+
+            <div class="form-group">
+                <div class='input-group date' id='endPicker'>
+                    <input name="end" type='text' class="form-control" />
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <input name="searchString" class="form-control" type="text" placeholder="Search">
+            </div>
+            <button id="ok" type="submit" class="btn btn-default">Найти</button>
+            <a href='./DownloadHistory' class="btn btn-default">Скачать</a>
+        </div>
+    </div>
+
+    <table id="table" class="table table-striped"
            data-toggle="table"
-           data-url="/api/order/historyWithTool"
-           data-query-params="queryParams"
+           data-url="/api/order/history"
+           data-toolbar="#toolbar"
+           data-query-params="vproker.History.queryParams"
            data-sort-name="StartDate"
            data-pagination="true"
            data-search="true"
@@ -39,86 +56,14 @@
                 <th data-field="tool.Name" data-sortable="true">@Html.DisplayNameFor(model => model.Tool)</th>
                 <th data-field="clientName" data-sortable="true">@Html.DisplayNameFor(model => model.ClientName)</th>
                 <th data-field="contractNumber" data-sortable="true">@Html.DisplayNameFor(model => model.ContractNumber)</th>
-                <th data-field="startDate" data-sortable="true" data-formatter="dateTimeFormatter">@Html.DisplayNameFor(model => model.StartDate) </th>
-                <th data-field="endDate" data-sortable="true" data-formatter="dateTimeFormatter">@Html.DisplayNameFor(model => model.EndDate)</th>
+                <th data-field="startDate" data-sortable="true" data-formatter="vproker.History.dateTimeFormatter">@Html.DisplayNameFor(model => model.StartDate) </th>
+                <th data-field="endDate" data-sortable="true" data-formatter="vproker.History.dateTimeFormatter">@Html.DisplayNameFor(model => model.EndDate)</th>
                 <th data-field="payment" data-sortable="true">@Html.DisplayNameFor(model => model.Payment)</th>
                 <th data-field="createdBy" data-sortable="true">@Html.DisplayNameFor(model => model.CreatedBy)</th>
-                <th data-field="id" data-width="50" data-align="center" data-halign="center" data-formatter="idToActionsFormatter">Управление</th>
+                <th data-field="id" data-width="50" data-align="center" data-halign="center" data-formatter="vproker.History.idToActionsFormatter">Управление</th>
             </tr>
         </thead>
     </table>
-    <a href='./DownloadHistory'>Export</a>
-
-}
-
-@section Scripts {
-    <script type="text/javascript">
-        $(function () {
-            var end = new Date();
-            var start = new Date(new Date().setMonth(new Date().getMonth() - 1));
-
-            $("#startDatePicker").datetimepicker({
-                //defaultDate: start.toDateString(),
-                format: 'MM.D.YYYY',
-                locale: 'ru'
-            });
-            //$("#start").val(start.toString('D/MM/YYYY'));
-
-            $("#endDatePicker").datetimepicker({
-                //defaultDate: end.toDateString(),
-                format: 'MM.D.YYYY',
-                locale: 'ru'
-            });
-            //$("#end").val(end.toString('D/MM/YYYY'));
-            //$("#btnSubmit").click(function (e) {
-            //    var startDate = $('#startDatePicker').data('DateTimePicker').date();
-            //    if (startDate) {
-            //        $("#start").val(startDate.format('MM.D.YYYY'));
-            //    }
-
-            //    var endDate = $('#endDatePicker').data('DateTimePicker').date();
-            //    if (endDate) {
-            //        $("#end").val(endDate.format('MM.D.YYYY'));
-            //    }
-
-            //    $("#history-form").submit();
-            //});
-            //$("#startDatePicker").on("dp.change", function (e) {
-            //    var dateStr = e.date.format('MM.D.YYYY');
-            //    $("#start").val(dateStr);
-            //});
-            //$("#endDatePicker").on("dp.change", function (e) {
-            //    var dateStr = e.date.format('MM.D.YYYY');
-            //    $("#end").val(dateStr);
-            //});
-        });
-
-        function idToActionsFormatter(value) {
-
-            var editBnt = '<a class="edit" href="/Order/Edit/' + value + '" title="Редактировать" style="margin: 3px"><i class="glyphicon glyphicon-edit"></i></a>';
-            var detailsBtn = '<a class="info-sign" href="/Order/Details/' + value + '" title="Просмотр" style="margin: 3px"><i class="glyphicon glyphicon-info-sign"></i></a>';
-            var deleteBtn = '<a class="edit" href="/Order/Delete/' + value + '" title="Удалить" style="margin: 3px"><i class="glyphicon glyphicon-remove"></i></a>';
-
-            return editBnt + detailsBtn + deleteBtn;
-        }
-
-        function dateTimeFormatter(value) {
-            var date = new Date(value + 'Z');
-            return '<span title="' + date + '">' + date.toLocaleString('ru-RU') + '</span>';
-        }
-    </script>
-}
-<!-- Small modal -->
-<!--
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-sm">Small modal</button>
-
-<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-    <div class="modal-dialog modal-sm">
-        <div class="modal-content">
-            Бро, не забудь поздравить:
-                - Петр Иванов (+79081200121)
-                - Федя Иволгин (+7999999999)
-        </div>
-    </div>
 </div>
--->
+
+

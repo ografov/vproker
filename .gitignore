@@ -7,3 +7,6 @@ obj
 Properties/PublishProfiles
 wwwroot/lib
 vproker.db
+/package-lock.json
+/wwwroot/ts/*.js
+/wwwroot/ts/*.map

@@ -12,6 +12,7 @@
   <ItemGroup>
     <Compile Remove="wwwroot\**\*;node_modules\**\*" />
     <EmbeddedResource Remove="wwwroot\**\*;node_modules\**\*" />
+    <Content Remove="wwwroot\js\history.ts" />
     <None Update="**.user;**.vspscc">
       <CopyToPublishDirectory>Never</CopyToPublishDirectory>
     </None>
@@ -20,6 +21,7 @@
   <ItemGroup>
     <PackageReference Include="Bootstrap-Table" Version="0.4.0" />
     <PackageReference Include="Bootstrap.v3.Datetimepicker" Version="4.17.45" />
+    <PackageReference Include="jQuery" Version="3.3.1" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.1" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.1" />

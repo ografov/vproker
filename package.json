@@ -7,5 +7,10 @@
     "gulp-cssmin": "0.1.7",
     "gulp-uglify": "1.2.0",
     "rimraf": "2.2.8"
+  },
+  "dependencies": {
+    "@types/bootstrap-table": "^1.11.5",
+    "@types/eonasdan-bootstrap-datetimepicker": "^4.17.26",
+    "@types/jquery": "^2.0.49"
   }
 }

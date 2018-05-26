@@ -92,13 +92,20 @@ namespace vproker.Services
 
         public IEnumerable<Order> GetHistory(ClaimsPrincipal user, string sortOrder, string searchString)
         {
-            return AppContext.Orders.Where(o => o.IsClosed);
+            Func<Order, bool> search = new Func<Order, bool>((o) =>
+            {
+                if (String.IsNullOrEmpty(searchString))
+                    return true;
+                return o.ClientName.IndexOf(searchString, StringComparison.InvariantCultureIgnoreCase) >= 0;
+            });
+
+            return AppContext.Orders.Where(o => o.IsClosed && search(o)).Include(o => o.Tool);
         }
 
-        public IEnumerable<Order> GetHistoryWithTool(ClaimsPrincipal user, string sortOrder, string searchString)
-        {
-            return AppContext.Orders.Where(o => o.IsClosed).Include(o => o.Tool);
-        }
+        //public IEnumerable<Order> GetHistoryWithTool(ClaimsPrincipal user, string sortOrder, string searchString)
+        //{
+        //    return AppContext.Orders.Where(o => o.IsClosed).Include(o => o.Tool);
+        //}
 
 
         public byte[] GetHistoryReport()
