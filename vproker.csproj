@@ -12,7 +12,7 @@
   <ItemGroup>
     <Compile Remove="wwwroot\**\*;node_modules\**\*" />
     <EmbeddedResource Remove="wwwroot\**\*;node_modules\**\*" />
-    <Content Remove="wwwroot\js\history.ts" />
+    <Content Remove="wwwroot\ts\history.ts" />
     <None Update="**.user;**.vspscc">
       <CopyToPublishDirectory>Never</CopyToPublishDirectory>
     </None>
@@ -43,6 +43,10 @@
   <ItemGroup Condition=" '$(TargetFramework)' == 'dnx451' ">
     <Reference Include="System" />
     <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="wwwroot\ts\history.ts" />
   </ItemGroup>
 
 </Project>

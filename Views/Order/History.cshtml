@@ -3,7 +3,7 @@
     ViewBag.Title = "История";
 }
 @section Scripts {
-    @*<script src="~/js/history.js"></script>*@
+    @*<script src="~/ts/history.js"></script>*@
     <script type="text/javascript">
         vproker.History.render();
     </script>
@@ -14,7 +14,7 @@
         <div class="form-inline" role="form">
             <div class="form-group">
                 <div class='input-group date' id='startPicker'>
-                    <input name="start" type='text' class="form-control" />
+                    <input name="start" type='text' class="form-control" placeholder="начало"/>
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
                     </span>
@@ -23,7 +23,7 @@
 
             <div class="form-group">
                 <div class='input-group date' id='endPicker'>
-                    <input name="end" type='text' class="form-control" />
+                    <input name="end" type='text' class="form-control" placeholder="конец"/>
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
                     </span>
@@ -31,10 +31,11 @@
             </div>
 
             <div class="form-group">
-                <input name="searchString" class="form-control" type="text" placeholder="Search">
+                <input name="searchString" class="form-control" type="text" placeholder="поиск по клиенту">
             </div>
-            <button id="ok" type="submit" class="btn btn-default">Найти</button>
-            <a href='./DownloadHistory' class="btn btn-default">Скачать</a>
+            <button id="ok" type="submit" class="btn btn-default">Фильтр</button>
+            <button id="clear" class="btn btn-default">Очистить</button>
+            <button id="download" class="btn btn-default">Скачать</button>
         </div>
     </div>
 

@@ -35,20 +35,12 @@ namespace vproker.Controllers.ApiControllers
         }
 
         [Authorize(Roles = AuthData.ADMIN_ROLE)]
-        [HttpGet("history/{sortOrder?}/{searchString?}")]
-        public JsonResult GetHistory(string sortOrder = "", string searchString = "")
+        [HttpGet("history/{start?}/{end?}/{searchString?}")]
+        public JsonResult GetHistory(string start = "", string end = "", string searchString = "")
         {
-            var orders = _service.GetHistory(User, sortOrder, searchString);
+            var orders = _service.GetHistory(User, start, end, searchString);
             return Json(orders);
         }
-
-        //[Authorize(Roles = AuthData.ADMIN_ROLE)]
-        //[HttpGet("historyWithTool/{sortOrder?}/{searchString?}")]
-        //public JsonResult GetHistoryWithTool(string sortOrder = "", string searchString = "")
-        //{
-        //    var orders = _service.GetHistoryWithTool(User, sortOrder, searchString);
-        //    return Json(orders);
-        //}
 
         [AllowAnonymous]
         [HttpPost]

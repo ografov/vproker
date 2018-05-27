@@ -5,7 +5,7 @@
 namespace vproker {
     export class History {
         static render() {
-            var $table = $('#table'),
+            const $table = $('#table'),
                 $ok = $('#ok');
             $ok.click(function () {
                 $table.bootstrapTable('refresh');
@@ -17,13 +17,51 @@ namespace vproker {
             $('#endPicker').datetimepicker({
                 locale: 'ru'
             });
+
+            const $clear = $('#clear');
+            $clear.click(() => {
+                $('#toolbar').find('input[name]').each(function (i, elem) {
+                    $(elem).val('');
+                });
+                const startPicker = $('#startPicker').data("DateTimePicker");
+                if (startPicker) {
+                    startPicker.clear();
+                }
+                const endPicker = $('#endPicker').data("DateTimePicker");
+                if (endPicker) {
+                    endPicker.clear();
+                }
+
+                $table.bootstrapTable('refresh');
+            });
+
+            // download
+            const $download = $('#download');
+            $download.click(() => {
+                const params = History.queryParams();
+                let downloadUrl = "./DownloadHistory?";
+                for (const key in params) {
+                    downloadUrl += `${key}=${params[key]}&`; 
+                }
+                window.open(downloadUrl); 
+            });
         }
 
         static queryParams() {
-            var params = {};
+            const params = {};
             $('#toolbar').find('input[name]').each(function () {
                 params[$(this).attr('name')] = $(this).val();
             });
+
+            const startPicker = $('#startPicker').data("DateTimePicker");
+            if (startPicker) {
+                params['start'] = startPicker.date() != null && startPicker.date().format('MM/DD/YYYY');
+            }
+            const endPicker = $('#endPicker').data("DateTimePicker");
+            if (endPicker) {
+                params['end'] = endPicker.date() != null && endPicker.date().format('MM/DD/YYYY');
+            }
+
             console.log('toolbar params: ', params);
             return params;
         }

@@ -90,32 +90,71 @@ namespace vproker.Services
         }
 
 
-        public IEnumerable<Order> GetHistory(ClaimsPrincipal user, string sortOrder, string searchString)
+        public IEnumerable<Order> GetHistory(ClaimsPrincipal user, string start, string end, string searchString)
         {
-            Func<Order, bool> search = new Func<Order, bool>((o) =>
+            DateTime startDate;
+            DateTime? starts = null;
+            if (DateTime.TryParse(start, out startDate)) starts = startDate;
+
+            DateTime endDate;
+            DateTime? ends = null;
+            if (DateTime.TryParse(end, out endDate)) ends = endDate;
+
+            // filters
+            Func<Order, bool> startFilter = new Func<Order, bool>((o) =>
+            {
+                return (starts == null) || (o.StartDate >= starts);
+            });
+            Func<Order, bool> endFilter = new Func<Order, bool>((o) =>
+            {
+                return (ends == null) || (o.StartDate <= ends);
+            });
+            Func<Order, bool> clientFilter = new Func<Order, bool>((o) =>
             {
                 if (String.IsNullOrEmpty(searchString))
                     return true;
                 return o.ClientName.IndexOf(searchString, StringComparison.InvariantCultureIgnoreCase) >= 0;
             });
 
-            return AppContext.Orders.Where(o => o.IsClosed && search(o)).Include(o => o.Tool);
+            return AppContext.Orders.Where(o => o.IsClosed && startFilter(o) && endFilter(o) && clientFilter(o)).Include(o => o.Tool);
         }
 
-        //public IEnumerable<Order> GetHistoryWithTool(ClaimsPrincipal user, string sortOrder, string searchString)
-        //{
-        //    return AppContext.Orders.Where(o => o.IsClosed).Include(o => o.Tool);
-        //}
-
-
-        public byte[] GetHistoryReport()
+        public byte[] GetHistoryReport(ClaimsPrincipal user, string start, string end, string searchString)
         {
-            IEnumerable<Order> orders = AppContext.Orders.Where(o => o.IsClosed).Include(o => o.Tool);
+            var orders = GetHistory(user, start, end, searchString);
 
-            String csv = CreateCSVFromGenericList<Order>(orders);
+            String csv = CreateOrderCSV(orders);
 
             //CultureInfo.CurrentCulture = new CultureInfo("ru-RU");
             return System.Text.Encoding.UTF8.GetBytes(csv);
+        }
+
+        private string CreateOrderCSV(IEnumerable<Order> orders)
+        {
+            if (orders == null || orders.Count() == 0) return "";
+
+            string newLine = Environment.NewLine;
+
+            StringBuilder sw = new StringBuilder();
+
+            //this is the header row
+            sw.Append("Клиент,Телефон,Описание,Начало,Конец,Сумма,Кем");
+            sw.Append(newLine);
+
+            //this acts as datarow
+            foreach (Order item in orders)
+            {
+                string[] items = { item.ClientName, item.ClientPhoneNumber ?? "", item.Description ?? "", item.StartDate.ToShortDateString(), item.EndDate?.ToShortDateString() ?? "", item.PaidPledge.ToString(), item.CreatedBy ?? "" };
+                string line = String.Join(',', items.Select(i => i.Replace(',', ' ')).ToArray());
+                sw.Append(line);
+                sw.Append(newLine);
+            }
+
+            sw.Append(newLine + newLine);
+
+            sw.Append($"Всего: {orders.Sum(o => o.PaidPledge)}");
+
+            return sw.ToString();
         }
 
 
