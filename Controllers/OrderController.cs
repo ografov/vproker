@@ -307,7 +307,7 @@ namespace vproker.Controllers
             string fileName = "vproker-history.csv";
             byte[] fileBytes = _service.GetHistoryReport(User, start, end, searchString);
 
-            return File(fileBytes, "text/csv; charset=utf-8", fileName); // this is the key!
+            return File(fileBytes, "text/csv; charset=UTF8", fileName); // this is the key!
         }
 
         public static Decimal CalculatePaymentForDays(Order order, DateTime end)

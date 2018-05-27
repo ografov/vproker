@@ -126,7 +126,9 @@ namespace vproker.Services
             String csv = CreateOrderCSV(orders);
 
             //CultureInfo.CurrentCulture = new CultureInfo("ru-RU");
-            return System.Text.Encoding.UTF8.GetBytes(csv);
+            var data = System.Text.Encoding.UTF8.GetBytes(csv);
+            var result = Encoding.UTF8.GetPreamble().Concat(data).ToArray();
+            return result;
         }
 
         private string CreateOrderCSV(IEnumerable<Order> orders)
