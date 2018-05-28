@@ -216,7 +216,9 @@ namespace vproker.Controllers
                 //AppContext.Orders.Attach(order);
                 AppContext.Entry(order).State = EntityState.Modified;
                 await AppContext.SaveChangesAsync();
-                return RedirectToAction("History");
+
+                // TODO: redirect to previous page
+                return RedirectToAction(Request.Query.ContainsKey("ReturnUrl") ? Request.Query["ReturnUrl"].ToString() : "History");
             }
             catch (Exception ex)
             {

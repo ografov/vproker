@@ -47,7 +47,8 @@
            data-url="/api/order/history"
            data-toolbar="#toolbar"
            data-query-params="vproker.History.queryParams"
-           data-sort-name="StartDate"
+           data-sort-name="endDate"
+           data-sort-order="desc"
            data-pagination="true"
            data-search="true"
            data-locale="ru-RU"
@@ -57,7 +58,7 @@
            data-page-size="20">
         <thead>
             <tr>
-                <th data-field="tool.Name" data-sortable="true">@Html.DisplayNameFor(model => model.Tool)</th>
+                <th data-field="tool.name" data-sortable="true">@Html.DisplayNameFor(model => model.Tool)</th>
                 <th data-field="clientName" data-sortable="true">@Html.DisplayNameFor(model => model.ClientName)</th>
                 <th data-field="contractNumber" data-sortable="true">@Html.DisplayNameFor(model => model.ContractNumber)</th>
                 <th data-field="startDate" data-sortable="true" data-formatter="vproker.History.dateTimeFormatter">@Html.DisplayNameFor(model => model.StartDate) </th>

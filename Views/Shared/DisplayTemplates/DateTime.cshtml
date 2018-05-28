@@ -1,2 +1,3 @@
 ﻿@model DateTime
-<span>@vproker.Controllers.DateTimeConverter.ToLocalDatetime(Model).ToString()</span>
+@*<span>@vproker.Controllers.DateTimeConverter.ToLocalDatetime(Model).ToString()</span>*@
+<span>@Model.ToString("dd.MM.yyyy HH:mm")</span>

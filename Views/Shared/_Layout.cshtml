@@ -44,7 +44,6 @@
                             <li><a asp-controller="Order" asp-action="History">История</a></li>
                             @*<li><a asp-controller="Client" asp-action="Index">Клиенты</a></li>*@
                             <li><a asp-controller="Tool" asp-action="Index">Инструменты</a></li>
-                            <li><a asp-controller="Order" asp-action="Reports">Отчёты</a></li>
                         }
                     }
                     <li><a asp-controller="Home" asp-action="About">О компании</a></li>
@@ -74,7 +73,7 @@
         <script type="text/javascript" src="~/lib/bootstrap-table/src/locale/bootstrap-table-ru-RU.js"></script>
 
         <script src="~/js/site.js" asp-append-version="true"></script>
-        <script src="~/ts/history.js" asp-append-version="true"></script>
+        <script src="~/js/history.js" asp-append-version="true"></script>
     </environment>
     <environment names="Staging,Production">
         <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.1.4.min.js"
