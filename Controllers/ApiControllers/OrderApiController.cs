@@ -42,6 +42,26 @@ namespace vproker.Controllers.ApiControllers
             return Json(orders);
         }
 
+        [HttpGet("getByPhone/{number?}")]
+        public JsonResult GetOrdersByPhone(string number)
+        {
+            if (String.IsNullOrEmpty(number))
+                throw new ArgumentNullException(nameof(number));
+
+            IEnumerable<Order> orders = _service.GetOrdersByPhoneNumber(User, number, false);
+            return Json(orders);
+        }
+
+        [HttpGet("getByPhoneInfo/{number?}")]
+        public JsonResult GetByPhoneInfo(string number)
+        {
+            if (String.IsNullOrEmpty(number))
+                throw new ArgumentNullException(nameof(number));
+
+            var stat = _service.GetByPhoneInfo(User, number);
+            return Json(stat);
+        }
+
         [AllowAnonymous]
         [HttpPost]
         public async Task<ActionResult> Store([FromBody]Order order)

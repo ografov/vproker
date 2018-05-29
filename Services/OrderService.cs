@@ -74,14 +74,20 @@ namespace vproker.Services
                     case "name_desc":
                         orders = orders.OrderByDescending(s => s.ClientName).ToArray();
                         break;
-                    case "Tool":
+                    case "tool":
                         orders = orders.OrderBy(o => o.Tool.Name).ToArray();
                         break;
                     case "tool_desc":
                         orders = orders.OrderByDescending(o => o.Tool.Name).ToArray();
                         break;
-                    default: //name ascending
-                        orders = orders.OrderBy(s => s.ClientName).ToArray();
+                    case "date":
+                        orders = orders.OrderBy(o => o.StartDate).ToArray();
+                        break;
+                    case "date_desc":
+                        orders = orders.OrderByDescending(o => o.StartDate).ToArray();
+                        break;
+                    default: //date ascending
+                        orders = orders.OrderBy(s => s.StartDate).ToArray();
                         break;
                 }
             }
@@ -89,6 +95,17 @@ namespace vproker.Services
             return orders;
         }
 
+        public IEnumerable<Order> GetOrdersByPhoneNumber(ClaimsPrincipal user, string phoneNumber, bool onlyClosed = false)
+        {
+            return AppContext.Orders.Where(o => String.Equals(o.ClientPhoneNumber, phoneNumber, StringComparison.InvariantCultureIgnoreCase) && (onlyClosed ? o.IsClosed : true));
+        }
+
+        public ClientOrderStat GetByPhoneInfo(ClaimsPrincipal user, string phoneNumber)
+        {
+            var orders = GetOrdersByPhoneNumber(user, phoneNumber);
+
+            return new ClientOrderStat { All = orders.Count(), Active = orders.Where(o => !o.IsClosed).Count() };
+        }
 
         public IEnumerable<Order> GetHistory(ClaimsPrincipal user, string start, string end, string searchString)
         {

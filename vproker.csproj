@@ -13,6 +13,7 @@
   <ItemGroup>
     <Compile Remove="wwwroot\**\*;node_modules\**\*" />
     <EmbeddedResource Remove="wwwroot\**\*;node_modules\**\*" />
+    <Content Remove="wwwroot\ts\createOrder.ts" />
     <Content Remove="wwwroot\ts\history.ts" />
     <None Update="**.user;**.vspscc">
       <CopyToPublishDirectory>Never</CopyToPublishDirectory>
@@ -47,6 +48,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="wwwroot\ts\createOrder.ts" />
     <TypeScriptCompile Include="wwwroot\ts\history.ts" />
   </ItemGroup>
 

@@ -3,9 +3,9 @@
     ViewBag.Title = "Редактирование Заказа";
 }
 <div>
-    <form asp-controller="Order" asp-action="Update" method="post" asp-route-id="@Model.ID">
+    <form asp-controller="Order" asp-action="Update" method="post" asp-route-id="@Model.ID" asp-route-backPage="@ViewBag.backPage">
         @*<div asp-validation-summary="ValidationSummary.ModelOnly" class="text-danger"></div>*@
-       
+
         <div class="form-group">
             <label asp-for="ToolID" class="control-label"></label>
             <div>
@@ -66,11 +66,22 @@
             <input type="submit" class="btn btn-primary" value="Сохранить" />
             <a href="javascript:void(0)" onClick="goBack()" class="btn btn-default">Назад</a>
         </p>
-        
+
     </form>
 </div>
 
 @section Scripts {
     <script src="~/lib/jquery-validation/jquery.validate.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+
+    <script type="text/javascript">
+        //$(document).ready(function () {
+        //    debugger;
+        //    $("[type='datetime-local']").each(function (elem) {
+        //        var utctimeval = this.value;
+        //        var date = new Date(utctimeval + 'Z');
+        //        $(this).html(date.toLocaleString('ru-RU'));
+        //    });
+        //});
+    </script>
 }

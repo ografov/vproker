@@ -13,6 +13,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using vproker.Services;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Localization;
 
 namespace vproker
 {
@@ -64,6 +66,23 @@ namespace vproker
             ILoggerFactory loggerFactory,
             ApplicationDbContext context)
         {
+            // setting Ru culture helped for showing right currency, but does not for DateTime
+            var cultureInfo = new CultureInfo("ru-RU");
+            CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
+            CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
+
+            // don't see a diff, but leaving the following lines too
+            var localizationOptions = new RequestLocalizationOptions()
+            {
+                SupportedCultures = new List<CultureInfo>() { cultureInfo },
+                SupportedUICultures = new List<CultureInfo>() { cultureInfo },
+                DefaultRequestCulture = new RequestCulture(cultureInfo),
+                FallBackToParentCultures = false,
+                FallBackToParentUICultures = false,
+                RequestCultureProviders = null
+            };
+            app.UseRequestLocalization(localizationOptions);
+
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 

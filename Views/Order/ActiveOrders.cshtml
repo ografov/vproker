@@ -9,7 +9,7 @@
             @Html.ActionLink(@Html.DisplayNameFor(model => model.Tool), "ActiveOrders", new { sortOrder = ViewBag.ToolSortParm })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.StartDate)
+            @Html.ActionLink(@Html.DisplayNameFor(model => model.StartDate), "ActiveOrders", new { sortOrder = ViewBag.DateSortParm })
         </th>
         <th>
             @Html.ActionLink(@Html.DisplayNameFor(model => model.ClientName), "ActiveOrders", new { sortOrder = ViewBag.ClientSortParm })
@@ -26,7 +26,6 @@
                 @Html.DisplayFor(modelItem => item.Tool.Name)
             </td>
             <td>
-                @*<span class="UTCTime">@item.StartDate.ToString("MM.dd.yyyy HH:mm")</span>*@
                 @Html.DisplayFor(modelItem => item.StartDate)
             </td>
             <td>
@@ -41,7 +40,7 @@
                     <a asp-action="Close" asp-route-id="@item.ID" class="btn btn-success btn-sm" title="Закрыть"><span class="glyphicon glyphicon-ok"></span></a>
                     @if (User.Identity.Name == vproker.Models.AuthData.ADMIN_ID)
                     {
-                        <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-warning btn-sm" title="Редактировать"><span class="glyphicon glyphicon-edit"></span></a>
+                        <a asp-action="Edit" asp-route-id="@item.ID" asp-route-backPage="ActiveOrders" class="btn btn-warning btn-sm" title="Редактировать"><span class="glyphicon glyphicon-edit"></span></a>
                         <a asp-action="Details" asp-route-id="@item.ID" class="btn btn-info btn-sm" title="Просмотр"><span class="glyphicon glyphicon-info-sign"></span></a>
                         <a asp-action="Delete" asp-route-id="@item.ID" class="btn btn-danger btn-sm" title="Удалить"><span class="glyphicon glyphicon-remove"></span></a>
                     }

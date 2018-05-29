@@ -93,7 +93,8 @@ namespace vproker.Controllers
             {
                 // sort and filter
                 ViewBag.ClientSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-                ViewBag.ToolSortParm = sortOrder == "Tool" ? "tool_desc" : "Tool";
+                ViewBag.ToolSortParm = sortOrder == "tool" ? "tool_desc" : "tool";
+                ViewBag.DateSortParm = sortOrder == "date" ? "date_desc" : "date";
 
                 orders = _service.GetActiveOrders(User, sortOrder, searchString).ToArray();
             }
@@ -174,7 +175,7 @@ namespace vproker.Controllers
         }
 
         [Authorize(Roles = AuthData.ADMIN_ROLE)]
-        public async Task<ActionResult> Edit(string id)
+        public async Task<ActionResult> Edit(string id, string backPage)
         {
             Order order = await FindOrderAsync(id);
             if (order == null)
@@ -183,8 +184,9 @@ namespace vproker.Controllers
                 return NotFound();
             }
 
-            //ViewBag.Clients = GetClientsListItems(order.ClientID);
             ViewBag.Tools = GetToolsListItems(order.ToolID);
+
+            ViewBag.backPage = backPage;
 
             return View(order);
         }
@@ -192,7 +194,7 @@ namespace vproker.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = AuthData.ADMIN_ROLE)]
-        public async Task<ActionResult> Update(string id, Order newOrder)
+        public async Task<ActionResult> Update(string id, Order newOrder, string backPage)
         {
             try
             {
@@ -218,7 +220,7 @@ namespace vproker.Controllers
                 await AppContext.SaveChangesAsync();
 
                 // TODO: redirect to previous page
-                return RedirectToAction(Request.Query.ContainsKey("ReturnUrl") ? Request.Query["ReturnUrl"].ToString() : "History");
+                return RedirectToAction(backPage ?? "History");
             }
             catch (Exception ex)
             {
