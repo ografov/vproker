@@ -11,5 +11,7 @@ vproker.db
 /wwwroot/ts/*.js
 /wwwroot/ts/*.map
 /wwwroot/js/*.map
+/wwwroot/js/*.min.js
+/wwwroot/css/*.min.css
 /wwwroot/js/history.js
 /wwwroot/js/createOrder.js
