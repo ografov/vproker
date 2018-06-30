@@ -40,7 +40,7 @@ namespace vproker
             services.AddEntityFrameworkSqlite()
                 .AddDbContext<ApplicationDbContext>(options =>
                     options.UseSqlite(
-                        new SqliteConnectionStringBuilder { DataSource = $"vproker.db" }.ToString()));
+                        new SqliteConnectionStringBuilder { DataSource = $"vproker-temp.db" }.ToString()));
 
             var passwordOptions = new PasswordOptions()
             {
@@ -54,6 +54,7 @@ namespace vproker
                 .AddDefaultTokenProviders();
 
             services.AddTransient<OrderService>();
+            services.AddTransient<MaintainService>();
 
             services.AddAntiforgery();
             services.AddMvc();
@@ -115,6 +116,7 @@ namespace vproker
             });
 
             SampleData.Initialize(app.ApplicationServices);
+            //PassportStorage.Initialize();
             AuthData.SeedAuth(app.ApplicationServices).Wait();
         }
 

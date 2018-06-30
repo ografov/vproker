@@ -22,7 +22,14 @@
             <label asp-for="ClientPhoneNumber"></label>
             <input id="clientPhoneNumber" asp-for="ClientPhoneNumber" class="form-control" placeholder="Телефон" />
             <span asp-validation-for="ClientPhoneNumber" class="text-danger"></span>
-            <div id="clientInfo" class="alert alert-success" role="alert" style="display: none; max-width:280px"></div>
+            <div id="clientInfo" class="alert alert-info" role="alert" style="display: none; max-width:280px"></div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="ClientPassport"></label>
+            <input id="clientPassport" asp-for="ClientPassport" class="form-control" placeholder="Серия и номер паспорта" />
+            <span asp-validation-for="ClientPassport" class="text-danger"></span>
+            <div id="passportAlert" class="alert" role="alert" style="display: none; max-width:280px"></div>
         </div>
 
         <div class="form-group">
@@ -42,16 +49,16 @@
             <label asp-for="PaidPledge"></label>
             <input asp-for="PaidPledge" class="form-control" />
             <span asp-validation-for="PaidPledge" class="text-danger"></span>
-        </div>        
+        </div>
 
         @*<div class="form-group">
             <label asp-for="Price"></label>
             <input asp-for="Price" class="form-control" />
             <span asp-validation-for="Price" class="text-danger"></span>
-        </div>*@      
+        </div>*@
         <p>
-                <input type="submit" class="btn btn-primary" value="Создать" />
-                <a href="javascript:void(0)" onClick="goBack()" class="btn btn-default">Назад</a>
+            <input type="submit" class="btn btn-primary" value="Создать" />
+            <a href="javascript:void(0)" onClick="goBack()" class="btn btn-default">Назад</a>
         </p>
     </form>
 </div>

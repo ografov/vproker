@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -73,6 +74,12 @@ namespace vproker.Controllers
         {
             var tools = AppContext.Tools;
             return View(tools);
+        }
+
+        public IActionResult Maintain()
+        {
+            var model = AppContext.Maintains.ToArray<Maintain>();
+            return View("Maintain", model);
         }
 
         public async Task<ActionResult> Details(string id)

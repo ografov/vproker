@@ -58,7 +58,17 @@ namespace vproker.Controllers.ApiControllers
             if (String.IsNullOrEmpty(number))
                 throw new ArgumentNullException(nameof(number));
 
-            var stat = _service.GetByPhoneInfo(User, number);
+            var stat = _service.GetClientOrderStat(User, number);
+            return Json(stat);
+        }
+
+        [HttpGet("validatePassport/{passport?}")]
+        public JsonResult ValidatePassport(string passport)
+        {
+            if (String.IsNullOrEmpty(passport))
+                throw new ArgumentNullException(nameof(passport));
+
+            var stat = _service.ValidatePassport(User, passport);
             return Json(stat);
         }
 

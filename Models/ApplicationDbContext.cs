@@ -10,6 +10,8 @@ namespace vproker.Models
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityRole, string>
     {
+        public ApplicationDbContext() { }
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
         }
@@ -18,6 +20,7 @@ namespace vproker.Models
         public DbSet<Order> Orders { get; set; }
         public DbSet<Tool> Tools { get; set; }
         //public DbSet<KnowledgeSource> KnowSources { get; set; }
+        public DbSet<Maintain> Maintains { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

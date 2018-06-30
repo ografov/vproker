@@ -100,11 +100,16 @@ namespace vproker.Services
             return AppContext.Orders.Where(o => String.Equals(o.ClientPhoneNumber, phoneNumber, StringComparison.InvariantCultureIgnoreCase) && (onlyClosed ? o.IsClosed : true));
         }
 
-        public ClientOrderStat GetByPhoneInfo(ClaimsPrincipal user, string phoneNumber)
+        public ClientOrderStat GetClientOrderStat(ClaimsPrincipal user, string phoneNumber)
         {
             var orders = GetOrdersByPhoneNumber(user, phoneNumber);
 
             return new ClientOrderStat { All = orders.Count(), Active = orders.Where(o => !o.IsClosed).Count() };
+        }
+
+        public bool ValidatePassport(ClaimsPrincipal user, string passport)
+        {
+            return (passport == "3804273320");
         }
 
         public IEnumerable<Order> GetHistory(ClaimsPrincipal user, string start, string end, string searchString)

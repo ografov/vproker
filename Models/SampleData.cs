@@ -24,6 +24,7 @@ namespace vproker.Models
                 //AddSampleClients(context);
                 AddSampleTools(context);
                 AddSampleOrders(context);
+                AddSampleMaintains(context);
             }
         }
 
@@ -88,6 +89,38 @@ namespace vproker.Models
                         Pledge = 7000,
                         DayPrice = 1200,
                         WorkShiftPrice = 1000
+                    });
+
+                context.SaveChanges();
+            }
+        }
+
+        private static void AddSampleMaintains(ApplicationDbContext context)
+        {
+            if (!context.Maintains.Any())
+            {
+                context.Maintains.AddRange(
+                    new Maintain()
+                    {
+                        ID = Guid.NewGuid().ToString(),
+                        Name = "Чистка",
+                        Description = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae, sequi.",
+                        Date = DateTime.UtcNow
+                    },
+                    new Maintain()
+                    {
+                        ID = Guid.NewGuid().ToString(),
+                        Name = "Ремонт",
+                        Description = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae, sequi.",
+                        Date = DateTime.UtcNow
+                    },
+
+                    new Maintain()
+                    {
+                        ID = Guid.NewGuid().ToString(),
+                        Name = "Перебор",
+                        Description = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae, sequi.",
+                        Date = DateTime.UtcNow
                     });
 
                 context.SaveChanges();
