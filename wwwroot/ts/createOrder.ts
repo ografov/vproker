@@ -33,7 +33,7 @@ namespace vproker {
                         });
                     }
                     else {
-                        alert.html('Паспортные данные введены не верно').addClass('alert-warning').show();
+                        alert.html('Паспортные данные введены не верно').addClass('alert-danger').show();
                     }
                 }
                 else {

@@ -40,7 +40,7 @@ namespace vproker
             services.AddEntityFrameworkSqlite()
                 .AddDbContext<ApplicationDbContext>(options =>
                     options.UseSqlite(
-                        new SqliteConnectionStringBuilder { DataSource = $"vproker-temp.db" }.ToString()));
+                        new SqliteConnectionStringBuilder { DataSource = $"vproker.db" }.ToString()));
 
             var passwordOptions = new PasswordOptions()
             {

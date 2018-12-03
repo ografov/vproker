@@ -66,7 +66,7 @@ namespace vproker.Migrations
             migrationBuilder.AddColumn<string>(
                 name: "ClientPassport",
                 table: "Order",
-                nullable: false,
+                nullable: true,
                 defaultValue: "");
 
             //migrationBuilder.AddPrimaryKey(

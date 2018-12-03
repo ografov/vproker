@@ -1,6 +1,48 @@
 
 Vue.use( VueRouter );
 
+var MaintainApi = {
+    fetchSync: function () {
+        $.ajax({
+            async: false,
+            url: "/api/maintain",
+            type: 'GET',
+            success: function (response) {
+                debugger;
+                console.log(response);
+                Maintains = response;
+            }.bind(this)
+        })
+    },
+    store: function (item) {
+        $.ajax({
+            async: false,
+            url: "/api/maintain/store",
+            type: 'POST',
+            success: function () {
+                console.log('saved');
+                Maintains = response;
+            }.bind(this)
+        })
+    }
+}
+
+function maintainInit() {
+    MaintainApi.fetchSync();
+    var router = new VueRouter({
+        routes: [
+            { path: '/', component: List },
+            { path: '/item/:item_id', component: Item, name: 'item' },
+            { path: '/add-item', component: AddItem },
+            { path: '/item/:item_id/edit', component: ItemEdit, name: 'item-edit' },
+            { path: '/item/:item_id/delete', component: ItemDelete, name: 'item-delete' }
+        ]
+    });
+    app = new Vue({
+        router: router
+    }).$mount('#app')
+}
+
 var MaintainStorage = {
     fetch: function () {
         return Maintains;
@@ -20,9 +62,9 @@ var MaintainStorage = {
 }
 
 var Maintains = [
-  {id: 1, name: 'Чистка', description: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit.', date: '15.01.2018'},
-  {id: 2, name: 'Разбор', description: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit.', date: '15.03.2018'},
-  {id: 3, name: 'Ремонт', description: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit.', date: '15.05.2018'}
+  //{id: 1, name: 'Чистка', description: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit.', date: '15.01.2018'},
+  //{id: 2, name: 'Разбор', description: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit.', date: '15.03.2018'},
+  //{id: 3, name: 'Ремонт', description: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit.', date: '15.05.2018'}
 ];
 
 function findItem (itemId) {
@@ -121,13 +163,3 @@ var AddItem = Vue.extend({
   }
 });
 
-var router = new VueRouter({routes:[
-  { path: '/', component: List},
-  { path: '/item/:item_id', component: Item, name: 'item'},
-  { path: '/add-item', component: AddItem},
-  { path: '/item/:item_id/edit', component: ItemEdit, name: 'item-edit'},
-  { path: '/item/:item_id/delete', component: ItemDelete, name: 'item-delete'}
-]});
-app = new Vue({
-  router:router
-}).$mount('#app')

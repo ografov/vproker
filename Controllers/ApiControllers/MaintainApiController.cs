@@ -44,15 +44,32 @@ namespace vproker.Controllers.ApiControllers
         
         // POST: api/ToolMaintain
         [HttpPost]
-        public void Post([FromBody]string value)
+        public async Task<ActionResult> Store([FromBody]Maintain item)
         {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var savedStore = await _service.Store(item);
+                    return Json(savedStore);
+                }
+                else
+                {
+                    return BadRequest();
+                }
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(string.Empty, "Не удалось сохранить изменения: " + ex.ToString());
+                return StatusCode(500);
+            }
         }
         
-        // PUT: api/ToolMaintain/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
-        {
-        }
+        //// PUT: api/ToolMaintain/5
+        //[HttpPut("{id}")]
+        //public void Put(int id, [FromBody]string value)
+        //{
+        //}
         
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]

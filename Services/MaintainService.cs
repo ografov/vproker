@@ -20,26 +20,27 @@ namespace vproker.Services
             AppContext = appContext;
         }
 
-        public Maintain Store(Maintain maintain)
+
+        public async Task<Maintain> Store(Maintain order)
         {
-            if (AppContext.Maintains.Any(e => e.ID == maintain.ID))
+            if (AppContext.Orders.Any(e => e.ID == order.ID))
             {
-                AppContext.Maintains.Attach(maintain);
-                AppContext.Entry(maintain).State = EntityState.Modified;
+                AppContext.Maintains.Attach(order);
+                AppContext.Entry(order).State = EntityState.Modified;
             }
             else
             {
-                AppContext.Maintains.Add(maintain);
+                AppContext.Maintains.Add(order);
             }
 
             AppContext.SaveChanges();
 
-            return GetById(maintain.ID);
+            return await GetById(order.ID);
         }
 
-        public Maintain GetById(string id)
+        public async Task<Maintain> GetById(string id)
         {
-            Maintain order = AppContext.Maintains./*Include(b => b.Tool)*/FirstOrDefault(b => b.ID == id);
+            Maintain order = await AppContext.Maintains./*Include(b => b.Tool)*/SingleOrDefaultAsync(b => b.ID == id);
 
             return order;
         }
