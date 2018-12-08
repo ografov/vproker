@@ -12,6 +12,9 @@ namespace vproker {
                         console.log(stat);
                         const statHtml = `<div>Всего заказов - ${stat.all}</div><div>Активных заказов - ${stat.active}</div>`;
                         $("#clientInfo").html(statHtml).show();
+
+                        stat.name && $("#clientName").val(stat.name);
+                        stat.passport && $("#clientPassport").val(stat.passport);
                     });
                 }
                 else {
@@ -25,12 +28,12 @@ namespace vproker {
                 const alert = $("#passportAlert");
                 if (passport.length) {
                     if (CreateOrder.isCorrectPassport(passport)) {
-                        CreateOrder.validatePassport(passport, (isValid) => {
-                            const message = `Паспорт ${isValid ? "действителен" : "не действителен!"}`;
-                            alert.html(message).show();
-                            alert.attr('class', 'alert');
-                            alert.addClass(isValid ? 'alert-success' : 'alert-danger');
-                        });
+                        //CreateOrder.validatePassport(passport, (isValid) => {
+                        //    const message = `Паспорт ${isValid ? "действителен" : "не действителен!"}`;
+                        //    alert.html(message).show();
+                        //    alert.attr('class', 'alert');
+                        //    alert.addClass(isValid ? 'alert-success' : 'alert-danger');
+                        //});
                     }
                     else {
                         alert.html('Паспортные данные введены не верно').addClass('alert-danger').show();
@@ -65,7 +68,8 @@ namespace vproker {
                 }
             });
         }
-        static getOrdersByPhone(number: string,  success: (orders) => void) {
+        
+        static getClientNameByPhone(number: string, success: (orders) => void) {
             $.ajax({
                 url: "/api/order/getByPhone",
                 data: { number: number },

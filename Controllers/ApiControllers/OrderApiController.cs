@@ -42,23 +42,13 @@ namespace vproker.Controllers.ApiControllers
             return Json(orders);
         }
 
-        [HttpGet("getByPhone/{number?}")]
-        public JsonResult GetOrdersByPhone(string number)
-        {
-            if (String.IsNullOrEmpty(number))
-                throw new ArgumentNullException(nameof(number));
-
-            IEnumerable<Order> orders = _service.GetOrdersByPhoneNumber(User, number, false);
-            return Json(orders);
-        }
-
         [HttpGet("getByPhoneInfo/{number?}")]
         public JsonResult GetByPhoneInfo(string number)
         {
             if (String.IsNullOrEmpty(number))
                 throw new ArgumentNullException(nameof(number));
 
-            var stat = _service.GetClientOrderStat(User, number);
+            var stat = _service.GetClientInfo(User, number);
             return Json(stat);
         }
 

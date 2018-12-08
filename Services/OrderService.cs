@@ -100,11 +100,19 @@ namespace vproker.Services
             return AppContext.Orders.Where(o => String.Equals(o.ClientPhoneNumber, phoneNumber, StringComparison.InvariantCultureIgnoreCase) && (onlyClosed ? o.IsClosed : true));
         }
 
-        public ClientOrderStat GetClientOrderStat(ClaimsPrincipal user, string phoneNumber)
+        public string GetClientNameByPhone(ClaimsPrincipal user, string phoneNumber)
+        {
+            Order order = AppContext.Orders.FirstOrDefault(o => String.Equals(o.ClientPhoneNumber, phoneNumber, StringComparison.InvariantCultureIgnoreCase));
+            return (order != null) ? order.ClientName : null;
+        }
+
+        public ClientInfo GetClientInfo(ClaimsPrincipal user, string phoneNumber)
         {
             var orders = GetOrdersByPhoneNumber(user, phoneNumber);
+            string clientName = orders.FirstOrDefault(o => !String.IsNullOrEmpty(o.ClientName))?.ClientName;
+            string passport = orders.FirstOrDefault(o => !String.IsNullOrEmpty(o.ClientPassport))?.ClientPassport;
 
-            return new ClientOrderStat { All = orders.Count(), Active = orders.Where(o => !o.IsClosed).Count() };
+            return new ClientInfo { Name = clientName, Passport = passport, All = orders.Count(), Active = orders.Where(o => !o.IsClosed).Count() };
         }
 
         public bool ValidatePassport(ClaimsPrincipal user, string passport)
