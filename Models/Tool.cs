@@ -45,5 +45,9 @@ namespace vproker.Models
         public Decimal? WorkShiftPrice { get; set; } = 0;
 
         #endregion
+
+        [DataType(DataType.MultilineText)]
+        [Display(Name = "Категории")]
+        public String Category { get; set; }
     }
 }
