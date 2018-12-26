@@ -1,5 +1,6 @@
 *.user
 *.sln
+*.db
 node_modules
 bin
 obj
