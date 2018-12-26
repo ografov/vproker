@@ -306,7 +306,7 @@ namespace vproker.Controllers
             }
         }
 
-        public async Task<FileResult> DownloadHistory(string start = "", string end = "", string searchString = "")
+        public FileResult DownloadHistory(string start = "", string end = "", string searchString = "")
         {
             string fileName = "vproker-history.csv";
             byte[] fileBytes = _service.GetHistoryReport(User, start, end, searchString);
