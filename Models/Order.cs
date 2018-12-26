@@ -41,7 +41,7 @@ namespace vproker.Models
         public string ClientName { get; set; }
 
         [Required(ErrorMessage = "Неправильно набран номер")]
-        [Display(Name = "Телефон клиента")]
+        [Display(Name = "Телефон")]
         [DataType(DataType.PhoneNumber)]
         [RegularExpression(@"^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7}$", ErrorMessage = "Неправильно набран номер")]
         public string ClientPhoneNumber { get; set; }

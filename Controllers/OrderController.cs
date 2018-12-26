@@ -313,16 +313,5 @@ namespace vproker.Controllers
 
             return File(fileBytes, "text/csv; charset=UTF8", fileName); // this is the key!
         }
-
-        public static Decimal CalculatePaymentForDays(Order order, DateTime end)
-        {
-            return (order != null && order.Tool != null) ? CalculatePaymentForDays(order.StartDate, end, order.Tool.DayPrice) : 0;
-        }
-        public static Decimal CalculatePaymentForDays(DateTime start, DateTime end, Decimal dayPrice)
-        {
-            TimeSpan period = end.Subtract(start);
-
-            return (int)period.TotalDays * dayPrice;
-        }
     }
 }

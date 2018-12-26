@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using vproker.Services;
 
 namespace vproker.Models
 {
@@ -12,7 +13,7 @@ namespace vproker.Models
         {
             this.Order = order;
             this.ID = order.ID;
-            this.Payment = vproker.Controllers.OrderController.CalculatePaymentForDays(order, DateTime.UtcNow); 
+            this.Payment = PaymentCalculation.Calculate(order.StartDate, DateTime.UtcNow, order.Tool.DayPrice, order.Tool.WorkShiftPrice); 
         }
 
         public string ID { get; set; }
