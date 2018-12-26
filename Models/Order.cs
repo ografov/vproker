@@ -75,7 +75,7 @@ namespace vproker.Models
         [DataType(DataType.DateTime)]
         public DateTime StartDate { get; set; }
 
-        [Display(Name = "Кем создан")]
+        [Display(Name = "Оператор")]
         public string CreatedBy { get; set; }
 
         [Display(Name = "Конец aренды")]
