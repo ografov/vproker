@@ -10,9 +10,12 @@ namespace vproker.Models
     [Table(nameof(Tool))]
     public class Tool
     {
+        public static readonly DateTime DefaultPurchasedDate = new DateTime(2014, 11, 1);
+
         public Tool()
         {
             ID = Guid.NewGuid().ToString();
+            Purchased = DefaultPurchasedDate;
         }
 
         public String ID { get; set; }
@@ -49,5 +52,12 @@ namespace vproker.Models
         [DataType(DataType.MultilineText)]
         [Display(Name = "Категории")]
         public String Category { get; set; }
+
+        [Display(Name = "Инвентарный номер")]
+        public int Number { get; set; }
+
+        [DataType(DataType.Date)]
+        [Display(Name = "Дата приобретения")]
+        public DateTime Purchased { get; set; } = DefaultPurchasedDate;
     }
 }

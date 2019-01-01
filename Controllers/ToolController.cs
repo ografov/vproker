@@ -127,6 +127,10 @@ namespace vproker.Controllers
                 return NotFound();
             }
 
+            if(tool.Purchased == DateTime.MinValue)
+            {
+                tool.Purchased = Tool.DefaultPurchasedDate;
+            }
             return View(tool);
         }
 
