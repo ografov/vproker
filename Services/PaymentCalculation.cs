@@ -16,7 +16,8 @@ namespace vproker.Services
                 return workShiftPrice.GetValueOrDefault();
             }
 
-            return CalcuateByDays((int)period.TotalDays, dayPrice);
+            int totalWorkDays = (int)Math.Ceiling(period.TotalDays);
+            return CalcuateByDays(totalWorkDays, dayPrice);
         }
 
         private static Decimal CalcuateByDays(int totalDays, Decimal dayPrice)
@@ -26,39 +27,45 @@ namespace vproker.Services
                 totalDays = 1;
             }
 
-            int discountPercent = GetDiscountPercent(totalDays);
-            Decimal definedPayment = totalDays * dayPrice;
-
-            Decimal discount = definedPayment * (discountPercent / 100);
-            return definedPayment - discount;
+            Decimal payment = 0;
+            for (int dayNum = 1; dayNum <= totalDays; dayNum++)
+            {
+                int discountPercent = GetDayDiscount(dayNum);
+                double discount = ((double)dayPrice) * ((double)discountPercent / 100);
+                payment += dayPrice - (decimal)discount;
+            }
+            return payment;
         }
 
-        private static int GetDiscountPercent(int daysNum)
+        private static int GetDayDiscount(int dayNum)
         {
             int discount = 0;
-            if (daysNum >= 3 && daysNum <= 5)
+
+            if (dayNum >= 3 && dayNum <= 5)
             {
                 discount = 20;
             }
             else
-            if (daysNum >= 6 && daysNum <= 8)
+            if (dayNum >= 6 && dayNum <= 8)
             {
                 discount = 30;
             }
             else
-            if (daysNum >= 9 && daysNum <= 11)
+            if (dayNum >= 9 && dayNum <= 11)
             {
                 discount = 40;
             }
             else
-            if (daysNum >= 12 && daysNum <= 14)
+            if (dayNum >= 12 && dayNum <= 14)
             {
                 discount = 50;
             }
-            else // от 15
+            else 
+            if(dayNum > 14)
             {
                 discount = 60;
             }
+
             return discount;
         }
     }
