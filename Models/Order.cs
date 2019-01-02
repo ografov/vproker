@@ -46,7 +46,7 @@ namespace vproker.Models
         [RegularExpression(@"^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7}$", ErrorMessage = "Неправильно набран номер")]
         public string ClientPhoneNumber { get; set; }
 
-        [Required(ErrorMessage = "Требуется ввести серию и номер паспорта")]
+        //[Required(ErrorMessage = "Требуется ввести серию и номер паспорта")]
         [Display(Name = "Паспорт клиента")]
         [RegularExpression(@"^\d{10}$", ErrorMessage = "Серия и номер паспорта указаны не корректно")]
         public string ClientPassport { get; set; }

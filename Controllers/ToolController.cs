@@ -76,12 +76,6 @@ namespace vproker.Controllers
             return View(tools);
         }
 
-        public IActionResult Maintain()
-        {
-            var model = AppContext.Maintains.ToArray<Maintain>();
-            return View("Maintain", model);
-        }
-
         public async Task<ActionResult> Details(string id)
         {
             Tool tool = await AppContext.Tools.SingleOrDefaultAsync(b => b.ID == id);

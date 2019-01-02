@@ -19,8 +19,13 @@ namespace vproker.Models
         [Display(Name = "Название")]
         public string Name { get; set; }
 
+        [Display(Name = "Описание")]
         public string Description { get; set; }
 
+        [Display(Name = "Дата начала")]
         public DateTime Date { get; set; }
+
+        [Display(Name = "Дата окончания")]
+        public DateTime? FinishedDate { get; set; }
     }
 }
