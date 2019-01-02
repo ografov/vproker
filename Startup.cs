@@ -69,8 +69,11 @@ namespace vproker
         {
             // setting Ru culture helped for showing right currency, but does not for DateTime
             var cultureInfo = new CultureInfo("ru-RU");
+            cultureInfo.NumberFormat.CurrencyDecimalDigits = 0;
             CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
             CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
+            Thread.CurrentThread.CurrentCulture = cultureInfo;
+            Thread.CurrentThread.CurrentUICulture = cultureInfo;
 
             // don't see a diff, but leaving the following lines too
             var localizationOptions = new RequestLocalizationOptions()

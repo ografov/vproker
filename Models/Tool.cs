@@ -32,19 +32,23 @@ namespace vproker.Models
 
         [Display(Name = "Цена", GroupName = "Стоимость")]
         [DataType(DataType.Currency)]
+        [DisplayFormat(DataFormatString = "{0:G29}", ApplyFormatInEditMode = true)]
         public Decimal Price { get; set; }
 
         [Required]
         [Display(Name = "Залог", GroupName = "Стоимость")]
         [DataType(DataType.Currency)]
+        [DisplayFormat(DataFormatString = "{0:G29}", ApplyFormatInEditMode = true)]
         public Decimal Pledge { get; set; }
 
         [Display(Name = "За сутки", GroupName = "Стоимость")]
         [DataType(DataType.Currency)]
+        [DisplayFormat(DataFormatString = "{0:G29}", ApplyFormatInEditMode = true)]
         public Decimal DayPrice { get; set; }
 
         [Display(Name = "За смену", GroupName = "Стоимость")]
         [DataType(DataType.Currency)]
+        [DisplayFormat(DataFormatString = "{0:G29}", ApplyFormatInEditMode = true)]
         public Decimal? WorkShiftPrice { get; set; } = 0;
 
         #endregion

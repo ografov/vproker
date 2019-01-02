@@ -63,10 +63,12 @@ namespace vproker.Models
         [Required(ErrorMessage = "Залог бы взять")]
         [Display(Name = "Залог")]
         [DataType(DataType.Currency)]
+        [DisplayFormat(DataFormatString = "{0:G29}", ApplyFormatInEditMode = true)]
         public Decimal PaidPledge { get; set; } = 0;
 
         [Display(Name = "Цена")]
         [DataType(DataType.Currency)]
+        [DisplayFormat(DataFormatString = "{0:G29}", ApplyFormatInEditMode = true)]
         public Decimal Price { get; set; } = 0;
 
         // not user fields
@@ -84,6 +86,7 @@ namespace vproker.Models
 
         [DataType(DataType.Currency)]
         [Display(Name = "Сумма заказа")]
+        [DisplayFormat(DataFormatString = "{0:G29}", ApplyFormatInEditMode = true)]
         public Decimal? Payment { get; set; }
         
         //[HiddenInput(DisplayValue = false)]

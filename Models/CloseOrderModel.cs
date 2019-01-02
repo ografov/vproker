@@ -21,6 +21,7 @@ namespace vproker.Models
 
         [Required]
         [Display(Name = "Оплата")]
+        [DisplayFormat(DataFormatString = "{0:G29}", ApplyFormatInEditMode = true)]
         public Decimal Payment { get; set; }
     }
 }
