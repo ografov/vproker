@@ -18,18 +18,6 @@
             <span asp-validation-for="Description" class="text-danger"></span>
         </div>
 
-        <div class="form-group">
-            <label asp-for="Date"></label>
-            <input asp-for="Date" class="form-control" placeholder="" />
-            <span asp-validation-for="Date" class="text-danger"></span>
-        </div>
-
-        <div class="form-group">
-            <label asp-for="FinishedDate"></label>
-            <input asp-for="FinishedDate" class="form-control" placeholder="" />
-            <span asp-validation-for="FinishedDate" class="text-danger"></span>
-        </div>
-
         <input type="submit" class="btn btn-primary" value="Создать" />
         <a asp-action="Index" class="btn btn-default">Отмена</a>
     </form>

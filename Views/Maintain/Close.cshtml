@@ -1,0 +1,53 @@
+﻿@model vproker.Models.CloseMaintainModel
+
+@{
+    ViewBag.Title = "Подтвердите завершение";
+}
+
+<h3>Завершить это обслуживание?</h3>
+
+@if (ViewBag.Retry)
+{
+    <p class="alert alert-danger">Ошибка при завершении обслуживания. Повторить?</p>
+}
+
+<div>
+    <form asp-controller="Maintain" asp-action="Close" method="post" asp-route-id="@Model.ID">
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Maintain.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Maintain.Name)
+        </dd>
+    </dl>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Maintain.Description)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Maintain.Description)
+        </dd>
+    </dl>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Maintain.Date)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Maintain.Date)
+        </dd>
+    </dl>
+    
+    <div>
+        <p>
+            <input type="submit" class="btn btn-primary" value="Закрыть" />
+            <a asp-controller="Maintain" asp-action="Index" class="btn btn-default">Отмена</a>
+        </p>
+    </div>
+    </form>
+</div>
+
+@section Scripts {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+}

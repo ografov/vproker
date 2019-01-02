@@ -5,6 +5,7 @@
 <div>
     <form asp-controller="Order" asp-action="Create" method="post">
         @*<div asp-validation-summary="ValidationSummary.ModelOnly" class="text-danger"></div>*@
+
         <div class="form-group">
             <label asp-for="ToolID" class="control-label"></label>
             <div>
@@ -13,16 +14,16 @@
         </div>
 
         <div class="form-group">
-            <label asp-for="ClientName"></label>
-            <input id="clientName" asp-for="ClientName" class="form-control" placeholder="Клиент" />
-            <span asp-validation-for="ClientName" class="text-danger"></span>
-        </div>
-
-        <div class="form-group">
             <label asp-for="ClientPhoneNumber"></label>
             <input id="clientPhoneNumber" asp-for="ClientPhoneNumber" class="form-control" placeholder="Телефон" />
             <span asp-validation-for="ClientPhoneNumber" class="text-danger"></span>
             <div id="clientInfo" class="alert alert-info" role="alert" style="display: none; max-width:280px"></div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="ClientName"></label>
+            <input id="clientName" asp-for="ClientName" class="form-control" placeholder="Клиент" />
+            <span asp-validation-for="ClientName" class="text-danger"></span>
         </div>
 
         <div class="form-group">
@@ -44,13 +45,11 @@
                 @Html.TextAreaFor(e => e.Description, 1, 55, null)
             </div>
         </div>
-
         <div class="form-group">
             <label asp-for="PaidPledge"></label>
             <input asp-for="PaidPledge" class="form-control" />
             <span asp-validation-for="PaidPledge" class="text-danger"></span>
         </div>
-
         @*<div class="form-group">
             <label asp-for="Price"></label>
             <input asp-for="Price" class="form-control" />

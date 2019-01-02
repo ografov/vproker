@@ -50,5 +50,11 @@ namespace vproker.Services
             Maintain[] maintains = AppContext.Maintains.ToArray<Maintain>();
             return maintains;
         }
+
+        public IEnumerable<Maintain> GetOpened()
+        {
+            Maintain[] maintains = AppContext.Maintains.Where(m => !m.IsFinished).ToArray<Maintain>();
+            return maintains;
+        }
     }
 }

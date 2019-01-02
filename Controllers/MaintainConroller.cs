@@ -6,25 +6,28 @@ using System;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using vproker.Services;
 
 namespace vproker.Controllers
 {
     [Route("[controller]/[action]")]
-    [Authorize(Roles = AuthData.ADMIN_ROLE)]
+    [Authorize]
     public class MaintainController : Controller
     {
         public ApplicationDbContext AppContext { get; set; }
         public ILogger<MaintainController> Logger { get; set; }
+        private MaintainService _service { get; set; }
 
-        public MaintainController(ILoggerFactory loggerFactory, ApplicationDbContext context)
+        public MaintainController(ILoggerFactory loggerFactory, ApplicationDbContext context, MaintainService service)
         {
             AppContext = context;
             Logger = loggerFactory.CreateLogger<MaintainController>();
+            _service = service;
         }
 
         public IActionResult Index()
         {
-            return View(AppContext.Maintains);
+            return View(_service.GetOpened());
         }
 
         public async Task<ActionResult> Details(string id)
@@ -63,6 +66,7 @@ namespace vproker.Controllers
             return View(maintain);
         }
 
+        [Authorize(Roles = AuthData.ADMIN_ROLE)]
         public async Task<ActionResult> Edit(string id)
         {
             Maintain maintain = await FindMaintainAsync(id);
@@ -77,6 +81,7 @@ namespace vproker.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = AuthData.ADMIN_ROLE)]
         public async Task<ActionResult> Update(string id, Maintain maintain)
         {
             try
@@ -101,6 +106,7 @@ namespace vproker.Controllers
 
         [HttpGet]
         [ActionName("Delete")]
+        [Authorize(Roles = AuthData.ADMIN_ROLE)]
         public async Task<ActionResult> ConfirmDelete(string id, bool? retry)
         {
             Maintain maintain = await FindMaintainAsync(id);
@@ -115,6 +121,7 @@ namespace vproker.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = AuthData.ADMIN_ROLE)]
         public async Task<ActionResult> Delete(string id)
         {
             try
@@ -128,6 +135,44 @@ namespace vproker.Controllers
                 return RedirectToAction("Delete", new { id = id, retry = true });
             }
             return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Close(string id)
+        {
+            try
+            {
+                Maintain maintain = await FindMaintainAsync(id);
+                maintain.FinishedDate = DateTime.UtcNow;
+
+                AppContext.Maintains.Attach(maintain);
+                AppContext.Entry(maintain).State = EntityState.Modified;
+                await AppContext.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Close", new { id = id, retry = true });
+            }
+        }
+
+        [HttpGet]
+        [ActionName("Close")]
+        public async Task<ActionResult> ConfirmClose(string id, bool? retry)
+        {
+            Maintain maintain = await FindMaintainAsync(id);
+            if (maintain.FinishedDate != null)
+            {
+                throw new Exception("Обслуживание не может быть закрыто дважды. Дата закрытия обслуживания уже указана - " + maintain.FinishedDate);
+            }
+            if (maintain == null)
+            {
+                Logger.LogInformation("Close: Item not found {0}", id);
+                return NotFound();
+            }
+            ViewBag.Retry = retry ?? false;
+            return View(new CloseMaintainModel(maintain));
         }
     }
 }
