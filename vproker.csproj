@@ -11,8 +11,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Tests\**" />
     <Compile Remove="wwwroot\**\*;node_modules\**\*" />
+    <Content Remove="Tests\**" />
+    <EmbeddedResource Remove="Tests\**" />
     <EmbeddedResource Remove="wwwroot\**\*;node_modules\**\*" />
+    <None Remove="Tests\**" />
     <Content Remove="wwwroot\ts\createOrder.ts" />
     <Content Remove="wwwroot\ts\history.ts" />
     <None Update="**.user;**.vspscc">
