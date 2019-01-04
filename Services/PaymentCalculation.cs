@@ -7,17 +7,44 @@ namespace vproker.Services
 {
     public static class PaymentCalculation
     {
-        public static Decimal Calculate(DateTime start, DateTime end, decimal dayPrice, decimal? workShiftPrice)
+        public static Payment Calculate(DateTime start, DateTime end, Decimal dayPrice, Decimal? workShiftPrice)
         {
+            return Calculate(start, end, new Price(dayPrice, workShiftPrice));
+        }
+        
+        public static Payment Calculate(DateTime start, DateTime end, Price price)
+        {
+            Payment pay = new Payment();
+
             TimeSpan period = end.Subtract(start);
             DateTime localEndTime = end.ToRussianTime();
-            if (period.Days < 1 && localEndTime.Hour < 18 && workShiftPrice > 0)
+            if (period.Days < 1 && localEndTime.Hour < 18 && price.ForWorkShift != null && price.ForWorkShift > 0)
             {
-                return workShiftPrice.GetValueOrDefault();
+                pay.Type = PaymentType.WorkShift;
+                pay.Total = price.ForWorkShift.GetValueOrDefault();
+                return pay;
             }
 
-            int totalWorkDays = (int)Math.Ceiling(period.TotalDays);
-            return CalcuateByDays(totalWorkDays, dayPrice);
+            if (period.Hours > 0 && price.PerHour > 0)
+            {
+                int fullDays = (int)period.TotalDays;
+                decimal payByDays = CalcuateByDays(fullDays, price.PerDay);
+                decimal payByHours = price.PerHour.GetValueOrDefault() * period.Hours;
+                pay.Type = PaymentType.DaysAndHours;
+                pay.DelayedHours = period.Hours;
+                pay.Days = fullDays;
+                pay.Total = payByDays + payByHours;
+            }
+            else
+            {
+                int roundedDays = (int)Math.Ceiling(period.TotalDays);
+                decimal payByDays = CalcuateByDays(roundedDays, price.PerDay);
+                pay.Type = PaymentType.Days;
+                pay.Days = roundedDays;
+                pay.Total = payByDays;
+            }
+
+            return pay;
         }
 
         private static Decimal CalcuateByDays(int totalDays, Decimal dayPrice)
@@ -60,8 +87,8 @@ namespace vproker.Services
             {
                 discount = 50;
             }
-            else 
-            if(dayNum > 14)
+            else
+            if (dayNum > 14)
             {
                 discount = 60;
             }

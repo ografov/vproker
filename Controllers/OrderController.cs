@@ -292,7 +292,7 @@ namespace vproker.Controllers
             try
             {
                 Order order = await FindOrderAsync(id);
-                order.Payment = model.Payment;
+                order.Payment = model.TotalPayment;
                 order.EndDate = DateTime.UtcNow;
 
                 AppContext.Orders.Attach(order);

@@ -1,70 +1,101 @@
 ﻿@model vproker.Models.CloseOrderModel
-
+@using vproker.Services;
 @{
     ViewBag.Title = "Подтвердите завершение";
 }
-
 <h3>Завершить этот заказ?</h3>
-
 @if (ViewBag.Retry)
 {
     <p class="alert alert-danger">Ошибка при завершении заказа. Повторить?</p>
 }
-
 <div>
     <form asp-controller="Order" asp-action="Close" method="post" asp-route-id="@Model.ID">
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Order.ClientName)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Order.ClientName)
-        </dd>
-    </dl>
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Order.Tool.Name)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Order.Tool.Name)
-        </dd>
-    </dl>
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Order.StartDate)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Order.StartDate)
-        </dd>
-    </dl>
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Order.Description)
-        </dt>
-        <dd class="lead">
-            <h1 class="text-danger">
-            @Html.DisplayFor(model => model.Order.Description)
-            </h1>
-        </dd>
-    </dl>
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Order.Payment)
-        </dt>
-        <dd>
-            <input asp-for="Payment" class="form-control" />
-            <span asp-validation-for="Payment" class="text-danger"></span>
-        </dd>
-    </dl> 
-    <div>
-        <p>
-            <input type="submit" class="btn btn-primary" value="Закрыть" />
-            <a asp-controller="Order" asp-action="ActiveOrders" class="btn btn-default">Отмена</a>
-        </p>
-    </div>
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Order.ClientName)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Order.ClientName)
+            </dd>
+        </dl>
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Order.Tool.Name)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Order.Tool.Name)
+            </dd>
+        </dl>
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Order.StartDate)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Order.StartDate)
+            </dd>
+        </dl>
+
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Order.Description)
+            </dt>
+            <dd class="lead">
+                <h1 class="text-danger">
+                    @Html.DisplayFor(model => model.Order.Description)
+                </h1>
+            </dd>
+        </dl>
+
+        @if (Model.Payment.Type == PaymentType.Days || Model.Payment.Type == PaymentType.DaysAndHours)
+        {
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Days)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Days)
+                </dd>
+            </dl>
+        } 
+        
+        @if(Model.Payment.Type == PaymentType.WorkShift) 
+        {
+            <dl class="dl-horizontal">
+                <dt>
+                    Плата за рабочую сменy
+                </dt>
+            </dl>
+        }
+
+        @if (Model.Payment.Type == vproker.Services.PaymentType.DaysAndHours)
+        {
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.DelayedHours)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.DelayedHours)
+                </dd>
+            </dl>
+        }
+
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.TotalPayment)
+            </dt>
+            <dd>
+                <input asp-for="TotalPayment" class="form-control" />
+                <span asp-validation-for="TotalPayment" class="text-danger"></span>
+            </dd>
+        </dl>
+        <div>
+            <p>
+                <input type="submit" class="btn btn-primary" value="Закрыть" />
+                <a asp-controller="Order" asp-action="ActiveOrders" class="btn btn-default">Отмена</a>
+            </p>
+        </div>
     </form>
 </div>
-
 @section Scripts {
     <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>

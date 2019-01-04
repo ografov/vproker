@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using vproker.Services;
 
 namespace vproker.Models
 {
@@ -51,6 +52,11 @@ namespace vproker.Models
         [DisplayFormat(DataFormatString = "{0:G29}", ApplyFormatInEditMode = true)]
         public Decimal? WorkShiftPrice { get; set; } = 0;
 
+        [Display(Name = "Стоимость задержки в часах", GroupName = "Стоимость")]
+        [DataType(DataType.Currency)]
+        [DisplayFormat(DataFormatString = "{0:G29}", ApplyFormatInEditMode = true)]
+        public Decimal HourPrice { get; set; }
+
         #endregion
 
         [DataType(DataType.MultilineText)]
@@ -63,5 +69,11 @@ namespace vproker.Models
         [DataType(DataType.Date)]
         [Display(Name = "Дата приобретения")]
         public DateTime Purchased { get; set; } = DefaultPurchasedDate;
+
+
+        public Price GetPrice()
+        {
+            return new Price(DayPrice, WorkShiftPrice, HourPrice);
+        }
     }
 }

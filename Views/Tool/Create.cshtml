@@ -56,7 +56,11 @@
             <input asp-for="WorkShiftPrice" class="form-control" />
             <span asp-validation-for="WorkShiftPrice" class="text-danger"></span>
         </div>
-       
+       <div class="form-group">
+            <label asp-for="HourPrice"></label>
+            <input asp-for="HourPrice" class="form-control" />
+            <span asp-validation-for="HourPrice" class="text-danger"></span>
+        </div>
         <!--end prices -->
 
         <input type="submit" class="btn btn-primary" value="Создать" />
