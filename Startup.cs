@@ -54,6 +54,7 @@ namespace vproker
                 .AddDefaultTokenProviders();
 
             services.AddTransient<OrderService>();
+            services.AddTransient<ClientService>();
             services.AddTransient<MaintainService>();
 
             services.AddAntiforgery();
@@ -119,6 +120,8 @@ namespace vproker
             });
 
             SampleData.Initialize(app.ApplicationServices);
+            ExtractClients.Process(app.ApplicationServices, loggerFactory);
+
             AuthData.SeedAuth(app.ApplicationServices).Wait();
         }
 

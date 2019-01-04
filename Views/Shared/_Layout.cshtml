@@ -42,7 +42,7 @@
                         @if (User.Identity.Name == vproker.Models.AuthData.ADMIN_ID)
                         {
                             <li><a asp-controller="Order" asp-action="History">История</a></li>
-                            @*<li><a asp-controller="Client" asp-action="Index">Клиенты</a></li>*@
+                            <li><a asp-controller="Client" asp-action="Index">Клиенты</a></li>
                             <li><a asp-controller="Tool" asp-action="Index">Инструменты</a></li>
                         }
                         <li><a asp-controller="Maintain" asp-action="Index">Обслуживание</a></li>

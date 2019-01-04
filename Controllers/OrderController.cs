@@ -116,29 +116,28 @@ namespace vproker.Controllers
 
         public ActionResult Create()
         {
-            //ViewBag.Clients = GetClientsListItems();
+            ViewBag.Clients = GetClientListItems();
             ViewBag.Tools = GetToolsListItems();
             return View();
         }
 
-        //private IEnumerable<SelectListItem> GetClientsListItems(string selectedId = null)
-        //{
-        //    var tmp = AppContext.Clients.ToList();  // Workaround for https://github.com/aspnet/EntityFramework/issues/2246
-
-        //    // Create authors list for <select> dropdown
-        //    return tmp
-        //        .OrderBy(client => client.LastName)
-        //        .Select(client => new SelectListItem
-        //        {
-        //            Text = client.FullName,
-        //            Value = client.ID.ToString(),
-        //            Selected = client.ID == selectedId
-        //        });
-        //}
-
         private IEnumerable<SelectListItem> GetToolsListItems(string selectedId = null)
         {
             var tmp = AppContext.Tools.ToList();  // Workaround for https://github.com/aspnet/EntityFramework/issues/2246
+
+            return tmp
+                .OrderBy(t => t.Name)
+                .Select(t => new SelectListItem
+                {
+                    Text = t.Name,
+                    Value = t.ID,
+                    Selected = t.ID == selectedId
+                });
+        }
+
+        private IEnumerable<SelectListItem> GetClientListItems(string selectedId = null)
+        {
+            var tmp = AppContext.Clients.ToList();  // Workaround for https://github.com/aspnet/EntityFramework/issues/2246
 
             return tmp
                 .OrderBy(t => t.Name)

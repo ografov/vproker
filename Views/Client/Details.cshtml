@@ -7,17 +7,22 @@
 <h2>Информация о клиенте</h2>
 <div>
     <dl class="dl-horizontal">
-        <dt>@Html.DisplayNameFor(model => model.FullName)</dt>
-        <dd>@Html.DisplayFor(model => model.FullName)</dd>
+        <dt>@Html.DisplayNameFor(model => model.Name)</dt>
+        <dd>@Html.DisplayFor(model => model.Name)</dd>
 
-        <dt>@Html.DisplayNameFor(model => model.DateOfBirth)</dt>
+        <dt>@Html.DisplayNameFor(model => model.PhoneNumber)</dt>
+        <dd>@Html.DisplayFor(model => model.PhoneNumber)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.Passport)</dt>
+        <dd>@Html.DisplayFor(model => model.Passport)</dd>
+        @*<dt>@Html.DisplayNameFor(model => model.DateOfBirth)</dt>
         <dd>@Html.DisplayFor(model => model.DateOfBirth)</dd>
 
         <dt>@Html.DisplayNameFor(model => model.DiscountPercent)</dt>
-        <dd>@Html.DisplayFor(model => model.DiscountPercent)</dd>
+        <dd>@Html.DisplayFor(model => model.DiscountPercent)</dd>*@
     </dl>
 </div>
 <p>
     <a asp-action="Edit" asp-route-id="@Model.ID">Изменить</a> |
-    <a asp-action="Index">Назад к списку</a>
+    <a href="javascript:void(0)" onClick="goBack()" class="btn btn-default">Назад</a>
 </p> 

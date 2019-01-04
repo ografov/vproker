@@ -4,16 +4,15 @@
 }
 <p>
     <a asp-action="Create">Новый Клиент</a>
-    <input id="File1" type="file" />
 </p>
 
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.FullName)
+            @Html.DisplayNameFor(model => model.Name)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.DiscountPercent)
+            @Html.DisplayNameFor(model => model.PhoneNumber)
         </th>
         <th></th>
     </tr>
@@ -21,10 +20,10 @@
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.FullName)
+                @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.DiscountPercent)
+                @Html.DisplayFor(modelItem => item.PhoneNumber)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.ID">Изменить</a> |

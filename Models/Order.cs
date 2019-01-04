@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace vproker.Models
 {
     [Table(nameof(Order))]
-    public class Order 
+    public partial class Order 
     {
         public Order()
         {
@@ -36,20 +36,23 @@ namespace vproker.Models
             }
         }
 
-        [Required(ErrorMessage = "Клиент всегда прав")]
+        [Required(ErrorMessage = "Клиент необходим!")]
         [Display(Name = "Клиент")]
-        public string ClientName { get; set; }
+        public String ClientID { get; set; }
 
-        [Required(ErrorMessage = "Неправильно набран номер")]
-        [Display(Name = "Телефон")]
-        [DataType(DataType.PhoneNumber)]
-        [RegularExpression(@"^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7}$", ErrorMessage = "Неправильно набран номер")]
-        public string ClientPhoneNumber { get; set; }
-
-        //[Required(ErrorMessage = "Требуется ввести серию и номер паспорта")]
-        [Display(Name = "Паспорт клиента")]
-        [RegularExpression(@"^\d{10}$", ErrorMessage = "Серия и номер паспорта указаны не корректно")]
-        public string ClientPassport { get; set; }
+        private Client client;
+        [Display(Name = "Инструмент")]
+        public Client Client
+        {
+            get
+            {
+                return this.client;
+            }
+            set
+            {
+                this.client = value;
+            }
+        }
 
         [Required(ErrorMessage = "Номер договора лучше ввести")]
         [Display(Name = "Номер договора")]
