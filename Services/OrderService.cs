@@ -117,8 +117,7 @@ namespace vproker.Services
 
         public bool ValidatePassport(ClaimsPrincipal user, string passport)
         {
-            // TODO: the external check if passport is valid (by api or by file)
-            return true;
+            return PassportCheck.Validate(passport);
         }
 
         public IEnumerable<Order> GetHistory(ClaimsPrincipal user, string start, string end, string searchString)

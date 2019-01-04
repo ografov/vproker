@@ -28,11 +28,25 @@ namespace vproker {
                 const alert = $("#passportAlert");
                 if (passport.length) {
                     if (CreateOrder.isCorrectPassport(passport)) {
+
+                        // animate progress
+                        alert.removeClass('alert-danger').removeClass('alert-success').addClass('alert alert-warning');
+                        alert.html('Проверяем...');
+                        const intervalId = setInterval(function () {
+                            alert.fadeToggle(500);
+                            //alert.animate({
+                            //    opacity: 0
+                            //}, 500);
+                            //alert.animate({
+                            //    opacity: 1
+                            //}, 500);
+                        }, 500);
+
                         CreateOrder.validatePassport(passport, (isValid) => {
+                            clearInterval(intervalId);
                             const message = `Паспорт ${isValid ? "действителен" : "не действителен!"}`;
                             alert.html(message).show();
-                            alert.attr('class', 'alert');
-                            alert.addClass(isValid ? 'alert-success' : 'alert-danger');
+                            alert.removeClass('alert-warning').addClass(isValid ? 'alert-success' : 'alert-danger');
                         });
                     }
                     else {

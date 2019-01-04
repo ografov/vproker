@@ -58,8 +58,15 @@ namespace vproker.Controllers.ApiControllers
             if (String.IsNullOrEmpty(passport))
                 throw new ArgumentNullException(nameof(passport));
 
-            var stat = _service.ValidatePassport(User, passport);
-            return Json(stat);
+            try
+            {
+                var stat = _service.ValidatePassport(User, passport);
+                return Json(stat);
+            }
+            catch(Exception ex)
+            {
+                return Json(ex.Message);
+            }
         }
 
         [AllowAnonymous]

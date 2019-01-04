@@ -119,7 +119,6 @@ namespace vproker
             });
 
             SampleData.Initialize(app.ApplicationServices);
-            //PassportStorage.Initialize();
             AuthData.SeedAuth(app.ApplicationServices).Wait();
         }
 
