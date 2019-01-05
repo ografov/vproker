@@ -116,7 +116,8 @@ namespace vproker.Controllers
         {
             ViewBag.Clients = GetClientListItems();
             ViewBag.Tools = GetToolsListItems();
-            return View();
+
+            return View(new CreateOrderModel());
         }
 
         private IEnumerable<SelectListItem> GetToolsListItems(string selectedId = null)
@@ -151,14 +152,13 @@ namespace vproker.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(Order order)
+        public async Task<ActionResult> Create(CreateOrderModel model)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    order.CreatedBy = User.Identity.Name;
-                    AppContext.Orders.Add(order);
+                    model.Save(User, AppContext);
                     await AppContext.SaveChangesAsync();
                     return RedirectToAction("ActiveOrders");
                 }
@@ -168,9 +168,9 @@ namespace vproker.Controllers
                 ModelState.AddModelError(string.Empty, "Не удалось сохранить изменения: " + ex.ToString());
             }
 
-            //ViewBag.Clients = GetClientsListItems();
+            ViewBag.Clients = GetClientListItems();
             ViewBag.Tools = GetToolsListItems();
-            return View(order);
+            return View(model);
         }
 
         [Authorize(Roles = AuthData.ADMIN_ROLE)]

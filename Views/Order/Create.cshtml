@@ -1,11 +1,10 @@
-﻿@model vproker.Models.Order
+﻿@model vproker.Models.CreateOrderModel
 @{
     ViewBag.Title = "Новый Заказ";
 }
 <div>
     <form asp-controller="Order" asp-action="Create" method="post">
-        @*<div asp-validation-summary="ValidationSummary.ModelOnly" class="text-danger"></div>*@
-
+        <div class="validation" asp-validation-summary="ModelOnly"></div>
         <div class="form-group">
             <label asp-for="ToolID" class="control-label"></label>
             <div>
@@ -14,17 +13,23 @@
         </div>
 
         <div class="form-group">
-            <label asp-for="Client.PhoneNumber"></label>
-            <input id="clientPhoneNumber" asp-for="Client.PhoneNumber" class="form-control" placeholder="Телефон" />
-            <span asp-validation-for="Client.PhoneNumber" class="text-danger"></span>
+            <label asp-for="PhoneNumber"></label>
+            <input id="phoneNumber" asp-for="PhoneNumber" class="form-control" placeholder="Телефон" />
+            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            <div id="clientInfo" class="alert alert-info" role="alert" style="display: none; max-width:280px"></div>
         </div>
 
         <div class="form-group">
-            <label asp-for="ClientID" class="control-label"></label>
-            <div>
-                <select id="clientId" asp-for="ClientID" class="form-control" asp-items="@ViewBag.Clients"></select>
-            </div>
-            <div id="clientInfo" class="alert alert-info" role="alert" style="display: none; max-width:280px"></div>
+            <label asp-for="Passport"></label>
+            <input id="passport" asp-for="Passport" class="form-control" placeholder="Серия и номер паспорта" />
+            <span asp-validation-for="Passport" class="text-danger"></span>
+            <div id="passportAlert" class="alert" role="alert" style="display: none; max-width:280px"></div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="ClientName"></label>
+            <input id="clientName" asp-for="ClientName" class="form-control" placeholder="Фамилия Имя Отчество" />
+            <span asp-validation-for="ClientName" class="text-danger"></span>
         </div>
 
         <div class="form-group">
@@ -32,9 +37,10 @@
             <input asp-for="ContractNumber" class="form-control" placeholder="Номер договора" />
             <span asp-validation-for="ContractNumber" class="text-danger"></span>
         </div>
+
         <div class="form-group">
             <label asp-for="PaidPledge"></label>
-            <input asp-for="PaidPledge" class="form-control" placeholder="Сумма залога"/>
+            <input asp-for="PaidPledge" class="form-control" placeholder="Сумма залога" />
             <span asp-validation-for="PaidPledge" class="text-danger"></span>
         </div>
 
@@ -44,11 +50,7 @@
                 <textarea rows="2" cols="20" asp-for="Description" class="form-control" placeholder="Примечание"></textarea>
             </div>
         </div>
-        @*<div class="form-group">
-            <label asp-for="Price"></label>
-            <input asp-for="Price" class="form-control" />
-            <span asp-validation-for="Price" class="text-danger"></span>
-        </div>*@
+
         <p>
             <input type="submit" class="btn btn-primary" value="Создать" />
             <a href="javascript:void(0)" onClick="goBack()" class="btn btn-default">Назад</a>
