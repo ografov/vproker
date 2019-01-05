@@ -25,7 +25,7 @@ namespace vproker.Services
                 return pay;
             }
 
-            if (period.Hours > 0 && price.PerHour > 0)
+            if (period.Hours > 0 && period.Hours <= 4 && price.PerHour > 0)
             {
                 int fullDays = (int)period.TotalDays;
                 decimal payByDays = CalcuateByDays(fullDays, price.PerDay);

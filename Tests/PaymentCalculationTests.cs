@@ -76,7 +76,7 @@ namespace vproker_tests
 
 
         [Test]
-        public void Calc1Day3HoursDelay()
+        public void Calc1Day2HoursDelay()
         {
             DateTime start = new DateTime(2019, 1, 1, 10, 0, 0);
             DateTime end = new DateTime(2019, 1, 2, 12, 0, 0);
@@ -85,6 +85,19 @@ namespace vproker_tests
             var payment = PaymentCalculation.Calculate(start, end, pay);
             Assert.AreEqual(payment.Type, PaymentType.DaysAndHours);
             Assert.AreEqual(payment.Total, 1000);
+        }
+
+        // no hours delay more than 4 hours
+        [Test]
+        public void Calc1Day5HoursDelay()
+        {
+            DateTime start = new DateTime(2019, 1, 1, 10, 0, 0);
+            DateTime end = new DateTime(2019, 1, 2, 15, 0, 0);
+            Price pay = new Price(800, 500, 100);
+
+            var payment = PaymentCalculation.Calculate(start, end, pay);
+            Assert.AreEqual(payment.Type, PaymentType.Days);
+            Assert.AreEqual(payment.Total, 1600);
         }
     }
 }
