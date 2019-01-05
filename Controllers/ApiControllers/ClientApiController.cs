@@ -27,13 +27,23 @@ namespace vproker.Controllers.ApiControllers
             AppContext = appContext;
         }
 
-        [HttpGet("getByPhoneInfo/{number?}")]
-        public JsonResult GetByPhoneInfo(string number)
+        [HttpGet("getInfoById/{id?}")]
+        public async Task<JsonResult> GetInfoById(string id)
+        {
+            if (String.IsNullOrEmpty(id))
+                throw new ArgumentNullException(nameof(id));
+
+            ClientInfo stat = await _service.GetInfoById(User, id);
+            return Json(stat);
+        }
+
+        [HttpGet("getInfoByPhone/{number?}")]
+        public JsonResult GetInfoByPhone(string number)
         {
             if (String.IsNullOrEmpty(number))
                 throw new ArgumentNullException(nameof(number));
 
-            var stat = _service.GetClientInfo(User, number);
+            var stat = _service.GetInfoByPhone(User, number);
             return Json(stat);
         }
 

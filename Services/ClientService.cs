@@ -49,14 +49,29 @@ namespace vproker.Services
             return client;
         }
 
-        public Client GetClientByPhoneNumber(ClaimsPrincipal user, string phoneNumber)
+        public Client GetByPhone(ClaimsPrincipal user, string phoneNumber)
         {
             return AppContext.Clients.FirstOrDefault(o => String.Equals(o.PhoneNumber, phoneNumber, StringComparison.InvariantCultureIgnoreCase));
         }
 
-        public ClientInfo GetClientInfo(ClaimsPrincipal user, string phoneNumber)
+        public ClientInfo GetInfoByPhone(ClaimsPrincipal user, string phoneNumber)
         {
-            var client = GetClientByPhoneNumber(user, phoneNumber);
+            var client = GetByPhone(user, phoneNumber);
+
+            if(client == null)
+            {
+                return null;
+            }
+
+            // TODO: need to use OrderService?
+            var orders = AppContext.Orders.Where(o => o.ClientID == client.ID);
+
+            return new ClientInfo(client) { AllOrdersNumber = orders.Count(), ActiveOrdersNumber = orders.Where(o => !o.IsClosed).Count() };
+        }
+
+        public async Task<ClientInfo> GetInfoById(ClaimsPrincipal user, string id)
+        {
+            Client client = await GetById(id);
 
             if(client == null)
             {
