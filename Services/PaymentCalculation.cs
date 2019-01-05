@@ -18,7 +18,8 @@ namespace vproker.Services
 
             TimeSpan period = end.Subtract(start);
             DateTime localEndTime = end.ToRussianTime();
-            if (period.Days < 1 && localEndTime.Hour < 18 && price.ForWorkShift != null && price.ForWorkShift > 0)
+            
+            if (period.Days < 1 && start.Day == end.Day && localEndTime.Hour < 18 && price.ForWorkShift != null && price.ForWorkShift > 0)
             {
                 pay.Type = PaymentType.WorkShift;
                 pay.Total = price.ForWorkShift.GetValueOrDefault();

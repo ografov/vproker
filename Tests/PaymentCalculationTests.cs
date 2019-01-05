@@ -16,6 +16,14 @@ namespace vproker_tests
         }
 
         [Test]
+        public void CalculatesWorkShip2()
+        {
+            (var type, var total, var days, var delayedHours) = PaymentCalculation.Calculate(new DateTime(2019, 1, 1, 18, 30, 0), new DateTime(2019, 1, 2, 9, 0, 0), 800, 500);
+            Assert.AreEqual(type, PaymentType.Days);
+            Assert.AreEqual(total, 800);
+        }
+
+        [Test]
         public void Calc1Day()
         {
             var payment = PaymentCalculation.Calculate(new DateTime(2019, 1, 1), new DateTime(2019, 1, 2), 800, 500);
