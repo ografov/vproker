@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using vproker.Controllers;
 
 namespace vproker.Models
 {
@@ -30,6 +31,7 @@ namespace vproker.Models
 
         [Display(Name = "Паспорт клиента")]
         [RegularExpression(@"^\d{10}$", ErrorMessage = "Серия и номер паспорта указаны не корректно")]
+        [PassportValidation(ErrorMessage ="Паспорт не действителен")]
         public string Passport { get; set; }
 
         [Display(Name = "Дата регистрации")]

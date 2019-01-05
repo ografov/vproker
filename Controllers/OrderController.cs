@@ -121,16 +121,18 @@ namespace vproker.Controllers
 
         private IEnumerable<SelectListItem> GetToolsListItems(string selectedId = null)
         {
-            var tmp = AppContext.Tools.ToList();  // Workaround for https://github.com/aspnet/EntityFramework/issues/2246
+            var tools = AppContext.Tools.ToList();  // Workaround for https://github.com/aspnet/EntityFramework/issues/2246
 
-            return tmp
+            var items = tools
                 .OrderBy(t => t.Name)
                 .Select(t => new SelectListItem
                 {
                     Text = t.Name,
                     Value = t.ID,
                     Selected = t.ID == selectedId
-                });
+                }).ToList();
+            //items.Add(new SelectListItem() { Text = "Не выбран", Value = null });
+            return items;
         }
 
         private IEnumerable<SelectListItem> GetClientListItems(string selectedId = null)

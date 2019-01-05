@@ -56,4 +56,10 @@
     <TypeScriptCompile Include="wwwroot\ts\history.ts" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="expired_passports.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

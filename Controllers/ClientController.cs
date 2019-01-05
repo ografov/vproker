@@ -11,7 +11,7 @@ using vproker.Services;
 
 namespace vproker.Controllers
 {
-    [Authorize(Roles = AuthData.ADMIN_ROLE)]
+    [Authorize]
     public class ClientController : Controller
     {
         public ApplicationDbContext AppContext { get; set; }
@@ -76,6 +76,7 @@ namespace vproker.Controllers
             return AppContext.Clients.ToList();
         }
 
+        [Authorize(Roles = AuthData.ADMIN_ROLE)]
         public async Task<ActionResult> Edit(string id)
         {
             Client order = await FindClientAsync(id);
@@ -91,6 +92,7 @@ namespace vproker.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = AuthData.ADMIN_ROLE)]
         public async Task<ActionResult> Update(string id, [Bind("Title", "ClientID")] Order order)
         {
             try
@@ -115,6 +117,7 @@ namespace vproker.Controllers
 
         [HttpGet]
         [ActionName("Delete")]
+        [Authorize(Roles = AuthData.ADMIN_ROLE)]
         public async Task<ActionResult> ConfirmDelete(string id, bool? retry)
         {
             Client client = await FindClientAsync(id);
@@ -129,6 +132,7 @@ namespace vproker.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = AuthData.ADMIN_ROLE)]
         public async Task<ActionResult> Delete(string id)
         {
             try

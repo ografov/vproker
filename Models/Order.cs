@@ -22,6 +22,7 @@ namespace vproker.Models
 
         private Tool tool;
         [Display(Name = "Инструмент")]
+        [Required]
         public Tool Tool
         {
             get
@@ -42,6 +43,7 @@ namespace vproker.Models
 
         private Client client;
         [Display(Name = "Инструмент")]
+        [Required]
         public Client Client
         {
             get
