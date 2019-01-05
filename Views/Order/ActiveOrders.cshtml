@@ -12,10 +12,10 @@
             @Html.ActionLink(@Html.DisplayNameFor(model => model.StartDate), "ActiveOrders", new { sortOrder = ViewBag.DateSortParm })
         </th>
         <th>
-            @Html.ActionLink(@Html.DisplayNameFor(model => model.ClientName), "ActiveOrders", new { sortOrder = ViewBag.ClientSortParm })
+            @Html.ActionLink(@Html.DisplayNameFor(model => model.Client.Name), "ActiveOrders", new { sortOrder = ViewBag.ClientSortParm })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ClientPhoneNumber)
+            @Html.DisplayNameFor(model => model.Client.PhoneNumber)
         </th>
         <th><!--for buttons--></th>
     </tr>
@@ -29,10 +29,10 @@
                 @Html.DisplayFor(modelItem => item.StartDate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ClientName)
+                @Html.DisplayFor(modelItem => item.Client.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ClientPhoneNumber)
+                @Html.DisplayFor(modelItem => item.Client.PhoneNumber)
             </td>
             <td>
                 @if (User.Identity.IsAuthenticated)

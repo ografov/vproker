@@ -50,12 +50,12 @@ namespace vproker.Controllers
 
                 if (!String.IsNullOrEmpty(searchString))
                 {
-                    orders = orders.Where(o => o.ClientName.IndexOf(searchString, StringComparison.OrdinalIgnoreCase) != -1).ToArray();
+                    orders = orders.Where(o => o.Client.Name.IndexOf(searchString, StringComparison.OrdinalIgnoreCase) != -1).ToArray();
                 }
                 switch (sortOrder)
                 {
                     case "name_desc":
-                        orders = orders.OrderByDescending(s => s.ClientName).ToArray();
+                        orders = orders.OrderByDescending(s => s.Client.Name).ToArray();
                         break;
                     case "Tool":
                         orders = orders.OrderBy(o => o.Tool.Name).ToArray();
@@ -64,7 +64,7 @@ namespace vproker.Controllers
                         orders = orders.OrderByDescending(o => o.Tool.Name).ToArray();
                         break;
                     default: //name ascending
-                        orders = orders.OrderBy(s => s.ClientName).ToArray();
+                        orders = orders.OrderBy(s => s.Client.Name).ToArray();
                         break;
                 }
                 orders = orders.Where(o => o.IsClosed).ToArray();
@@ -205,8 +205,8 @@ namespace vproker.Controllers
                 }
 
                 order.ToolID = newOrder.ToolID;
-                order.ClientName = newOrder.ClientName;
-                order.ClientPhoneNumber = newOrder.ClientPhoneNumber;
+                //order.ClientName = newOrder.ClientName;
+                //order.ClientPhoneNumber = newOrder.ClientPhoneNumber;
                 order.Description = newOrder.Description;
                 order.PaidPledge = newOrder.PaidPledge;
                 order.Price = newOrder.Price;

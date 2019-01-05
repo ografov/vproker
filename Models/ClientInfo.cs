@@ -7,6 +7,15 @@ namespace vproker.Models
 {
     public class ClientInfo
     {
+        public ClientInfo(Client client)
+        {
+            this.ID = client.ID;
+            this.Name = client.Name;
+            this.Passport = client.Passport;
+        }
+
+        public string ID { get; set; }
+
         public string Name { get; set; }
 
         public string Passport { get; set; }

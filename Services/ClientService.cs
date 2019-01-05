@@ -54,12 +54,15 @@ namespace vproker.Services
             return AppContext.Clients.FirstOrDefault(o => String.Equals(o.PhoneNumber, phoneNumber, StringComparison.InvariantCultureIgnoreCase));
         }
 
+        public ClientInfo GetClientInfo(ClaimsPrincipal user, string phoneNumber)
+        {
+            var client = GetClientByPhoneNumber(user, phoneNumber);
 
-        //public ClientInfo GetClientInfo(ClaimsPrincipal user, string phoneNumber)
-        //{
-        //    var client = GetClientByPhoneNumber(user, phoneNumber);
-        //    return new ClientInfo { Name = clientName, Passport = passport, All = clients.Count(), Active = clients.Where(o => !o.IsClosed).Count() };
-        //}
+            // TODO: move to OrderService
+            var orders = AppContext.Orders.Where(o => o.ClientID == client.ID);
+
+            return new ClientInfo(client) { All = orders.Count(), Active = orders.Where(o => !o.IsClosed).Count() };
+        }
 
         public bool ValidatePassport(ClaimsPrincipal user, string passport)
         {

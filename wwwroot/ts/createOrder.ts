@@ -14,7 +14,6 @@ namespace vproker {
                         $("#clientInfo").html(statHtml).show();
 
                         stat.name && $("#clientName").val(stat.name);
-                        stat.passport && $("#clientPassport").val(stat.passport);
                     });
                 }
                 else {
