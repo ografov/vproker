@@ -119,7 +119,7 @@ namespace vproker
                     template: "{controller=Order}/{action=Index}/{id?}");
             });
 
-            SampleData.Initialize(app.ApplicationServices);
+            //SampleData.Initialize(app.ApplicationServices);
             ExtractClients.Process(app.ApplicationServices, loggerFactory);
 
             AuthData.SeedAuth(app.ApplicationServices).Wait();

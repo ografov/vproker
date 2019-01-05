@@ -18,23 +18,33 @@ namespace vproker.Services
                 // go through all orders with ClientID null
                 //   - add client if not exist by name
                 //   - set client ID 
-                var clients = context.Clients.ToList();
+                var clientService = new ClientService(loggerFactory, context);
+                var orderService = new OrderService(loggerFactory, context);
+
                 foreach (Order order in context.Orders)
                 {
-                    if (String.IsNullOrEmpty(order.ClientID) && !String.IsNullOrEmpty(order.ClientName))
+                    if (String.IsNullOrEmpty(order.ClientID))
                     {
-                        Client client = clients.FirstOrDefault(c => String.Equals(c.Name, order.ClientName));
+                        Client client = GetClientFromOrder(context, order);
                         if (client == null)
                         {
-                            var service = new ClientService(loggerFactory, context);
-                            client = await AddClientFromOrder(service, order);
+                            client = await AddClientFromOrder(clientService, order);
                         }
                         order.ClientID = client.ID;
                         order.Client = client;
-                        await new OrderService(loggerFactory, context).Store(order);
+                        await orderService.Store(order);
                     }
                 }
             }
+        }
+
+        private static Client GetClientFromOrder(ApplicationDbContext context, Order order)
+        {
+            if(order.ClientPhoneNumber == "89999999999")
+            {
+                return context.Clients.SingleOrDefault(c => String.Equals(c.Name, order.ClientName));
+            }
+            return context.Clients.SingleOrDefault(c => String.Equals(c.PhoneNumber, order.ClientPhoneNumber));
         }
 
         private static async Task<Client> AddClientFromOrder(ClientService service, Order order)
