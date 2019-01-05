@@ -17,9 +17,9 @@
     <EmbeddedResource Remove="Tests\**" />
     <EmbeddedResource Remove="wwwroot\**\*;node_modules\**\*" />
     <None Remove="Tests\**" />
-    <Content Remove="wwwroot\ts\createClient.ts" />
-    <Content Remove="wwwroot\ts\createOrder.ts" />
+    <Content Remove="wwwroot\ts\api.ts" />
     <Content Remove="wwwroot\ts\history.ts" />
+    <Content Remove="wwwroot\ts\order.create.ts" />
     <None Update="**.user;**.vspscc">
       <CopyToPublishDirectory>Never</CopyToPublishDirectory>
     </None>
@@ -51,8 +51,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <TypeScriptCompile Include="wwwroot\ts\createClient.ts" />
-    <TypeScriptCompile Include="wwwroot\ts\createOrder.ts" />
+    <TypeScriptCompile Include="wwwroot\ts\order.create.ts" />
+    <TypeScriptCompile Include="wwwroot\ts\api.ts" />
     <TypeScriptCompile Include="wwwroot\ts\history.ts" />
   </ItemGroup>
 

@@ -63,8 +63,8 @@
                 <th data-field="createdBy" data-sortable="true">@Html.DisplayNameFor(model => model.CreatedBy)</th>
                 <th data-field="startDate" data-sortable="true" data-formatter="vproker.History.dateTimeFormatter">Начало</th>
                 <th data-field="endDate" data-sortable="true" data-formatter="vproker.History.dateTimeFormatter">Конец</th>
-                <th data-field="clientName" data-sortable="true">@Html.DisplayNameFor(model => model.ClientName)</th>
-                <th data-field="clientPhoneNumber" data-sortable="true">@Html.DisplayNameFor(model => model.ClientPhoneNumber)</th>
+                <th data-field="clientName" data-sortable="true">@Html.DisplayNameFor(model => model.Client.Name)</th>
+                <th data-field="clientPhoneNumber" data-sortable="true">@Html.DisplayNameFor(model => model.Client.PhoneNumber)</th>
                 <th data-field="payment" data-sortable="true">Оплата</th>
                 <th data-field="id" data-width="50" data-align="center" data-halign="center" data-formatter="vproker.History.idToActionsFormatter">Действия</th>
             </tr>
