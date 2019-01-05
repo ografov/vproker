@@ -40,11 +40,11 @@ namespace vproker.Services
 
         private static Client GetClientFromOrder(ApplicationDbContext context, Order order)
         {
-            if(order.ClientPhoneNumber == "89999999999")
+            if(order.ClientPhoneNumber == "89999999999" || order.ClientPhoneNumber == "89099999999")
             {
-                return context.Clients.SingleOrDefault(c => String.Equals(c.Name, order.ClientName));
+                return context.Clients.FirstOrDefault(c => String.Equals(c.Name, order.ClientName));
             }
-            return context.Clients.SingleOrDefault(c => String.Equals(c.PhoneNumber, order.ClientPhoneNumber));
+            return context.Clients.FirstOrDefault(c => String.Equals(c.PhoneNumber, order.ClientPhoneNumber));
         }
 
         private static async Task<Client> AddClientFromOrder(ClientService service, Order order)
