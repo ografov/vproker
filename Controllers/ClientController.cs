@@ -93,13 +93,13 @@ namespace vproker.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = AuthData.ADMIN_ROLE)]
-        public async Task<ActionResult> Update(string id, [Bind("Title", "ClientID")] Order order)
+        public async Task<ActionResult> Update(string id, Client client)
         {
             try
             {
-                order.ID = id;
-                AppContext.Orders.Attach(order);
-                AppContext.Entry(order).State = EntityState.Modified;
+                client.ID = id;
+                AppContext.Clients.Attach(client);
+                AppContext.Entry(client).State = EntityState.Modified;
                 await AppContext.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
@@ -107,7 +107,7 @@ namespace vproker.Controllers
             {
                 ModelState.AddModelError(string.Empty, "Unable to save changes.");
             }
-            return View(order);
+            return View(client);
         }
 
         private Task<Client> FindClientAsync(string id)
