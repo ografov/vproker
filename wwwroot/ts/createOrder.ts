@@ -74,7 +74,7 @@ namespace vproker {
 
         static getByPhoneInfo(number: string, success: (info) => void) {
             $.ajax({
-                url: "/api/order/getByPhoneInfo",
+                url: "/api/client/getByPhoneInfo",
                 data: { number: number },
                 success: (data) => {
                     success(data);
@@ -84,7 +84,7 @@ namespace vproker {
         
         static getClientNameByPhone(number: string, success: (orders) => void) {
             $.ajax({
-                url: "/api/order/getByPhone",
+                url: "/api/client/getByPhone",
                 data: { number: number },
                 success: (data) => {
                     success(data);

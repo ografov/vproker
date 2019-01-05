@@ -55,7 +55,7 @@ namespace vproker.Services
 
             if (AppContext.Orders.Count() > 0)
             {
-                orders = AppContext.Orders.Include(o => o.Tool);
+                orders = AppContext.Orders.Include(o => o.Tool).Include(o => o.Client);
 
                 orders = orders.Where(o => !o.IsClosed);
 

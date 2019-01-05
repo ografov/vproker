@@ -10,8 +10,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using vproker.Services;
 
-// For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace vproker.Controllers
 {
     [Authorize]
@@ -43,7 +41,7 @@ namespace vproker.Controllers
 
             if (AppContext.Orders.Count() > 0)
             {
-                orders = AppContext.Orders.Include(o => o.Tool).ToArray();
+                orders = AppContext.Orders.Include(o => o.Tool).Include(o => o.Client).ToArray();
 
                 ViewBag.ClientSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
                 ViewBag.ToolSortParm = sortOrder == "Tool" ? "tool_desc" : "Tool";

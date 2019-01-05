@@ -58,7 +58,7 @@ namespace vproker.Services
         {
             var client = GetClientByPhoneNumber(user, phoneNumber);
 
-            // TODO: move to OrderService
+            // TODO: need to use OrderService?
             var orders = AppContext.Orders.Where(o => o.ClientID == client.ID);
 
             return new ClientInfo(client) { All = orders.Count(), Active = orders.Where(o => !o.IsClosed).Count() };
