@@ -11,8 +11,8 @@ using vproker.Models;
 namespace vproker.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190104212658_extract-client-2")]
-    partial class extractclient2
+    [Migration("20190105121202_client.createdAt.description.dob")]
+    partial class clientcreatedAtdescriptiondob
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

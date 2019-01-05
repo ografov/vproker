@@ -32,14 +32,16 @@ namespace vproker.Models
         [RegularExpression(@"^\d{10}$", ErrorMessage = "Серия и номер паспорта указаны не корректно")]
         public string Passport { get; set; }
 
-        //[Display(Name = "Примечание")]
-        //public string Note { get; set; }
+        [Display(Name = "Дата регистрации")]
+        public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;
 
-        //[Required]
-        //[Display(Name = "Дата рождения")]
-        //[DataType(DataType.Date)]
-        //[DisplayFormat(DataFormatString = "{0:dd'/'MM'/'yyyy}", ApplyFormatInEditMode = true)]
-        //public DateTime DateOfBirth { get; set; }
+        [Display(Name = "Примечание")]
+        public string Description { get; set; }
+
+        [Display(Name = "Дата рождения")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd'/'MM'/'yyyy}", ApplyFormatInEditMode = true)]
+        public DateTime? DateOfBirth { get; set; }
 
         //#region phones
         //[Display(Name = "Телефон 1")]

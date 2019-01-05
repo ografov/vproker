@@ -7,23 +7,16 @@
         <div class="form-group row">
             <label asp-for="Name" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input asp-for="Name" class="form-control" placeholder="Имя" />
+                <input asp-for="Name" class="form-control" placeholder="Фамилия Имя Отчество" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
         </div>
 
-        @*<div class="form-group row">
-            <label asp-for="DateOfBirth" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="DateOfBirth" class="form-control" />
-                <span asp-validation-for="DateOfBirth" class="text-danger"></span>
-            </div>
-        </div>*@
 
         <div class="form-group row">
             <label asp-for="PhoneNumber" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input asp-for="PhoneNumber" class="form-control" />
+                <input asp-for="PhoneNumber" class="form-control" placeholder="Номер телефона" />
                 <span asp-validation-for="PhoneNumber" class="text-danger"></span>
             </div>
         </div>
@@ -31,8 +24,17 @@
         <div class="form-group row">
             <label asp-for="Passport" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input asp-for="Passport" class="form-control" />
+                <input id="passport" asp-for="Passport" class="form-control" placeholder="Серия и номер паспорта" />
                 <span asp-validation-for="Passport" class="text-danger"></span>
+                <div id="passportAlert" class="alert" role="alert" style="display: none; max-width:280px"></div>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label asp-for="DateOfBirth" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="DateOfBirth" class="form-control" />
+                <span asp-validation-for="DateOfBirth" class="text-danger"></span>
             </div>
         </div>
         @*<div class="form-group row">
@@ -91,13 +93,13 @@
             </div>
         </div>*@
 
-        @*<div class="form-group row">
-            <label asp-for="Note" class="col-md-2 control-label"></label>
+        <div class="form-group row">
+            <label asp-for="Description" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <textarea id="TextArea1" rows="2" cols="20" asp-for="Note" class="form-control" placeholder="Примечание"></textarea>
-                <span asp-validation-for="Note" class="text-danger"></span>
+                <textarea rows="2" cols="20" asp-for="Description" class="form-control" placeholder="Примечание"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
             </div>
-        </div>*@
+        </div>
 
         <div class="form-group row">
             <div class="col-md-2">
@@ -114,4 +116,8 @@
 @section Scripts {
     <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    <script src="~/ts/createClient.js"></script>
+    <script type="text/javascript">
+        vproker.CreateClient.render();
+    </script>
 }

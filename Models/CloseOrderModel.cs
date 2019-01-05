@@ -15,6 +15,8 @@ namespace vproker.Models
             this.Order = order;
             this.ID = order.ID;
             this.payment = PaymentCalculation.Calculate(order.StartDate, DateTime.UtcNow, order.Tool.GetPrice());
+            this.Days = this.payment.Days;
+            this.DelayedHours = this.payment.DelayedHours;
             this.TotalPayment = this.payment.Total;
         }
 
@@ -32,18 +34,13 @@ namespace vproker.Models
         [Display(Name = "Количество суток")]
         public int Days
         {
-            get
-            {
-                return this.payment.Days;
-            }
+            get; private set;
         }
+
         [Display(Name = "Задержка в часах")]
         public int DelayedHours
         {
-            get
-            {
-                return this.payment.DelayedHours;
-            }
+            get; private set;
         }
 
         public Payment Payment

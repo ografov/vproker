@@ -23,11 +23,11 @@ namespace vproker.Services
                 {
                     if (String.IsNullOrEmpty(order.ClientID) && !String.IsNullOrEmpty(order.ClientName))
                     {
-                        Client client = clients.SingleOrDefault(c => String.Equals(c.Name, order.ClientName));
+                        Client client = clients.FirstOrDefault(c => String.Equals(c.Name, order.ClientName));
                         if (client == null)
                         {
                             var service = new ClientService(loggerFactory, context);
-                            client = await AddOrderClient(service, order);
+                            client = await AddClientFromOrder(service, order);
                         }
                         order.ClientID = client.ID;
                         order.Client = client;
@@ -37,7 +37,7 @@ namespace vproker.Services
             }
         }
 
-        private static async Task<Client> AddOrderClient(ClientService service, Order order)
+        private static async Task<Client> AddClientFromOrder(ClientService service, Order order)
         {
             Client client = new Client()
             {
