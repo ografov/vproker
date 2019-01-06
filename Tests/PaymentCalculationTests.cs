@@ -123,7 +123,7 @@ namespace vproker_tests
 
         // no hours delay more than 4 hours
         [Test]
-        public void Calc5HoursDelay()
+        public void Max4HoursDelay()
         {
             DateTime start = new DateTime(2019, 1, 1, 10, 0, 0);
             DateTime end = new DateTime(2019, 1, 2, 15, 0, 0);
@@ -134,5 +134,17 @@ namespace vproker_tests
             Assert.AreEqual(payment.Total, 1600);
         }
 
+        [Test]
+        public void NoHoursDelayInTheSameDay()
+        {
+            DateTime start = new DateTime(2019, 1, 6, 22, 20, 0);
+            DateTime end = new DateTime(2019, 1, 7, 2, 0, 0);
+            Price pay = new Price(770, 670, 150);
+
+            var payment = PaymentCalculation.Calculate(start, end, pay);
+            Assert.AreEqual(payment.Days, 1);
+            Assert.AreEqual(payment.Total, 770);
+            Assert.AreEqual(payment.Type, PaymentType.Days);
+        }
     }
 }

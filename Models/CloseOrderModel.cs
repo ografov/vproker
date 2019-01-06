@@ -14,7 +14,7 @@ namespace vproker.Models
         {
             this.Order = order;
             this.ID = order.ID;
-            this.payment = PaymentCalculation.Calculate(order.StartDate, DateTime.UtcNow, order.Tool.GetPrice());
+            this.payment = PaymentCalculation.Calculate(order.StartDate.ToRussianTime(), DateTime.UtcNow.ToRussianTime(), order.Tool.GetPrice());
             this.Days = this.payment.Days;
             this.DelayedHours = this.payment.DelayedHours;
             this.TotalPayment = this.payment.Total;
