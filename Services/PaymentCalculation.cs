@@ -26,14 +26,15 @@ namespace vproker.Services
                 return pay;
             }
 
-            if (period.Hours > 0 && period.Hours <= 4 && price.PerHour > 0)
+            var hourDelay = (period.Minutes > 0) ? period.Hours + 1 : period.Hours; 
+            if (hourDelay > 0 && hourDelay <= 4 && price.PerHour > 0)
             {
-                int fullDays = (int)period.TotalDays;
-                decimal payByDays = CalcuateByDays(fullDays, price.PerDay);
-                decimal payByHours = price.PerHour.GetValueOrDefault() * period.Hours;
+                pay.Days = (int)period.TotalDays;
+                pay.DelayedHours = hourDelay;
                 pay.Type = PaymentType.DaysAndHours;
-                pay.DelayedHours = period.Hours;
-                pay.Days = fullDays;
+
+                decimal payByDays = CalcuateByDays(pay.Days, price.PerDay);
+                decimal payByHours = price.PerHour.GetValueOrDefault() * pay.DelayedHours;
                 pay.Total = payByDays + payByHours;
             }
             else
