@@ -230,7 +230,7 @@ namespace vproker.Controllers
 
         private Task<Order> FindOrderAsync(string id)
         {
-            return AppContext.Orders.Include(o => o.Tool).SingleOrDefaultAsync(order => order.ID == id);
+            return AppContext.Orders.Include(o => o.Tool).Include(o => o.Client).SingleOrDefaultAsync(order => order.ID == id);
         }
 
         [HttpGet]
