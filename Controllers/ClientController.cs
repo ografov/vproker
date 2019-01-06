@@ -35,7 +35,7 @@ namespace vproker.Controllers
 
         public async Task<ActionResult> Details(string id)
         {
-            Client client = await FindClientAsync(id);
+            ClientInfo client = await service.GetInfoById(User, id);
             if (client == null)
             {
                 Logger.LogInformation("Details: Item not found {0}", id);

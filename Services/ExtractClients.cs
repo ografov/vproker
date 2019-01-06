@@ -9,17 +9,18 @@ namespace vproker.Services
 {
     public static class ExtractClients
     {
-        public static async void Process(IServiceProvider serviceProvider, ILoggerFactory loggerFactory)
+        public static async void Process(IServiceProvider serviceProvider)
         {
             using (var serviceScope = serviceProvider.GetRequiredService<IServiceScopeFactory>().CreateScope())
             {
                 ApplicationDbContext context = serviceScope.ServiceProvider.GetService(typeof(ApplicationDbContext)) as ApplicationDbContext;
 
+                ClientService clientService = serviceScope.ServiceProvider.GetService(typeof(ClientService)) as ClientService;
+                OrderService orderService = serviceScope.ServiceProvider.GetService(typeof(OrderService)) as OrderService;
+
                 // go through all orders with ClientID null
                 //   - add client if not exist by name
                 //   - set client ID 
-                var clientService = new ClientService(loggerFactory, context);
-                var orderService = new OrderService(loggerFactory, context);
 
                 foreach (Order order in context.Orders)
                 {

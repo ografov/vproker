@@ -27,6 +27,19 @@ namespace vproker.Controllers.ApiControllers
             AppContext = appContext;
         }
 
+        [AllowAnonymous]
+        [HttpGet]
+        public JsonResult GetAllInfo()
+        {
+            return Json(_service.GetAllInfo());
+        }
+
+        //[HttpGet("{id}", Name = "Get")]
+        //public JsonResult Get(string id)
+        //{
+        //    return Json(_service.GetById(id));
+        //}
+        
         [HttpGet("getInfoById/{id?}")]
         public async Task<JsonResult> GetInfoById(string id)
         {

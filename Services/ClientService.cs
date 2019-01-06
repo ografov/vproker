@@ -27,7 +27,7 @@ namespace vproker.Services
 
         public async Task<Client> Store(Client client)
         {
-            if (AppContext.Orders.Any(e => e.ID == client.ID))
+            if (AppContext.Clients.Any(e => e.ID == client.ID))
             {
                 AppContext.Clients.Attach(client);
                 AppContext.Entry(client).State = EntityState.Modified;
@@ -49,9 +49,24 @@ namespace vproker.Services
             return client;
         }
 
+        public IEnumerable<Client> GetAll()
+        {
+            return AppContext.Clients.ToArray<Client>();
+        }
+
+        public IEnumerable<ClientInfo> GetAllInfo()
+        {
+            return AppContext.Clients.ToArray<Client>().Select(c => GetClientInfo(c));
+        }
+
         public Client GetByPhone(ClaimsPrincipal user, string phoneNumber)
         {
             return AppContext.Clients.FirstOrDefault(o => String.Equals(o.PhoneNumber, phoneNumber, StringComparison.InvariantCultureIgnoreCase));
+        }
+
+        public Client GetByName(ClaimsPrincipal user, string name)
+        {
+            return AppContext.Clients.FirstOrDefault(o => String.Equals(o.Name, name, StringComparison.InvariantCultureIgnoreCase));
         }
 
         public ClientInfo GetInfoByPhone(ClaimsPrincipal user, string phoneNumber)
@@ -63,6 +78,11 @@ namespace vproker.Services
                 return null;
             }
 
+            return GetClientInfo(client);
+        }
+
+        private ClientInfo GetClientInfo(Client client)
+        {
             // TODO: need to use OrderService?
             var orders = AppContext.Orders.Where(o => o.ClientID == client.ID);
 
@@ -78,10 +98,7 @@ namespace vproker.Services
                 return null;
             }
 
-            // TODO: need to use OrderService?
-            var orders = AppContext.Orders.Where(o => o.ClientID == client.ID);
-
-            return new ClientInfo(client) { AllOrdersNumber = orders.Count(), ActiveOrdersNumber = orders.Where(o => !o.IsClosed).Count() };
+            return GetClientInfo(client);
         }
 
         public bool ValidatePassport(ClaimsPrincipal user, string passport)

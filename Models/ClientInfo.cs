@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,8 +15,10 @@ namespace vproker.Models
 
         public Client Client { get; private set; }
 
+        [Display(Name = "Всего заказов")]
         public int AllOrdersNumber { get; set; }
 
+        [Display(Name = "Активных заказов")]
         public int ActiveOrdersNumber { get; set; }
     }
 }

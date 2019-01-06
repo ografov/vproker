@@ -1,6 +1,7 @@
 *.user
 *.sln
 *.db
+*.csv
 node_modules
 bin
 obj
@@ -16,4 +17,4 @@ vproker.db
 /wwwroot/css/*.min.css
 /wwwroot/js/history.js
 /wwwroot/js/createOrder.js
-expired_passports.csv
+

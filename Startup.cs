@@ -120,7 +120,10 @@ namespace vproker
             });
 
             //SampleData.Initialize(app.ApplicationServices);
-            ExtractClients.Process(app.ApplicationServices, loggerFactory);
+            
+            //ExtractClients.Process(app.ApplicationServices);
+
+            //ReadClients.ReadFromFile(app.ApplicationServices);
 
             AuthData.SeedAuth(app.ApplicationServices).Wait();
         }
