@@ -115,26 +115,11 @@ namespace vproker.Controllers
         public ActionResult Create()
         {
             ViewBag.Clients = GetClientListItems();
-            ViewBag.Tools = GetToolsListItems();
+            ViewBag.Tools = ToolService.GetToolsListItems(AppContext.Tools.ToList());
 
             return View(new CreateOrderModel());
         }
 
-        private IEnumerable<SelectListItem> GetToolsListItems(string selectedId = null)
-        {
-            var tools = AppContext.Tools.ToList();  // Workaround for https://github.com/aspnet/EntityFramework/issues/2246
-
-            var items = tools
-                .OrderBy(t => t.Name)
-                .Select(t => new SelectListItem
-                {
-                    Text = t.Name,
-                    Value = t.ID,
-                    Selected = t.ID == selectedId
-                }).ToList();
-            //items.Add(new SelectListItem() { Text = "Не выбран", Value = null });
-            return items;
-        }
 
         private IEnumerable<SelectListItem> GetClientListItems(string selectedId = null)
         {
@@ -169,7 +154,7 @@ namespace vproker.Controllers
             }
 
             ViewBag.Clients = GetClientListItems();
-            ViewBag.Tools = GetToolsListItems();
+            ViewBag.Tools = ToolService.GetToolsListItems(AppContext.Tools.ToList());
             return View(model);
         }
 
@@ -183,7 +168,7 @@ namespace vproker.Controllers
                 return NotFound();
             }
 
-            ViewBag.Tools = GetToolsListItems(order.ToolID);
+            ViewBag.Tools = ToolService.GetToolsListItems(AppContext.Tools.ToList(), order.ToolID);
 
             ViewBag.backPage = backPage;
 
