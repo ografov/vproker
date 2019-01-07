@@ -23,11 +23,30 @@ namespace vproker.Models
         [Display(Name = "Описание")]
         public string Description { get; set; }
 
+        [Required(ErrorMessage = "Инструмент - самое главное!")]
+        [Display(Name = "Инструмент")]
+        public String ToolID { get; set; }
+        [Display(Name = "Инструмент")]
+        public Tool Tool { get; set; }
+
+        [Display(Name = "Расходные материалы")]
+        public string Materials { get; set; }
+
+        [Display(Name = "Цена", GroupName = "Стоимость")]
+        [DataType(DataType.Currency)]
+        [DisplayFormat(DataFormatString = "{0:G29}", ApplyFormatInEditMode = true)]
+        public Decimal Price { get; set; } = 0;
+
+        [Display(Name = "Моточасы")]
+        public Int32 EngineHours { get; set; } = 0;
+
+
         [Display(Name = "Дата начала")]
         public DateTime Date { get; set; } = DateTime.UtcNow;
 
         [Display(Name = "Дата окончания")]
         public DateTime? FinishedDate { get; set; }
+
 
         [NotMapped]
         public bool IsFinished

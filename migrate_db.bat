@@ -1,4 +1,4 @@
 rem dnu restore
 echo 'creating migration - %1'
-dnx ef migrations add %1
-dnx ef database update
+dotnet ef migrations add %1
+dotnet ef database update

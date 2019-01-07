@@ -1,4 +1,4 @@
-﻿@model vproker.Models.Client
+﻿@model vproker.Models.ClientInfo
 
 @{
     ViewBag.Title = "Клиент";
@@ -7,17 +7,32 @@
 <h2>Информация о клиенте</h2>
 <div>
     <dl class="dl-horizontal">
-        <dt>@Html.DisplayNameFor(model => model.FullName)</dt>
-        <dd>@Html.DisplayFor(model => model.FullName)</dd>
+        <dt>@Html.DisplayNameFor(model => model.Client.CreatedAt)</dt>
+        <dd>@Html.DisplayFor(model => model.Client.CreatedAt)</dd>
 
-        <dt>@Html.DisplayNameFor(model => model.DateOfBirth)</dt>
-        <dd>@Html.DisplayFor(model => model.DateOfBirth)</dd>
+        <dt>@Html.DisplayNameFor(model => model.Client.Name)</dt>
+        <dd>@Html.DisplayFor(model => model.Client.Name)</dd>
 
-        <dt>@Html.DisplayNameFor(model => model.DiscountPercent)</dt>
-        <dd>@Html.DisplayFor(model => model.DiscountPercent)</dd>
+        <dt>@Html.DisplayNameFor(model => model.Client.PhoneNumber)</dt>
+        <dd>@Html.DisplayFor(model => model.Client.PhoneNumber)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.Client.Passport)</dt>
+        <dd>@Html.DisplayFor(model => model.Client.Passport)</dd>
+        
+        <dt>@Html.DisplayNameFor(model => model.Client.DateOfBirth)</dt>
+        <dd>@Html.DisplayFor(model => model.Client.DateOfBirth)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.AllOrdersNumber)</dt>
+        <dd>@Html.DisplayFor(model => model.AllOrdersNumber)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.ActiveOrdersNumber)</dt>
+        <dd>@Html.DisplayFor(model => model.ActiveOrdersNumber)</dd>
+
+        @*<dt>@Html.DisplayNameFor(model => model.DiscountPercent)</dt>
+        <dd>@Html.DisplayFor(model => model.DiscountPercent)</dd>*@
     </dl>
 </div>
 <p>
-    <a asp-action="Edit" asp-route-id="@Model.ID">Изменить</a> |
-    <a asp-action="Index">Назад к списку</a>
+    <a asp-action="Edit" asp-route-id="@Model.Client.ID">Изменить</a> |
+    <a href="javascript:void(0)" onClick="goBack()" class="btn btn-default">Назад</a>
 </p> 

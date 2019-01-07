@@ -42,33 +42,6 @@ namespace vproker.Controllers.ApiControllers
             return Json(orders);
         }
 
-        [HttpGet("getByPhoneInfo/{number?}")]
-        public JsonResult GetByPhoneInfo(string number)
-        {
-            if (String.IsNullOrEmpty(number))
-                throw new ArgumentNullException(nameof(number));
-
-            var stat = _service.GetClientInfo(User, number);
-            return Json(stat);
-        }
-
-        [HttpGet("validatePassport/{passport?}")]
-        public JsonResult ValidatePassport(string passport)
-        {
-            if (String.IsNullOrEmpty(passport))
-                throw new ArgumentNullException(nameof(passport));
-
-            try
-            {
-                var stat = _service.ValidatePassport(User, passport);
-                return Json(stat);
-            }
-            catch(Exception ex)
-            {
-                return Json(ex.Message);
-            }
-        }
-
         [AllowAnonymous]
         [HttpPost]
         public async Task<ActionResult> Store([FromBody]Order order)

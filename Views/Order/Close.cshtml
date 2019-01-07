@@ -12,10 +12,10 @@
     <form asp-controller="Order" asp-action="Close" method="post" asp-route-id="@Model.ID">
         <dl class="dl-horizontal">
             <dt>
-                @Html.DisplayNameFor(model => model.Order.ClientName)
+                @Html.DisplayNameFor(model => model.Order.Client.Name)
             </dt>
             <dd>
-                @Html.DisplayFor(model => model.Order.ClientName)
+                @Html.DisplayFor(model => model.Order.Client.Name)
             </dd>
         </dl>
         <dl class="dl-horizontal">
@@ -62,8 +62,9 @@
         {
             <dl class="dl-horizontal">
                 <dt>
-                    Плата за рабочую сменy
+                    За сменy
                 </dt>
+                <dd></dd>
             </dl>
         }
 

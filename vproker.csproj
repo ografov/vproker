@@ -17,8 +17,10 @@
     <EmbeddedResource Remove="Tests\**" />
     <EmbeddedResource Remove="wwwroot\**\*;node_modules\**\*" />
     <None Remove="Tests\**" />
-    <Content Remove="wwwroot\ts\createOrder.ts" />
+    <Content Remove="wwwroot\ts\api.ts" />
     <Content Remove="wwwroot\ts\history.ts" />
+    <Content Remove="wwwroot\ts\order.create.ts" />
+    <Content Remove="wwwroot\ts\utils.ts" />
     <None Update="**.user;**.vspscc">
       <CopyToPublishDirectory>Never</CopyToPublishDirectory>
     </None>
@@ -30,7 +32,7 @@
     <PackageReference Include="jQuery" Version="3.3.1" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.1" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.3" />
   </ItemGroup>
 
   <ItemGroup>
@@ -50,8 +52,19 @@
   </ItemGroup>
 
   <ItemGroup>
-    <TypeScriptCompile Include="wwwroot\ts\createOrder.ts" />
+    <TypeScriptCompile Include="wwwroot\ts\order.create.ts" />
+    <TypeScriptCompile Include="wwwroot\ts\api.ts" />
     <TypeScriptCompile Include="wwwroot\ts\history.ts" />
+    <TypeScriptCompile Include="wwwroot\ts\utils.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="clients.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="expired_passports.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

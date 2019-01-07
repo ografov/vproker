@@ -55,7 +55,7 @@ namespace vproker.Services
 
             if (AppContext.Orders.Count() > 0)
             {
-                orders = AppContext.Orders.Include(o => o.Tool);
+                orders = AppContext.Orders.Include(o => o.Tool).Include(o => o.Client);
 
                 orders = orders.Where(o => !o.IsClosed);
 
@@ -67,12 +67,12 @@ namespace vproker.Services
 
                 if (!String.IsNullOrEmpty(searchString))
                 {
-                    orders = orders.Where(o => o.ClientName.IndexOf(searchString, StringComparison.OrdinalIgnoreCase) != -1).ToArray();
+                    orders = orders.Where(o => o.Client.Name.IndexOf(searchString, StringComparison.OrdinalIgnoreCase) != -1).ToArray();
                 }
                 switch (sortOrder)
                 {
                     case "name_desc":
-                        orders = orders.OrderByDescending(s => s.ClientName).ToArray();
+                        orders = orders.OrderByDescending(s => s.Client.Name).ToArray();
                         break;
                     case "tool":
                         orders = orders.OrderBy(o => o.Tool.Name).ToArray();
@@ -93,31 +93,6 @@ namespace vproker.Services
             }
 
             return orders;
-        }
-
-        public IEnumerable<Order> GetOrdersByPhoneNumber(ClaimsPrincipal user, string phoneNumber, bool onlyClosed = false)
-        {
-            return AppContext.Orders.Where(o => String.Equals(o.ClientPhoneNumber, phoneNumber, StringComparison.InvariantCultureIgnoreCase) && (onlyClosed ? o.IsClosed : true));
-        }
-
-        public string GetClientNameByPhone(ClaimsPrincipal user, string phoneNumber)
-        {
-            Order order = AppContext.Orders.FirstOrDefault(o => String.Equals(o.ClientPhoneNumber, phoneNumber, StringComparison.InvariantCultureIgnoreCase));
-            return (order != null) ? order.ClientName : null;
-        }
-
-        public ClientInfo GetClientInfo(ClaimsPrincipal user, string phoneNumber)
-        {
-            var orders = GetOrdersByPhoneNumber(user, phoneNumber);
-            string clientName = orders.FirstOrDefault(o => !String.IsNullOrEmpty(o.ClientName))?.ClientName;
-            string passport = orders.FirstOrDefault(o => !String.IsNullOrEmpty(o.ClientPassport))?.ClientPassport;
-
-            return new ClientInfo { Name = clientName, Passport = passport, All = orders.Count(), Active = orders.Where(o => !o.IsClosed).Count() };
-        }
-
-        public bool ValidatePassport(ClaimsPrincipal user, string passport)
-        {
-            return PassportCheck.Validate(passport);
         }
 
         public IEnumerable<Order> GetHistory(ClaimsPrincipal user, string start, string end, string searchString)
@@ -143,7 +118,7 @@ namespace vproker.Services
             {
                 if (String.IsNullOrEmpty(searchString))
                     return true;
-                return o.ClientName.IndexOf(searchString, StringComparison.InvariantCultureIgnoreCase) >= 0;
+                return o.Client.Name.IndexOf(searchString, StringComparison.InvariantCultureIgnoreCase) >= 0;
             });
 
             return AppContext.Orders.Where(o => o.IsClosed && startFilter(o) && endFilter(o) && clientFilter(o)).Include(o => o.Tool);

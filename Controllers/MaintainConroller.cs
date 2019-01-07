@@ -27,7 +27,9 @@ namespace vproker.Controllers
 
         public IActionResult Index()
         {
-            return View(_service.GetOpened());
+            var maintains = _service.GetAll();
+            maintains = maintains.OrderBy(o => o.Name);
+            return View(maintains);
         }
 
         public async Task<ActionResult> Details(string id)
@@ -43,6 +45,7 @@ namespace vproker.Controllers
 
         public ActionResult Create()
         {
+            ViewBag.Tools = ToolService.GetToolsListItems(AppContext.Tools.ToList());
             return View();
         }
 
@@ -76,6 +79,7 @@ namespace vproker.Controllers
                 return NotFound();
             }
 
+            ViewBag.Tools = ToolService.GetToolsListItems(AppContext.Tools.ToList());
             return View(maintain);
         }
 
@@ -101,7 +105,7 @@ namespace vproker.Controllers
 
         private Task<Maintain> FindMaintainAsync(string id)
         {
-            return AppContext.Maintains.SingleOrDefaultAsync(maintain => maintain.ID == id);
+            return AppContext.Maintains.Include(m => m.Tool).SingleOrDefaultAsync(maintain => maintain.ID == id);
         }
 
         [HttpGet]

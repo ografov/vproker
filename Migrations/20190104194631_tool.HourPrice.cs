@@ -11,7 +11,7 @@ namespace vproker.Migrations
             migrationBuilder.AddColumn<decimal>(
                 name: "HourPrice",
                 table: "Tool",
-                nullable: false,
+                nullable: true,
                 defaultValue: 0m);
 
             //migrationBuilder.AlterColumn<string>(

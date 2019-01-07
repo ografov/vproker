@@ -11,9 +11,10 @@ using vproker.Models;
 namespace vproker.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190104212658_extract-client-2")]
+    partial class extractclient2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -181,12 +182,6 @@ namespace vproker.Migrations
                     b.Property<string>("ID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime?>("CreatedAt");
-
-                    b.Property<DateTime?>("DateOfBirth");
-
-                    b.Property<string>("Description");
-
                     b.Property<string>("Name")
                         .IsRequired();
 
@@ -209,23 +204,12 @@ namespace vproker.Migrations
 
                     b.Property<string>("Description");
 
-                    b.Property<int>("EngineHours");
-
                     b.Property<DateTime?>("FinishedDate");
-
-                    b.Property<string>("Materials");
 
                     b.Property<string>("Name")
                         .IsRequired();
 
-                    b.Property<decimal>("Price");
-
-                    b.Property<string>("ToolID")
-                        .IsRequired();
-
                     b.HasKey("ID");
-
-                    b.HasIndex("ToolID");
 
                     b.ToTable("Maintains");
                 });
@@ -284,7 +268,7 @@ namespace vproker.Migrations
 
                     b.Property<string>("Description");
 
-                    b.Property<decimal?>("HourPrice");
+                    b.Property<decimal>("HourPrice");
 
                     b.Property<string>("Name")
                         .IsRequired();
@@ -346,14 +330,6 @@ namespace vproker.Migrations
                     b.HasOne("vproker.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("vproker.Models.Maintain", b =>
-                {
-                    b.HasOne("vproker.Models.Tool", "Tool")
-                        .WithMany()
-                        .HasForeignKey("ToolID")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

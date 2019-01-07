@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -7,12 +8,17 @@ namespace vproker.Models
 {
     public class ClientInfo
     {
-        public string Name { get; set; }
+        public ClientInfo(Client client)
+        {
+            this.Client = client;
+        }
 
-        public string Passport { get; set; }
+        public Client Client { get; private set; }
 
-        public int All { get; set; }
+        [Display(Name = "Всего заказов")]
+        public int AllOrdersNumber { get; set; }
 
-        public int Active { get; set; }
+        [Display(Name = "Активных заказов")]
+        public int ActiveOrdersNumber { get; set; }
     }
 }

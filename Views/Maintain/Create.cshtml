@@ -1,21 +1,49 @@
 ﻿@model vproker.Models.Maintain
 @{
-    ViewBag.Title = "Новое представление";
+    ViewBag.Title = "Новое обслуживание";
 }
 <div>
     <form asp-controller="Maintain" asp-action="Create" method="post">
-        @*<div asp-validation-summary="ValidationSummary.ModelOnly" class="text-danger"></div>*@
+        <div class="validation" asp-validation-summary="ModelOnly"></div>
         <div class="form-group">
             <label asp-for="Name"></label>
             <input asp-for="Name" class="form-control" placeholder="Наименование" />
             <span asp-validation-for="Name" class="text-danger"></span>
         </div>
+
+        <div class="form-group">
+            <label asp-for="ToolID" class="control-label"></label>
+            <div>
+                <select asp-for="ToolID" class="form-control" asp-items="@ViewBag.Tools"></select>
+            </div>
+        </div>
+
         <div class="form-group">
             <label asp-for="Description"></label>
             <div>
-                @Html.TextAreaFor(e => e.Description, 1, 55, null)
+                <textarea rows="2" cols="20" asp-for="Description" class="form-control" placeholder="Описание"></textarea>
             </div>
             <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Materials"></label>
+            <div>
+                <textarea rows="2" cols="20" asp-for="Materials" class="form-control" placeholder="Расходные материалы"></textarea>
+            </div>
+            <span asp-validation-for="Materials" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Price"></label>
+            <input asp-for="Price" class="form-control" placeholder="" />
+            <span asp-validation-for="Price" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="EngineHours"></label>
+            <input asp-for="EngineHours" class="form-control" placeholder="" />
+            <span asp-validation-for="EngineHours" class="text-danger"></span>
         </div>
 
         <input type="submit" class="btn btn-primary" value="Создать" />

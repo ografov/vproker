@@ -10,8 +10,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using vproker.Services;
 
-// For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace vproker.Controllers
 {
     [Authorize]
@@ -43,19 +41,19 @@ namespace vproker.Controllers
 
             if (AppContext.Orders.Count() > 0)
             {
-                orders = AppContext.Orders.Include(o => o.Tool).ToArray();
+                orders = AppContext.Orders.Include(o => o.Tool).Include(o => o.Client).ToArray();
 
                 ViewBag.ClientSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
                 ViewBag.ToolSortParm = sortOrder == "Tool" ? "tool_desc" : "Tool";
 
                 if (!String.IsNullOrEmpty(searchString))
                 {
-                    orders = orders.Where(o => o.ClientName.IndexOf(searchString, StringComparison.OrdinalIgnoreCase) != -1).ToArray();
+                    orders = orders.Where(o => o.Client.Name.IndexOf(searchString, StringComparison.OrdinalIgnoreCase) != -1).ToArray();
                 }
                 switch (sortOrder)
                 {
                     case "name_desc":
-                        orders = orders.OrderByDescending(s => s.ClientName).ToArray();
+                        orders = orders.OrderByDescending(s => s.Client.Name).ToArray();
                         break;
                     case "Tool":
                         orders = orders.OrderBy(o => o.Tool.Name).ToArray();
@@ -64,7 +62,7 @@ namespace vproker.Controllers
                         orders = orders.OrderByDescending(o => o.Tool.Name).ToArray();
                         break;
                     default: //name ascending
-                        orders = orders.OrderBy(s => s.ClientName).ToArray();
+                        orders = orders.OrderBy(s => s.Client.Name).ToArray();
                         break;
                 }
                 orders = orders.Where(o => o.IsClosed).ToArray();
@@ -116,29 +114,16 @@ namespace vproker.Controllers
 
         public ActionResult Create()
         {
-            //ViewBag.Clients = GetClientsListItems();
-            ViewBag.Tools = GetToolsListItems();
-            return View();
+            ViewBag.Clients = GetClientListItems();
+            ViewBag.Tools = ToolService.GetToolsListItems(AppContext.Tools.ToList());
+
+            return View(new CreateOrderModel());
         }
 
-        //private IEnumerable<SelectListItem> GetClientsListItems(string selectedId = null)
-        //{
-        //    var tmp = AppContext.Clients.ToList();  // Workaround for https://github.com/aspnet/EntityFramework/issues/2246
 
-        //    // Create authors list for <select> dropdown
-        //    return tmp
-        //        .OrderBy(client => client.LastName)
-        //        .Select(client => new SelectListItem
-        //        {
-        //            Text = client.FullName,
-        //            Value = client.ID.ToString(),
-        //            Selected = client.ID == selectedId
-        //        });
-        //}
-
-        private IEnumerable<SelectListItem> GetToolsListItems(string selectedId = null)
+        private IEnumerable<SelectListItem> GetClientListItems(string selectedId = null)
         {
-            var tmp = AppContext.Tools.ToList();  // Workaround for https://github.com/aspnet/EntityFramework/issues/2246
+            var tmp = AppContext.Clients.ToList();  // Workaround for https://github.com/aspnet/EntityFramework/issues/2246
 
             return tmp
                 .OrderBy(t => t.Name)
@@ -152,14 +137,13 @@ namespace vproker.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(Order order)
+        public async Task<ActionResult> Create(CreateOrderModel model)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    order.CreatedBy = User.Identity.Name;
-                    AppContext.Orders.Add(order);
+                    model.Save(User, AppContext);
                     await AppContext.SaveChangesAsync();
                     return RedirectToAction("ActiveOrders");
                 }
@@ -169,9 +153,9 @@ namespace vproker.Controllers
                 ModelState.AddModelError(string.Empty, "Не удалось сохранить изменения: " + ex.ToString());
             }
 
-            //ViewBag.Clients = GetClientsListItems();
-            ViewBag.Tools = GetToolsListItems();
-            return View(order);
+            ViewBag.Clients = GetClientListItems();
+            ViewBag.Tools = ToolService.GetToolsListItems(AppContext.Tools.ToList());
+            return View(model);
         }
 
         [Authorize(Roles = AuthData.ADMIN_ROLE)]
@@ -184,7 +168,7 @@ namespace vproker.Controllers
                 return NotFound();
             }
 
-            ViewBag.Tools = GetToolsListItems(order.ToolID);
+            ViewBag.Tools = ToolService.GetToolsListItems(AppContext.Tools.ToList(), order.ToolID);
 
             ViewBag.backPage = backPage;
 
@@ -206,8 +190,8 @@ namespace vproker.Controllers
                 }
 
                 order.ToolID = newOrder.ToolID;
-                order.ClientName = newOrder.ClientName;
-                order.ClientPhoneNumber = newOrder.ClientPhoneNumber;
+                //order.ClientName = newOrder.ClientName;
+                //order.ClientPhoneNumber = newOrder.ClientPhoneNumber;
                 order.Description = newOrder.Description;
                 order.PaidPledge = newOrder.PaidPledge;
                 order.Price = newOrder.Price;
@@ -231,7 +215,7 @@ namespace vproker.Controllers
 
         private Task<Order> FindOrderAsync(string id)
         {
-            return AppContext.Orders.Include(o => o.Tool).SingleOrDefaultAsync(order => order.ID == id);
+            return AppContext.Orders.Include(o => o.Tool).Include(o => o.Client).SingleOrDefaultAsync(order => order.ID == id);
         }
 
         [HttpGet]
