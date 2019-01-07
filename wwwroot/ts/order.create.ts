@@ -39,18 +39,18 @@ namespace vproker {
                     // animate progress
                     alert.removeClass('alert-danger').removeClass('alert-success').addClass('alert alert-warning');
                     alert.html('Проверяем...');
-                    const intervalId = setInterval(function () {
-                        alert.fadeToggle(500);
-                        //alert.animate({
-                        //    opacity: 0
-                        //}, 500);
-                        //alert.animate({
-                        //    opacity: 1
-                        //}, 500);
-                    }, 500);
+                    //const intervalId = setInterval(function () {
+                    //    alert.fadeToggle(500);
+                    //    //alert.animate({
+                    //    //    opacity: 0
+                    //    //}, 500);
+                    //    //alert.animate({
+                    //    //    opacity: 1
+                    //    //}, 500);
+                    //}, 500);
 
                     vproker.ClientApi.validatePassport(passport, (isValid) => {
-                        clearInterval(intervalId);
+                        //clearInterval(intervalId);
                         const message = `Паспорт ${isValid ? "действителен" : "не действителен!"}`;
                         alert.html(message).show();
                         alert.removeClass('alert-warning').addClass(isValid ? 'alert-success' : 'alert-danger');
