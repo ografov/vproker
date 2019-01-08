@@ -10,7 +10,7 @@ using vproker.Services;
 
 namespace vproker.Controllers
 {
-    [Route("[controller]/[action]")]
+    //[Route("[controller]/[action]")]
     [Authorize]
     public class MaintainController : Controller
     {

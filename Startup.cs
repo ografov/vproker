@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Cors.Infrastructure;
 using vproker.Services;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Localization;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace vproker
 {
@@ -56,6 +57,18 @@ namespace vproker
             services.AddTransient<OrderService>();
             services.AddTransient<ClientService>();
             services.AddTransient<MaintainService>();
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info
+                {
+                    Version = "v1",
+                    Title = "vrpoker API",
+                    Description = "vproker Web API",
+                    TermsOfService = "None",
+                    Contact = new Contact() { Name = "Oleg Grafov", Email = "olegraf@gmail.com" }
+                });
+            });
 
             services.AddAntiforgery();
             services.AddMvc();
@@ -120,11 +133,16 @@ namespace vproker
             });
 
             //SampleData.Initialize(app.ApplicationServices);
-            
+
             //ExtractClients.Process(app.ApplicationServices);
 
             //ReadClients.ReadFromFile(app.ApplicationServices);
 
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            });
             AuthData.SeedAuth(app.ApplicationServices).Wait();
         }
 
