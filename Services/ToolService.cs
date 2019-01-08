@@ -3,12 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 using vproker.Models;
 
@@ -59,17 +55,21 @@ namespace vproker.Services
             return AppContext.Tools.FirstOrDefault(o => String.Equals(o.Name, name, StringComparison.InvariantCultureIgnoreCase));
         }
 
-        internal static IEnumerable<SelectListItem> GetToolsListItems(IEnumerable<Tool> tools, string selectedId = null)
+        internal static IEnumerable<SelectListItem> GetToolsListItems(IEnumerable<Tool> tools, bool optional = false, string selectedId = null)
         {
-            var items = tools
+            var items = new List<SelectListItem>();
+            //if (optional)
+            //{
+            //    items.Add(new SelectListItem() { Text = "Не выбран", Value = null, Selected = (selectedId == null) });
+            //}
+            items.AddRange(tools
                 .OrderBy(t => t.Name)
                 .Select(t => new SelectListItem
                 {
                     Text = t.Name,
                     Value = t.ID,
                     Selected = t.ID == selectedId
-                }).ToList();
-            //items.Add(new SelectListItem() { Text = "Не выбран", Value = null });
+                }));
             return items;
         }
     }

@@ -23,7 +23,6 @@ namespace vproker.Models
         [Display(Name = "Описание")]
         public string Description { get; set; }
 
-        [Required(ErrorMessage = "Инструмент - самое главное!")]
         [Display(Name = "Инструмент")]
         public String ToolID { get; set; }
         [Display(Name = "Инструмент")]

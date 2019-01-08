@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using vproker.Services;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace vproker.Controllers
 {
@@ -45,8 +46,8 @@ namespace vproker.Controllers
 
         public ActionResult Create()
         {
-            ViewBag.Tools = ToolService.GetToolsListItems(AppContext.Tools.ToList());
-            return View();
+            ViewBag.Tools = ToolService.GetToolsListItems(AppContext.Tools.ToList(), optional: true);
+            return View(new Maintain());
         }
 
         [HttpPost]
@@ -79,7 +80,7 @@ namespace vproker.Controllers
                 return NotFound();
             }
 
-            ViewBag.Tools = ToolService.GetToolsListItems(AppContext.Tools.ToList());
+            ViewBag.Tools = ToolService.GetToolsListItems(AppContext.Tools.ToList(), optional: true);
             return View(maintain);
         }
 

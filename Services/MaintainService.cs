@@ -40,20 +40,20 @@ namespace vproker.Services
 
         public async Task<Maintain> GetById(string id)
         {
-            Maintain order = await AppContext.Maintains./*Include(b => b.Tool)*/SingleOrDefaultAsync(b => b.ID == id);
+            Maintain order = await AppContext.Maintains.Include(b => b.Tool).SingleOrDefaultAsync(b => b.ID == id);
 
             return order;
         }
 
         public IEnumerable<Maintain> GetAll()
         {
-            Maintain[] maintains = AppContext.Maintains.ToArray<Maintain>();
+            Maintain[] maintains = AppContext.Maintains.Include(m => m.Tool).ToArray<Maintain>();
             return maintains;
         }
 
         public IEnumerable<Maintain> GetOpened()
         {
-            Maintain[] maintains = AppContext.Maintains.Where(m => !m.IsFinished).ToArray<Maintain>();
+            Maintain[] maintains = GetAll().Where(m => !m.IsFinished).ToArray<Maintain>();
             return maintains;
         }
     }

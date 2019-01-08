@@ -16,7 +16,6 @@ namespace vproker.Models
         public Tool()
         {
             ID = Guid.NewGuid().ToString();
-            Purchased = DefaultPurchasedDate;
         }
 
         public String ID { get; set; }
@@ -55,7 +54,7 @@ namespace vproker.Models
         [Display(Name = "Стоимость задержки в часах", GroupName = "Стоимость")]
         [DataType(DataType.Currency)]
         [DisplayFormat(DataFormatString = "{0:G29}", ApplyFormatInEditMode = true)]
-        public Decimal? HourPrice { get; set; }
+        public Decimal? HourPrice { get; set; } = 0;
 
         #endregion
 

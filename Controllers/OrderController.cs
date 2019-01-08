@@ -114,8 +114,7 @@ namespace vproker.Controllers
 
         public ActionResult Create()
         {
-            ViewBag.Clients = GetClientListItems();
-            ViewBag.Tools = ToolService.GetToolsListItems(AppContext.Tools.ToList());
+            ViewBag.Tools = ToolService.GetToolsListItems(AppContext.Tools.ToList(), optional: true);
 
             return View(new CreateOrderModel());
         }
@@ -153,8 +152,7 @@ namespace vproker.Controllers
                 ModelState.AddModelError(string.Empty, "Не удалось сохранить изменения: " + ex.ToString());
             }
 
-            ViewBag.Clients = GetClientListItems();
-            ViewBag.Tools = ToolService.GetToolsListItems(AppContext.Tools.ToList());
+            ViewBag.Tools = ToolService.GetToolsListItems(AppContext.Tools.ToList(), optional: true);
             return View(model);
         }
 
@@ -168,7 +166,7 @@ namespace vproker.Controllers
                 return NotFound();
             }
 
-            ViewBag.Tools = ToolService.GetToolsListItems(AppContext.Tools.ToList(), order.ToolID);
+            ViewBag.Tools = ToolService.GetToolsListItems(AppContext.Tools.ToList(), optional: false, selectedId: order.ToolID);
 
             ViewBag.backPage = backPage;
 

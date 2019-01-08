@@ -28,7 +28,7 @@ namespace vproker.Migrations
             migrationBuilder.AddColumn<string>(
                 name: "ToolID",
                 table: "Maintains",
-                nullable: false,
+                nullable: true,
                 defaultValue: "");
 
             //migrationBuilder.AddColumn<DateTime>(

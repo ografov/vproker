@@ -49,6 +49,10 @@ namespace vproker.Models
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
+            if(String.IsNullOrEmpty(ToolID))
+            {
+                yield return new ValidationResult($"Инструмент необходимо выбрать", new[] { nameof(ToolID) });
+            }
             if (!PassportCheck.Validate(this.Passport))
             {
                 yield return new ValidationResult($"Паспорт более не действителен", new[] { nameof(Passport) });
@@ -65,7 +69,7 @@ namespace vproker.Models
             else
             {
                 // need to revalidate passport
-                if(!String.IsNullOrEmpty(client.Passport) && PassportCheck.Validate(client.Passport))
+                if(!String.IsNullOrEmpty(client.Passport) && false == PassportCheck.Validate(client.Passport))
                 {
                     throw new Exception("Паспорт более не действителен");
                 }
