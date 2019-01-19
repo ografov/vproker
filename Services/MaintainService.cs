@@ -51,7 +51,7 @@ namespace vproker.Services
             return maintains;
         }
 
-        public IEnumerable<Maintain> GetOpened()
+        public IEnumerable<Maintain> GetCurrent()
         {
             Maintain[] maintains = GetAll().Where(m => !m.IsFinished).ToArray<Maintain>();
             return maintains;

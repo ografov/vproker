@@ -30,10 +30,17 @@ namespace vproker.Controllers.ApiControllers
         }
 
         [AllowAnonymous]
-        [HttpGet]
+        [HttpGet("getAll")]
         public JsonResult GetAll()
         {
             return Json(_service.GetAll());
+        }
+
+        [AllowAnonymous]
+        [HttpGet("getCurrent")]
+        public JsonResult GetCurrent()
+        {
+            return Json(_service.GetCurrent());
         }
 
         [HttpGet("{id}", Name = "Get")]

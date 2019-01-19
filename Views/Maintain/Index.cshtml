@@ -4,6 +4,15 @@
 }
 @section Scripts {
     <script src="~/ts/utils.js"></script>
+    <script>
+        function onSwitch(cb) {
+            var url = "/api/maintain/" + (cb.checked ? "getAll" : "getCurrent");
+            console.log('refresh table from url: '+url);
+            $("#table").bootstrapTable('refresh', {
+                url 
+            });
+        }
+    </script>
 }
 <p>
     <a asp-action="Create">Новое Обслуживание</a>
@@ -11,11 +20,13 @@
 
 <div class="container">
     <div id="toolbar">
+        <input type="checkbox" data-toggle="toggle" data-size="small" onchange="onSwitch(this)">
+        <span>Показать закрытые</span>
     </div>
 
     <table id="table" class="table table-striped table-responsive"
            data-toggle="table"
-           data-url="/api/maintain"
+           data-url="/api/maintain/getCurrent"
            data-toolbar="#toolbar"
            data-sort-name="date"
            data-sort-order="asc"
@@ -30,12 +41,12 @@
             <tr>
                 <th data-field="date" data-sortable="true" data-formatter="vproker.Utils.dateFormatter">@Html.DisplayNameFor(model => model.Date)</th>
                 <th data-field="name" data-sortable="true">@Html.DisplayNameFor(model => model.Name)</th>
-                <th data-field="tool.name" data-sortable="true">@Html.DisplayNameFor(model => model.Tool)</th>
-                <th data-field="description" data-sortable="true">@Html.DisplayNameFor(model => model.Description)</th>
-                <th data-field="materials" data-sortable="true">@Html.DisplayNameFor(model => model.Materials)</th>
+                <th data-field="tool.name" data-width="120" data-sortable="true">@Html.DisplayNameFor(model => model.Tool)</th>
+                <th data-field="description" data-width="120" data-sortable="true">@Html.DisplayNameFor(model => model.Description)</th>
+                <th data-field="materials" data-width="120" data-sortable="true">@Html.DisplayNameFor(model => model.Materials)</th>
                 <th data-field="engineHours" data-sortable="true">@Html.DisplayNameFor(model => model.EngineHours)</th>
                 <th data-field="finishedDate" data-sortable="true" data-formatter="vproker.Utils.dateFormatter">@Html.DisplayNameFor(model => model.FinishedDate)</th>
-                <th data-field="id" data-width="50" data-align="center" data-halign="center" data-formatter="vproker.Utils.getMaintainActions">Действия</th>
+                <th data-field="id" data-width="110" data-align="center" data-halign="center" data-formatter="vproker.Utils.getMaintainActions">Действия</th>
             </tr>
         </thead>
     </table>
