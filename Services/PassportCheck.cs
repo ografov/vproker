@@ -10,6 +10,12 @@ namespace vproker.Services
     {
         public static bool Validate(string passport)
         {
+            //todo: add format check
+            if(String.IsNullOrEmpty(passport))
+            {
+                return false;
+            }
+
             string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "expired_passports.csv");
             if (!File.Exists(filePath))
             {

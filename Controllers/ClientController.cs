@@ -27,6 +27,7 @@ namespace vproker.Controllers
             AppContext = appContext;
         }
 
+        [Authorize(Roles = AuthData.ADMIN_ROLE)]
         public IActionResult Index()
         {
             var clients = AppContext.Clients.ToList().OrderBy(c => c.Name);
@@ -71,6 +72,7 @@ namespace vproker.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = AuthData.ADMIN_ROLE)]
         public IEnumerable<Client> GetAll()
         {
             return AppContext.Clients.ToList();

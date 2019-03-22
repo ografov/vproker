@@ -83,10 +83,12 @@ namespace vproker.Services
 
         private ClientInfo GetClientInfo(Client client)
         {
-            // TODO: need to use OrderService?
             var orders = AppContext.Orders.Where(o => o.ClientID == client.ID);
 
-            return new ClientInfo(client) { AllOrdersNumber = orders.Count(), ActiveOrdersNumber = orders.Where(o => !o.IsClosed).Count() };
+            return new ClientInfo(client) {
+                AllOrdersNumber = orders.Count(),
+                ActiveOrdersNumber = orders.Where(o => !o.IsClosed).Count()
+            };
         }
 
         public async Task<ClientInfo> GetInfoById(ClaimsPrincipal user, string id)
