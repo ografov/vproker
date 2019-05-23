@@ -121,7 +121,7 @@ namespace vproker.Services
                 return o.Client.Name.IndexOf(searchString, StringComparison.InvariantCultureIgnoreCase) >= 0;
             });
 
-            return AppContext.Orders.Where(o => o.IsClosed && startFilter(o) && endFilter(o) && clientFilter(o)).Include(o => o.Tool);
+            return AppContext.Orders.Where(o => o.IsClosed && startFilter(o) && endFilter(o) && clientFilter(o)).Include(o => o.Tool).Include(o => o.Client);
         }
 
         public byte[] GetHistoryReport(ClaimsPrincipal user, string start, string end, string searchString)
