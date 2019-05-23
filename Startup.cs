@@ -46,6 +46,7 @@ namespace vproker
             var passwordOptions = new PasswordOptions()
             {
                 RequireDigit = false,
+                RequireNonAlphanumeric = false,
                 RequiredLength = 6,
                 RequireLowercase = false,
                 RequireUppercase = false,
@@ -137,6 +138,8 @@ namespace vproker
             //ExtractClients.Process(app.ApplicationServices);
 
             //ReadClients.ReadFromFile(app.ApplicationServices);
+
+            //PassportCheck.LimitExpiredPassports("36");
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>
