@@ -25,7 +25,7 @@ namespace vproker.Services
             //this acts as datarow
             foreach (Order item in orders)
             {
-                string[] items = { item.Client?.Name, item.Client?.PhoneNumber ?? "", item.Description ?? "", item.StartDate.ToShortDateString(), item.EndDate?.ToShortDateString() ?? "", item.Payment.ToString(), item.CreatedBy ?? "" };
+                string[] items = { item.Client?.Name, item.Client?.PhoneNumber ?? "", item.Description ?? "", item.StartDate.ToShortDateString(), item.EndDate?.ToShortDateString() ?? "", item.Payment.GetValueOrDefault().ToString("C"), item.CreatedBy ?? "" };
                 string line = String.Join(',', items.Select(i => i.Replace(',', ' ')).ToArray());
                 sw.Append(line);
                 sw.Append(newLine);
@@ -33,7 +33,7 @@ namespace vproker.Services
 
             sw.Append(newLine + newLine);
 
-            sw.Append($"Всего: {orders.Sum(o => o.Payment)}");
+            sw.Append($"Всего: {orders.Sum(o => o.Payment.GetValueOrDefault()).ToString("C")}");
 
             return sw.ToString();
         }
