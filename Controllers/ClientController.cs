@@ -81,15 +81,15 @@ namespace vproker.Controllers
         [Authorize(Roles = AuthData.ADMIN_ROLE)]
         public async Task<ActionResult> Edit(string id)
         {
-            Client order = await FindClientAsync(id);
-            if (order == null)
+            Client client = await FindClientAsync(id);
+            if (client == null)
             {
                 Logger.LogInformation("Edit: Item not found {0}", id);
                 return NotFound();
             }
 
             //ViewBag.Items = GetClientsListItems(order.ClientID);
-            return View(order);
+            return View(client);
         }
 
         [HttpPost]
