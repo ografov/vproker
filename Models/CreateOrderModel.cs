@@ -58,7 +58,7 @@ namespace vproker.Models
                 yield return new ValidationResult($"Паспорт более не действителен", new[] { nameof(Passport) });
             }
         }
-        internal void Save(ClaimsPrincipal user, ApplicationDbContext appContext)
+        internal Order Save(ClaimsPrincipal user, ApplicationDbContext appContext)
         {
             Client client = appContext.Clients.FirstOrDefault(o => String.Equals(o.PhoneNumber, this.PhoneNumber, StringComparison.InvariantCultureIgnoreCase));
             if (client == null)
@@ -93,6 +93,7 @@ namespace vproker.Models
                 ClientPhoneNumber = client.PhoneNumber
             };
             appContext.Orders.Add(order);
+            return order;   
         }
     }
 }

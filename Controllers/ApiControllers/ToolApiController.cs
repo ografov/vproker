@@ -6,12 +6,18 @@ using System;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using System.Collections.Generic;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
+public class ToolModel
+{
+    public string ID { get; set; }
+    public string Name { get; set; }
+}
 namespace vproker.Controllers.ApiControllers
 {
-    [Route("[controller]/[action]")]
+    [Route("api/tool")]
     [Authorize(Roles = AuthData.ADMIN_ROLE)]
     public class ToolApiController : Controller
     {
@@ -25,7 +31,7 @@ namespace vproker.Controllers.ApiControllers
         }
 
         [AllowAnonymous]
-        [HttpGet("/api/[controller]")]
+        [HttpGet]
         public JsonResult GetAll()
         {
             var tools = AppContext.Tools;
@@ -33,7 +39,26 @@ namespace vproker.Controllers.ApiControllers
         }
 
         [AllowAnonymous]
-        [HttpGet("/api/[controller]/{id}")]
+        [HttpGet("models")]
+        public JsonResult GetModels()
+        {
+            // IEnumerable<(string id, string name)> tuples = AppContext.Tools.Select(x => (x.ID, x.Name));
+            // List<(string id, string name)> toolNames = new List<(string id, string name)>();
+            // foreach (var tool in AppContext.Tools)
+            // {
+            //     toolNames.Add((id: tool.ID, name: tool.Name));
+            // }
+            // return Json(toolNames.ToArray());
+            List<ToolModel> tools = new List<ToolModel>();
+            foreach (var tool in AppContext.Tools)
+            {
+                tools.Add(new ToolModel() { ID = tool.ID, Name = tool.Name });
+            }
+            return Json(tools.ToArray());            
+        }
+
+        [AllowAnonymous]
+        [HttpGet("{id}")]
         public async Task<JsonResult> Get(string id)
         {
             Tool tool = await AppContext.Tools.SingleOrDefaultAsync(b => b.ID == id);
@@ -41,7 +66,7 @@ namespace vproker.Controllers.ApiControllers
         }
 
         [AllowAnonymous]
-        [HttpPost("/api/[controller]")]
+        [HttpPost]
         public async Task<ActionResult> Store([FromBody]Tool tool)
         {
             try

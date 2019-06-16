@@ -42,16 +42,17 @@ namespace vproker.Controllers.ApiControllers
             return Json(orders);
         }
 
-        [AllowAnonymous]
         [HttpPost]
-        public async Task<ActionResult> Store([FromBody]Order order)
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Create(CreateOrderModel model)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    var savedStore = await _service.Store(order);
-                    return Json(savedStore);
+                    var order = model.Save(User, AppContext);
+                    await AppContext.SaveChangesAsync();
+                    return Json(order);
                 }
                 else
                 {
@@ -64,5 +65,28 @@ namespace vproker.Controllers.ApiControllers
                 return StatusCode(500);
             }
         }
+
+        // [AllowAnonymous]
+        // [HttpPost]
+        // public async Task<ActionResult> Store([FromBody]Order order)
+        // {
+        //     try
+        //     {
+        //         if (ModelState.IsValid)
+        //         {
+        //             var savedStore = await _service.Store(order);
+        //             return Json(savedStore);
+        //         }
+        //         else
+        //         {
+        //             return BadRequest();
+        //         }
+        //     }
+        //     catch (Exception ex)
+        //     {
+        //         ModelState.AddModelError(string.Empty, "Не удалось сохранить изменения: " + ex.ToString());
+        //         return StatusCode(500);
+        //     }
+        // }
     }
 }
