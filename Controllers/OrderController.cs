@@ -94,6 +94,9 @@ namespace vproker.Controllers
                 ViewBag.ToolSortParm = sortOrder == "tool" ? "tool_desc" : "tool";
                 ViewBag.DateSortParm = sortOrder == "date" ? "date_desc" : "date";
 
+                Order[] todayClosedOrders = _service.GetTodayClosedOrders(User);
+                ViewBag.TodayIncome = todayClosedOrders.Sum(o => o.Payment.HasValue ? o.Payment.GetValueOrDefault() : 0);
+
                 orders = _service.GetActiveOrders(User, sortOrder, searchString).ToArray();
             }
 

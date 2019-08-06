@@ -124,6 +124,11 @@ namespace vproker.Services
             return AppContext.Orders.Where(o => o.IsClosed && startFilter(o) && endFilter(o) && clientFilter(o)).Include(o => o.Tool).Include(o => o.Client);
         }
 
+        public Order[] GetTodayClosedOrders(ClaimsPrincipal user)
+        {
+            return AppContext.Orders.Where(o => o.IsClosed && o.EndDate != null && Equals(o.EndDate.GetValueOrDefault().Date, DateTime.Now.Date)).ToArray();
+        }
+
         public byte[] GetHistoryReport(ClaimsPrincipal user, string start, string end, string searchString)
         {
             var orders = GetHistory(user, start, end, searchString);
