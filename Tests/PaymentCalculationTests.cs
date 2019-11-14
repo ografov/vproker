@@ -21,6 +21,7 @@ namespace vproker_tests
             (var type, var total, var days, var delayedHours) = PaymentCalculation.Calculate(new DateTime(2019, 1, 1, 18, 30, 0), new DateTime(2019, 1, 2, 9, 0, 0), 800, 500);
             Assert.AreEqual(type, PaymentType.Days);
             Assert.AreEqual(total, 800);
+            Assert.AreEqual(days, 1);
         }
 
         [Test]

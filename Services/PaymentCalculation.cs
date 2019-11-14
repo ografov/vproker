@@ -11,41 +11,48 @@ namespace vproker.Services
         {
             return Calculate(start, end, new Price(dayPrice, workShiftPrice));
         }
-        
+
         public static Payment Calculate(DateTime start, DateTime end, Price price)
         {
-            Payment pay = new Payment();
-
             TimeSpan period = end.Subtract(start);
-            
+
+            // work shift
             if (period.Days < 1 && start.Day == end.Day && end.Hour < 18 && price.ForWorkShift != null && price.ForWorkShift > 0)
             {
-                pay.Type = PaymentType.WorkShift;
-                pay.Total = price.ForWorkShift.GetValueOrDefault();
-                return pay;
+                return new Payment()
+                {
+                    Type = PaymentType.WorkShift,
+                    Total = price.ForWorkShift.GetValueOrDefault()
+                };
             }
 
-            var hourDelay = (period.Minutes > 0) ? period.Hours + 1 : period.Hours; 
-            if (hourDelay > 0 && hourDelay <= 4 && price.PerHour > 0 && (int)period.TotalDays > 0)
+            var totalDays = (int)period.TotalDays;
+            var hourDelay = period.Hours + (period.Minutes > 0 ? 1 : 0);
+
+            // by days with hour delay
+            if (hourDelay > 0 && hourDelay <= 4 && price.PerHour > 0 && totalDays > 0)
             {
-                pay.Days = (int)period.TotalDays;
-                pay.DelayedHours = hourDelay;
-                pay.Type = PaymentType.DaysAndHours;
+                decimal payByTotalDays = CalcuateByDays(totalDays, price.PerDay);
+                decimal payByHours = price.PerHour.GetValueOrDefault() * hourDelay;
 
-                decimal payByDays = CalcuateByDays(pay.Days, price.PerDay);
-                decimal payByHours = price.PerHour.GetValueOrDefault() * pay.DelayedHours;
-                pay.Total = payByDays + payByHours;
+                return new Payment()
+                {
+                    Type = PaymentType.DaysAndHours,
+                    Days = totalDays,
+                    DelayedHours = hourDelay,
+                    Total = payByTotalDays + payByHours
+                };
             }
-            else
+
+            int roundedDays = (int)Math.Ceiling(period.TotalDays);
+            decimal payByDays = CalcuateByDays(roundedDays, price.PerDay);
+
+            return new Payment()
             {
-                int roundedDays = (int)Math.Ceiling(period.TotalDays);
-                decimal payByDays = CalcuateByDays(roundedDays, price.PerDay);
-                pay.Type = PaymentType.Days;
-                pay.Days = roundedDays;
-                pay.Total = payByDays;
-            }
-
-            return pay;
+                Type = PaymentType.Days,
+                Days = roundedDays,
+                Total = payByDays
+            };
         }
 
         private static Decimal CalcuateByDays(int totalDays, Decimal dayPrice)
