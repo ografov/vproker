@@ -139,6 +139,23 @@ namespace vproker.Services
             var data = System.Text.Encoding.UTF8.GetBytes(csv);
             var result = Encoding.UTF8.GetPreamble().Concat(data).ToArray();
             return result;
-        }        
+        }
+
+        public int GetMaxContractNumber()
+        {
+            var contractNumbers = AppContext.Orders.Select(o => o.ContractNumber);
+
+            int max = 0;
+            foreach (string numStr in contractNumbers)
+            {
+                if (int.TryParse(numStr, out var n) && n > max)
+                {
+                    max = n;
+                }
+            }
+
+            return max;
+        }
+
     }
 }
