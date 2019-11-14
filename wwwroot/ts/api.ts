@@ -19,5 +19,18 @@
                 }
             });
         }
+
+    }
+
+    export class ToolApi {
+        static getToolInfo(toolId: string, success: (info) => void) {
+            $.ajax({
+                url: "/api/ToolApi/" + toolId,
+                //data: { id: toolId },
+                success: (data) => {
+                    success(data);
+                }
+            });
+        }
     }
 }

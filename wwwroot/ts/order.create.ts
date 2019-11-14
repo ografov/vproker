@@ -13,9 +13,29 @@ namespace vproker {
                 CreateOrder.checkPassport();
             });
 
+            $("#selectTool").change(() => {
+                CreateOrder.showToolInfo();
+            });
+
             CreateOrder.checkPhoneNumber();
             //CreateOrder.checkPassport();
         };
+
+        private static showToolInfo() {
+            const id = $("#selectTool").children("option:selected").val();
+            vproker.ToolApi.getToolInfo(id, (info) => {
+                const $toolInfo = $("#toolInfo");
+
+                if (info) {
+                    const statHtml = `<div>
+                                    <div>Сутки - ${info.dayPrice}, Смена - ${info.workShiftPrice}</div>
+                                    <div>Час - ${info.hourPrice}, Залог - ${info.pledge}</div>
+                                    <a href="/tool/details/${info.id}">Подробнее</a></div>
+                                  </div>`;
+                    $toolInfo.html(statHtml).show();
+                }
+            });
+        }
 
         private static checkPhoneNumber() {
             const number = $("#phoneNumber").val();
@@ -75,7 +95,7 @@ namespace vproker {
                 const statHtml = `<div>
                                     <div>Всего заказов - ${info.allOrdersNumber}</div>
                                     <div>Активных заказов - ${info.activeOrdersNumber}</div>
-                                    <a href="/client/details/${info.client.id}">О клиенте</a></div>
+                                    <a href="/client/details/${info.client.id}">Подробнее</a></div>
                                   </div>`;
                 $clientInfo.html(statHtml).show();
                 $(`#clientId [value='${info.client.id}']`).attr("selected", "selected");

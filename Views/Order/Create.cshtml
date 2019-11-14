@@ -8,11 +8,12 @@
         <div class="form-group">
             <label asp-for="ToolID" class="control-label"></label>
             <div>
-                <select asp-for="ToolID" class="form-control" asp-items="@ViewBag.Tools">
+                <select id="selectTool" asp-for="ToolID" class="form-control" asp-items="@ViewBag.Tools">
                     <option selected="selected" disabled="disabled">Выберите инструмент</option>
                 </select>
             </div>
             <span asp-validation-for="ToolID" class="text-danger"></span>
+            <div id="toolInfo" class="alert alert-info" role="alert" style="display: none; max-width:280px"></div>
         </div>
 
         <div class="form-group">
