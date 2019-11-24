@@ -119,7 +119,7 @@ namespace vproker.Controllers
         {
             ViewBag.Tools = ToolService.GetToolsListItems(AppContext.Tools.ToList(), optional: true);
 
-            return View(new CreateOrderModel() { ContractNumber = _service.GetMaxContractNumber().ToString() });
+            return View(new CreateOrderModel() { ContractNumber = _service.SuggestContractNumber().ToString() });
         }
 
 

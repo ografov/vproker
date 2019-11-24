@@ -47,6 +47,11 @@
                             <li><a asp-controller="Tool" asp-action="Index">Инструменты</a></li>
                         }
                         <li><a asp-controller="Maintain" asp-action="Index">Обслуживание</a></li>
+
+                        @if (User.Identity.Name == vproker.Models.AuthData.ADMIN_ID)
+                        {
+                            <li><a asp-controller="Settings" asp-action="Index">Настройки</a></li>
+                        }
                     }
                     <li><a href="http://vprok2.ru" target="_blank">О компании</a></li>
                 </ul>

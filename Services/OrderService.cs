@@ -141,19 +141,32 @@ namespace vproker.Services
             return result;
         }
 
-        public int GetMaxContractNumber()
+        public int SuggestContractNumber()
         {
-            var contractNumbers = AppContext.Orders.Select(o => o.ContractNumber);
+            var settings = AppContext.Settings.FirstOrDefault();
 
-            int max = 0;
-            foreach (string numStr in contractNumbers)
+            var contractNumbers = (settings == null) 
+                ? AppContext.Orders.Select(o => o.ContractNumber)
+                : AppContext.Orders.Where(o => o.StartDate > settings.StartContractNumberSince).Select(o => o.ContractNumber);
+
+            // if no contracts after settings changed, return the default value
+            if (settings != null && !contractNumbers.Any())
             {
-                if (int.TryParse(numStr, out var n) && n > max)
-                {
-                    max = n;
-                }
+                return settings.StartContractNumber;
             }
 
+            // otherwise, give an incremented max number
+            return GetMaxNumber(contractNumbers) + 1;
+        }
+
+        private static int GetMaxNumber(IEnumerable<string> numberStrings)
+        {
+            int max = 0;
+            foreach (string numStr in numberStrings)
+            {
+                if (int.TryParse(numStr, out var n) && n > max)
+                    max = n;
+            }
             return max;
         }
 

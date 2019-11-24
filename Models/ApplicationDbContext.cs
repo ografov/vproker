@@ -21,7 +21,7 @@ namespace vproker.Models
         public DbSet<Tool> Tools { get; set; }
         //public DbSet<KnowledgeSource> KnowSources { get; set; }
         public DbSet<Maintain> Maintains { get; set; }
-
+        public DbSet<Settings> Settings { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
