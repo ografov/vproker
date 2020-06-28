@@ -12,9 +12,25 @@
             </div>
         </div>
         <div class="form-group">
+            <label asp-for="StartDate"></label>
+            <input asp-for="StartDate" class="form-control" />
+            <span asp-validation-for="StartDate" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="EndDate"></label>
+            <input asp-for="EndDate" class="form-control" />
+            <span asp-validation-for="EndDate" class="text-danger"></span>
+        </div>
+        <div class="form-group">
             <label asp-for="Description"></label>
             <div>
                 <textarea rows="2" cols="20" asp-for="Description" class="form-control" placeholder="Примечание"></textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="CloseDescription"></label>
+            <div>
+                <textarea rows="2" cols="20" asp-for="CloseDescription" class="form-control" placeholder="Примечание"></textarea>
             </div>
         </div>
         <div class="form-group">
@@ -26,16 +42,6 @@
             <label asp-for="Price"></label>
             <input asp-for="Price" class="form-control" />
             <span asp-validation-for="Price" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="StartDate"></label>
-            <input asp-for="StartDate" class="form-control" />
-            <span asp-validation-for="StartDate" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="EndDate"></label>
-            <input asp-for="EndDate" class="form-control" />
-            <span asp-validation-for="EndDate" class="text-danger"></span>
         </div>
         <div class="form-group">
             <label asp-for="Payment"></label>

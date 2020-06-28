@@ -194,6 +194,7 @@ namespace vproker.Controllers
                 //order.ClientName = newOrder.ClientName;
                 //order.ClientPhoneNumber = newOrder.ClientPhoneNumber;
                 order.Description = newOrder.Description;
+                order.CloseDescription = newOrder.CloseDescription;
                 order.PaidPledge = newOrder.PaidPledge;
                 order.Price = newOrder.Price;
                 order.StartDate = newOrder.StartDate;
@@ -279,6 +280,7 @@ namespace vproker.Controllers
                 Order order = await FindOrderAsync(id);
                 order.Payment = model.TotalPayment;
                 order.EndDate = DateTime.UtcNow;
+                order.CloseDescription = model.Order.CloseDescription;
 
                 AppContext.Orders.Attach(order);
                 AppContext.Entry(order).State = EntityState.Modified;

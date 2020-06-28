@@ -35,6 +35,8 @@
             </dd>
         </dl>
 
+        @if (!String.IsNullOrWhiteSpace(Model.Order.Description))
+        {
         <dl class="dl-horizontal">
             <dt>
                 @Html.DisplayNameFor(model => model.Order.Description)
@@ -45,6 +47,7 @@
                 </h1>
             </dd>
         </dl>
+        }
 
         @if (Model.Payment.Type == PaymentType.Days || Model.Payment.Type == PaymentType.DaysAndHours)
         {
@@ -61,10 +64,7 @@
         @if(Model.Payment.Type == PaymentType.WorkShift) 
         {
             <dl class="dl-horizontal">
-                <dt>
-                    За сменy
-                </dt>
-                <dd></dd>
+                <span>Оплата производится за сменy</span>
             </dl>
         }
 
@@ -89,6 +89,17 @@
                 <span asp-validation-for="TotalPayment" class="text-danger"></span>
             </dd>
         </dl>
+
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Order.CloseDescription)
+            </dt>
+            <dd class="lead">
+                <textarea rows="2" cols="20" asp-for="Order.CloseDescription" class="form-control" placeholder="Примечание"></textarea>
+                <span asp-validation-for="Order.CloseDescription" class="text-danger"></span>
+            </dd>
+        </dl>
+
         <div>
             <p>
                 <input type="submit" class="btn btn-primary" value="Закрыть" />
