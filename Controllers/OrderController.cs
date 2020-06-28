@@ -195,6 +195,7 @@ namespace vproker.Controllers
                 //order.ClientPhoneNumber = newOrder.ClientPhoneNumber;
                 order.Description = newOrder.Description;
                 order.CloseDescription = newOrder.CloseDescription;
+                order.Usage = newOrder.Usage;
                 order.PaidPledge = newOrder.PaidPledge;
                 order.Price = newOrder.Price;
                 order.StartDate = newOrder.StartDate;

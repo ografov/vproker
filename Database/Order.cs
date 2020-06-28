@@ -65,6 +65,10 @@ namespace vproker.Models
         [DataType(DataType.MultilineText)]
         public string Description { get; set; }
 
+        [Display(Name = "Цель использования")]
+        [DataType(DataType.MultilineText)]
+        public string Usage { get; set; }
+
         [Display(Name = "Заметка в конце")]
         [DataType(DataType.MultilineText)]
         public string CloseDescription { get; set; }

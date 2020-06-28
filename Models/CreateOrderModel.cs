@@ -41,7 +41,11 @@ namespace vproker.Models
         [RegularExpression("^[0-9]*$", ErrorMessage = "Уверен?")]
         public string ContractNumber { get; set; }
 
-        [Display(Name = "Примечание")]
+        [Display(Name = "Цель использования")]
+        [DataType(DataType.MultilineText)]
+        public string Usage { get; set; }
+
+        [Display(Name = "Заметка в начале")]
         [DataType(DataType.MultilineText)]
         public string Description { get; set; }
 

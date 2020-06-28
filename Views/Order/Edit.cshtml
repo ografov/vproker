@@ -22,15 +22,21 @@
             <span asp-validation-for="EndDate" class="text-danger"></span>
         </div>
         <div class="form-group">
+            <label asp-for="Usage"></label>
+            <div>
+                <textarea rows="2" cols="20" asp-for="Usage" class="form-control" placeholder=""></textarea>
+            </div>
+        </div>
+        <div class="form-group">
             <label asp-for="Description"></label>
             <div>
-                <textarea rows="2" cols="20" asp-for="Description" class="form-control" placeholder="Примечание"></textarea>
+                <textarea rows="2" cols="20" asp-for="Description" class="form-control" placeholder=""></textarea>
             </div>
         </div>
         <div class="form-group">
             <label asp-for="CloseDescription"></label>
             <div>
-                <textarea rows="2" cols="20" asp-for="CloseDescription" class="form-control" placeholder="Примечание"></textarea>
+                <textarea rows="2" cols="20" asp-for="CloseDescription" class="form-control" placeholder=""></textarea>
             </div>
         </div>
         <div class="form-group">
