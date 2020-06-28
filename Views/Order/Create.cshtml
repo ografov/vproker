@@ -37,6 +37,12 @@
         </div>
 
         <div class="form-group">
+            <label asp-for="DateOfBirth"></label>
+            <input id="dateOfBirth" asp-for="DateOfBirth" class="form-control" placeholder="День рождения" />
+            <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
             <label asp-for="ContractNumber"></label>
             <input asp-for="ContractNumber" class="form-control" placeholder="Номер договора" />
             <span asp-validation-for="ContractNumber" class="text-danger"></span>

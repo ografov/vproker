@@ -32,6 +32,10 @@ namespace vproker.Models
         [Display(Name = "ФИО")]
         public string ClientName { get; set; }
 
+        [Display(Name = "Дата рождения")]
+        [DataType(DataType.Date)]
+        public DateTime DateOfBirth { get; set; } = new DateTime(1970, 1, 1);
+
         [Required(ErrorMessage = "Номер договора лучше ввести")]
         [Display(Name = "Номер договора")]
         [RegularExpression("^[0-9]*$", ErrorMessage = "Уверен?")]
@@ -57,13 +61,17 @@ namespace vproker.Models
             {
                 yield return new ValidationResult($"Паспорт более не действителен", new[] { nameof(Passport) });
             }
+            if(this.DateOfBirth < new DateTime(1920, 1, 1))
+            {
+                yield return new ValidationResult($"Некорректная дата рождения", new[] { nameof(DateOfBirth) });
+            }
         }
         internal void Save(ClaimsPrincipal user, ApplicationDbContext appContext)
         {
             Client client = appContext.Clients.FirstOrDefault(o => String.Equals(o.PhoneNumber, this.PhoneNumber, StringComparison.InvariantCultureIgnoreCase));
             if (client == null)
             {
-                client = new Client() { PhoneNumber = this.PhoneNumber, Name = this.ClientName, Passport = this.Passport };
+                client = new Client() { PhoneNumber = this.PhoneNumber, Name = this.ClientName, DateOfBirth = this.DateOfBirth, Passport = this.Passport };
                 appContext.Clients.Add(client);
             }
             else
