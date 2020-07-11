@@ -191,8 +191,6 @@ namespace vproker.Controllers
                 }
 
                 order.ToolID = newOrder.ToolID;
-                //order.ClientName = newOrder.ClientName;
-                //order.ClientPhoneNumber = newOrder.ClientPhoneNumber;
                 order.Description = newOrder.Description;
                 order.CloseDescription = newOrder.CloseDescription;
                 order.Usage = newOrder.Usage;
