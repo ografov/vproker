@@ -9,15 +9,34 @@
     <p class="alert alert-danger">Ошибка при завершении заказа. Повторить?</p>
 }
 <div>
-    <form asp-controller="Order" asp-action="Close" method="post" asp-route-id="@Model.ID">
+    <form asp-controller="Order" style="padding:10px" asp-action="Close" method="post" asp-route-id="@Model.ID">
         <dl class="dl-horizontal">
             <dt>
                 @Html.DisplayNameFor(model => model.Order.Client.Name)
             </dt>
             <dd>
-                @Html.DisplayFor(model => model.Order.Client.Name)
+                <div>
+                    @if (Model.IsRegularClient)
+                    {
+                        <span style="font-size:22px">
+                            @Html.DisplayFor(model => model.Order.Client.Name)
+                        </span>
+                        <span style="vertical-align: top;" title="Постоянный клиент">
+                            <svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-person-check-fill" fill="green" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm9.854-2.854a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L12.5 7.793l2.646-2.647a.5.5 0 0 1 .708 0z" />
+                            </svg>
+                        </span>
+                    }
+                    else
+                    {
+                        <span>
+                            @Html.DisplayFor(model => model.Order.Client.Name)
+                        </span>
+                    }
+                </div>
             </dd>
         </dl>
+
         <dl class="dl-horizontal">
             <dt>
                 @Html.DisplayNameFor(model => model.Order.Tool.Name)
@@ -26,6 +45,16 @@
                 @Html.DisplayFor(model => model.Order.Tool.Name)
             </dd>
         </dl>
+
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Order.ContractNumber)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Order.ContractNumber)
+            </dd>
+        </dl>
+
         <dl class="dl-horizontal">
             <dt>
                 @Html.DisplayNameFor(model => model.Order.StartDate)
@@ -37,16 +66,16 @@
 
         @if (!String.IsNullOrWhiteSpace(Model.Order.Description))
         {
-        <dl class="dl-horizontal">
-            <dt>
-                @Html.DisplayNameFor(model => model.Order.Description)
-            </dt>
-            <dd class="lead">
-                <h1 class="text-danger">
-                    @Html.DisplayFor(model => model.Order.Description)
-                </h1>
-            </dd>
-        </dl>
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Order.Description)
+                </dt>
+                <dd class="lead">
+                    <h1 class="text-danger">
+                        @Html.DisplayFor(model => model.Order.Description)
+                    </h1>
+                </dd>
+            </dl>
         }
 
         @if (Model.Payment.Type == PaymentType.Days || Model.Payment.Type == PaymentType.DaysAndHours)
@@ -59,12 +88,12 @@
                     @Html.DisplayFor(model => model.Days)
                 </dd>
             </dl>
-        } 
-        
-        @if(Model.Payment.Type == PaymentType.WorkShift) 
+        }
+
+        @if (Model.Payment.Type == PaymentType.WorkShift)
         {
             <dl class="dl-horizontal">
-                <span>Оплата производится за сменy</span>
+                <div>Оплата производится за сменy</div>
             </dl>
         }
 
@@ -79,7 +108,6 @@
                 </dd>
             </dl>
         }
-
         <dl class="dl-horizontal">
             <dt>
                 @Html.DisplayNameFor(model => model.TotalPayment)
@@ -90,8 +118,8 @@
             </dd>
         </dl>
 
-        <dl class="dl-horizontal">
-            <dt>
+        <dl class="dl-horizontal" >
+            <dt style="white-space:normal">
                 @Html.DisplayNameFor(model => model.Order.CloseDescription)
             </dt>
             <dd class="lead">

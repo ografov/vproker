@@ -19,11 +19,13 @@ namespace vproker.Controllers
 
         public ILogger<OrderController> Logger { get; set; }
 
-        private OrderService _service { get; set; }
+        private OrderService orderService { get; set; }
+        private ClientService clientService { get; set; }
 
-        public OrderController(ILoggerFactory loggerFactory, ApplicationDbContext appContext, OrderService service)
+        public OrderController(ILoggerFactory loggerFactory, ApplicationDbContext appContext, OrderService orderService, ClientService clientService)
         {
-            _service = service;
+            this.orderService = orderService;
+            this.clientService = clientService;
             Logger = loggerFactory.CreateLogger<OrderController>();
             AppContext = appContext;
         }
@@ -94,10 +96,10 @@ namespace vproker.Controllers
                 ViewBag.ToolSortParm = sortOrder == "tool" ? "tool_desc" : "tool";
                 ViewBag.DateSortParm = sortOrder == "date" ? "date_desc" : "date";
 
-                Order[] todayClosedOrders = _service.GetTodayClosedOrders(User);
+                Order[] todayClosedOrders = orderService.GetTodayClosedOrders(User);
                 ViewBag.TodayIncome = todayClosedOrders.Sum(o => o.Payment.HasValue ? o.Payment.GetValueOrDefault() : 0);
 
-                orders = _service.GetActiveOrders(User, sortOrder, searchString).ToArray();
+                orders = orderService.GetActiveOrders(User, sortOrder, searchString).ToArray();
             }
 
             return View("ActiveOrders", orders);
@@ -105,7 +107,7 @@ namespace vproker.Controllers
 
         public async Task<ActionResult> Details(string id)
         {
-            Order order = await _service.GetById(id);
+            Order order = await orderService.GetById(id);
 
             if (order == null)
             {
@@ -119,7 +121,7 @@ namespace vproker.Controllers
         {
             ViewBag.Tools = ToolService.GetToolsListItems(AppContext.Tools.ToList(), optional: true);
 
-            return View(new CreateOrderModel() { ContractNumber = _service.SuggestContractNumber().ToString() });
+            return View(new CreateOrderModel() { ContractNumber = orderService.SuggestContractNumber().ToString() });
         }
 
 
@@ -267,7 +269,9 @@ namespace vproker.Controllers
                 return NotFound();
             }
             ViewBag.Retry = retry ?? false;
-            return View(new CloseOrderModel(order));
+            
+            bool isRegularClient = this.clientService.IsRegularClient(User, order.ClientID);
+            return View(new CloseOrderModel(order, isRegularClient));
         }
 
         [HttpPost]
@@ -278,8 +282,8 @@ namespace vproker.Controllers
             {
                 Order order = await FindOrderAsync(id);
                 order.Payment = model.TotalPayment;
+                order.CloseDescription = model.CloseDescription;
                 order.EndDate = DateTime.UtcNow;
-                order.CloseDescription = model.Order.CloseDescription;
 
                 AppContext.Orders.Attach(order);
                 AppContext.Entry(order).State = EntityState.Modified;
@@ -295,7 +299,7 @@ namespace vproker.Controllers
         public FileResult DownloadHistory(string start = "", string end = "", string searchString = "")
         {
             string fileName = "vproker-history.csv";
-            byte[] fileBytes = _service.GetHistoryReport(User, start, end, searchString);
+            byte[] fileBytes = orderService.GetHistoryReport(User, start, end, searchString);
 
             return File(fileBytes, "text/csv; charset=UTF8", fileName); // this is the key!
         }

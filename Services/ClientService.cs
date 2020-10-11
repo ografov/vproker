@@ -69,7 +69,7 @@ namespace vproker.Services
         {
             var client = GetByPhone(user, phoneNumber);
 
-            if(client == null)
+            if (client == null)
             {
                 return null;
             }
@@ -81,17 +81,30 @@ namespace vproker.Services
         {
             var orders = AppContext.Orders.Where(o => o.ClientID == client.ID);
 
-            return new ClientInfo(client) {
+            return new ClientInfo(client)
+            {
                 AllOrdersNumber = orders.Count(),
-                ActiveOrdersNumber = orders.Where(o => !o.IsClosed).Count()
+                ActiveOrdersNumber = orders.Where(o => !o.IsClosed).Count(),
+                IsRegular = IsRegularClient(orders.Where(o => o.IsClosed).Count())
             };
+        }
+
+        const int MinOrdersNumberToBecomeRegular = 3;
+        private bool IsRegularClient(int closedOrdersNumber) => closedOrdersNumber >= MinOrdersNumberToBecomeRegular;
+
+        public bool IsRegularClient(ClaimsPrincipal user, string id)
+        {
+            var orders = AppContext.Orders.Where(o => o.ClientID == id);
+            var closedOrders = orders.Where(o => o.IsClosed).Count();
+
+            return IsRegularClient(closedOrders);
         }
 
         public async Task<ClientInfo> GetInfoById(ClaimsPrincipal user, string id)
         {
             Client client = await GetById(id);
 
-            if(client == null)
+            if (client == null)
             {
                 return null;
             }

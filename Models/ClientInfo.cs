@@ -20,5 +20,8 @@ namespace vproker.Models
 
         [Display(Name = "Активных заказов")]
         public int ActiveOrdersNumber { get; set; }
+
+        [Display(Name = "Постоянный клиент")]
+        public bool IsRegular { get; set; }
     }
 }

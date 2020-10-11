@@ -45,7 +45,7 @@ namespace vproker.Models
         [DataType(DataType.MultilineText)]
         public string Usage { get; set; }
 
-        [Display(Name = "Заметка в начале")]
+        [Display(Name = "Заметка")]
         [DataType(DataType.MultilineText)]
         public string Description { get; set; }
 

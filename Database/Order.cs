@@ -61,7 +61,7 @@ namespace vproker.Models
         [RegularExpression("^[0-9]*$", ErrorMessage = "Уверен?")]
         public string ContractNumber { get; set; }
 
-        [Display(Name = "Заметка в начале")]
+        [Display(Name = "Заметка")]
         [DataType(DataType.MultilineText)]
         public string Description { get; set; }
 
@@ -69,7 +69,7 @@ namespace vproker.Models
         [DataType(DataType.MultilineText)]
         public string Usage { get; set; }
 
-        [Display(Name = "Заметка в конце")]
+        [Display(Name = "Комментарий клиента")]
         [DataType(DataType.MultilineText)]
         public string CloseDescription { get; set; }
 

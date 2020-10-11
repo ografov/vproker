@@ -6,22 +6,24 @@ namespace vproker.Models
 {
     public class CloseOrderModel
     {
-        private readonly Payment payment;
         public CloseOrderModel()
         {
         }
-        public CloseOrderModel(Order order)
+        public CloseOrderModel(Order order, bool isRegularClient)
         {
             this.Order = order;
             this.ID = order.ID;
-            this.payment = PaymentCalculation.Calculate(order.StartDate.ToRussianTime(), DateTime.UtcNow.ToRussianTime(), order.Tool.GetPrice());
-            this.Days = this.payment.Days;
-            this.DelayedHours = this.payment.DelayedHours;
-            this.TotalPayment = this.payment.Total;
+            this.Payment = PaymentCalculation.Calculate(order.StartDate.ToRussianTime(), DateTime.UtcNow.ToRussianTime(), order.Tool.GetPrice());
+            this.Days = this.Payment.Days;
+            this.DelayedHours = this.Payment.DelayedHours;
+            this.TotalPayment = this.Payment.Total;
+            this.IsRegularClient = isRegularClient;
         }
 
-        public string ID { get; set; }
-        public Order Order { get; set; }
+        public string ID { get; private set; }
+        public Order Order { get; private set; }
+        public Payment Payment { get; }
+        public bool IsRegularClient { get; private set; }
 
         [Required]
         [Display(Name = "Оплата")]
@@ -43,9 +45,8 @@ namespace vproker.Models
             get; private set;
         }
 
-        public Payment Payment
-        {
-            get { return this.payment; }
-        }
+        [Display(Name = "Комментарий клиента")]
+        [DataType(DataType.MultilineText)]
+        public string CloseDescription { get; private set; }
     }
 }

@@ -1,4 +1,11 @@
 ﻿namespace vproker {
+    export interface ClientInfo {
+        allOrdersNumber: number,
+        activeOrdersNumber: number,
+        isRegular: boolean
+        client: any
+    }
+
     export class ClientApi {
         static validatePassport(passport: string, success: (isValid) => void) {
             $.ajax({
@@ -10,12 +17,12 @@
             });
         }
 
-        static getInfoByPhone(number: string, success: (info) => void) {
+        static getInfoByPhone(number: string, success: (info: ClientInfo) => void) {
             $.ajax({
                 url: "/api/client/getInfoByPhone",
                 data: { number: number },
                 success: (data) => {
-                    success(data);
+                    success(data as ClientInfo);
                 }
             });
         }
