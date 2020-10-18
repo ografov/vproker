@@ -43,7 +43,6 @@ namespace vproker.Models
         [Required(ErrorMessage = "Необходимо ввести дату рождения")]
         [Display(Name = "Дата рождения")]
         [DataType(DataType.Date)]
-        [RegularExpression(@"", ErrorMessage = "Необходимо ввести реальную дату рождения")]
         public DateTime? DateOfBirth { get; set; }
 
         //#region phones
