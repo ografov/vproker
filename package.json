@@ -13,5 +13,11 @@
     "@types/eonasdan-bootstrap-datetimepicker": "^4.17.26",
     "@types/jquery": "^2.0.49",
     "bootstrap-table": "^1.18.0"
+  },
+  "scripts": {
+    "preinstall": "npx npm-force-resolutions"
+  },
+  "resolutions": {
+    "graceful-fs": "^4.2.4"
   }
 }
