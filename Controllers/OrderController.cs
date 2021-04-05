@@ -333,15 +333,6 @@ namespace vproker.Controllers
 			try
 			{
                 var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
-                using (var streamReader = new StreamReader(httpResponse.GetResponseStream(), Encoding.UTF8))
-                {
-                    var result = streamReader.ReadToEnd();
-
-                    if (result != "ok")
-					{
-                        Logger.LogError("Ошибка при отправке сообщения в WhatsApp");
-					}
-                }
             }
 			catch (WebException we)
 			{
@@ -349,7 +340,6 @@ namespace vproker.Controllers
                 using (var reader = new StreamReader(stream)) {
                     Logger.LogError(reader.ReadToEnd());
                 }
-                throw we;
             }
         }
     }
