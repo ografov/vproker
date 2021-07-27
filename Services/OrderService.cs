@@ -138,6 +138,17 @@ namespace vproker.Services
             return result;
         }
 
+        public byte[] GetStatsByDaysReport(ClaimsPrincipal user, string start, string end, string searchString)
+        {
+            var orders = GetHistory(user, start, end, searchString);
+
+            String csv = OrderReport.CreateStatisticsByDays(orders);
+
+            var data = System.Text.Encoding.UTF8.GetBytes(csv);
+            var result = Encoding.UTF8.GetPreamble().Concat(data).ToArray();
+            return result;
+        }
+
         public int SuggestContractNumber()
         {
             var settings = AppContext.Settings.FirstOrDefault();

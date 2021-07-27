@@ -36,10 +36,20 @@ namespace vproker {
             });
 
             // download
-            const $download = $('#download');
-            $download.click(() => {
+            const $downloadHistory = $('#downloadHistory');
+            $downloadHistory.click(() => {
                 const params = History.queryParams();
                 let downloadUrl = "./DownloadHistory?";
+                for (const key in params) {
+                    downloadUrl += `${key}=${params[key]}&`; 
+                }
+                window.open(downloadUrl); 
+            });
+
+            const $downloadStatsByDays = $('#downloadStatsByDays');
+            $downloadStatsByDays.click(() => {
+                const params = History.queryParams();
+                let downloadUrl = "./DownloadStatsByDays?";
                 for (const key in params) {
                     downloadUrl += `${key}=${params[key]}&`; 
                 }

@@ -39,55 +39,62 @@ namespace vproker.Services
         }
 
 
-        /// <summary>
-        /// Creates the CSV from a generic list.
-        /// </summary>;
-        /// <typeparam name="T"></typeparam>;
-        /// <param name="list">The list.</param>;
-        /// <param name="csvNameWithExt">Name of CSV (w/ path) w/ file ext.</param>;
-        public static string CreateCSVFromGenericList<T>(IEnumerable<T> list)
+        public static string CreateStatisticsByDays(IEnumerable<Order> orders)
         {
-            if (list == null || list.Count() == 0) return "";
+            if (orders == null || orders.Count() == 0) return "";
 
-            //get type from 0th member
-            Type t = list.FirstOrDefault().GetType();
             string newLine = Environment.NewLine;
 
             StringBuilder sw = new StringBuilder();
 
-            //make a new instance of the class name we figured out to get its props
-            object o = Activator.CreateInstance(t);
-            //gets all properties
-            PropertyInfo[] props = o.GetType().GetProperties();
-
-            //foreach of the properties in class above, write out properties
             //this is the header row
-            foreach (PropertyInfo pi in props)
-            {
-                sw.Append(pi.Name.ToUpper() + ",");
-            }
+            sw.Append(",Понедельник,Вторник,Среда,Четверг,Пятница,Суббота,Воскресенье");
             sw.Append(newLine);
 
-            //this acts as datarow
-            foreach (T item in list)
+            DateTime minDate = DateTime.MaxValue;
+            Dictionary<int, int> startedByDays = new Dictionary<int, int>();
+            Dictionary<int, int> closedByDays = new Dictionary<int, int>();
+
+            foreach (var order in orders)
             {
-                //this acts as datacolumn
-                foreach (PropertyInfo pi in props)
+                DateTime startDate = order.StartDate.ToRussianTime();
+                if(startDate < minDate)
                 {
-                    //this is the row+col intersection (the value)
-                    string whatToWrite =
-                        Convert.ToString(item.GetType()
-                                             .GetProperty(pi.Name)
-                                             .GetValue(item, null))
-                            .Replace(',', ' ') + ',';
-
-                    sw.Append(whatToWrite);
-
+                    minDate = startDate;
                 }
-                sw.Append(newLine);
+
+                int startKey = (startDate.DayOfWeek == DayOfWeek.Sunday) ? 7 : (int)startDate.DayOfWeek;
+                if (startedByDays.ContainsKey(startKey))
+                {
+                    startedByDays[startKey] += 1;
+                }
+                else
+                {
+                    startedByDays[startKey] = 1;
+                }
+
+                if (order.EndDate.HasValue)
+                {
+                    DateTime endDate = order.EndDate.Value.ToRussianTime();
+                    int endKey = (endDate.DayOfWeek == DayOfWeek.Sunday) ? 7 : (int)endDate.DayOfWeek;
+                    if (closedByDays.ContainsKey(endKey))
+                    {
+                        closedByDays[endKey] += 1;
+                    }
+                    else
+                    {
+                        closedByDays[endKey] = 1;
+                    }
+                }
             }
 
+            sw.AppendLine("Начало Аренды, " + String.Join(',', startedByDays.OrderBy(kv => kv.Key).Select(kv => kv.Value)));
+            sw.AppendLine("Конец Аренды, " + String.Join(',', closedByDays.OrderBy(kv => kv.Key).Select(kv => kv.Value)));
+
+            sw.AppendLine();
+            sw.Append($"Всего {orders.Count()} начиная с даты: {minDate.ToLongDateString()}");
             return sw.ToString();
         }
+
     }
 }

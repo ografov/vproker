@@ -301,7 +301,15 @@ namespace vproker.Controllers
             string fileName = "vproker-history.csv";
             byte[] fileBytes = orderService.GetHistoryReport(User, start, end, searchString);
 
-            return File(fileBytes, "text/csv; charset=UTF8", fileName); // this is the key!
+            return File(fileBytes, "text/csv; charset=UTF8", fileName); 
+        }
+
+        public FileResult DownloadStatsByDays(string start = "", string end = "", string searchString = "")
+        {
+            string fileName = "vproker_stats-by-days.csv";
+            byte[] fileBytes = orderService.GetStatsByDaysReport(User, start, end, searchString);
+
+            return File(fileBytes, "text/csv; charset=UTF8", fileName);
         }
     }
 }
