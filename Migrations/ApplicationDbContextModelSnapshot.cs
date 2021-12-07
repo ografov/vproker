@@ -17,7 +17,7 @@ namespace vproker.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.0.1-rtm-125");
+                .HasAnnotation("ProductVersion", "2.0.3-rtm-10026");
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
@@ -260,6 +260,8 @@ namespace vproker.Migrations
                     b.Property<decimal?>("Payment");
 
                     b.Property<decimal>("Price");
+
+                    b.Property<bool>("ShouldCallClient");
 
                     b.Property<DateTime>("StartDate");
 

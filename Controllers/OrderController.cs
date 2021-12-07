@@ -201,6 +201,7 @@ namespace vproker.Controllers
                 order.StartDate = newOrder.StartDate;
                 order.EndDate = newOrder.EndDate;
                 order.Payment = newOrder.Payment;
+                order.ShouldCallClient = newOrder.ShouldCallClient;
 
                 //AppContext.Orders.Attach(order);
                 AppContext.Entry(order).State = EntityState.Modified;
@@ -284,6 +285,7 @@ namespace vproker.Controllers
                 order.Payment = model.TotalPayment;
                 order.CloseDescription = model.CloseDescription;
                 order.EndDate = DateTime.UtcNow;
+                order.ShouldCallClient = model.ShouldCallClient;
 
                 AppContext.Orders.Attach(order);
                 AppContext.Entry(order).State = EntityState.Modified;

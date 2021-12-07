@@ -22,7 +22,7 @@ namespace vproker.Models
 
                 //AddSampleKnowledgeSources(context);
                 AddSampleTools(context);
-                AddSampleOrders(context);
+                //AddSampleOrders(context);
                 AddSampleMaintains(context);
             }
         }

@@ -122,10 +122,16 @@
             <dt style="white-space:normal">
                 @Html.DisplayNameFor(model => model.Order.CloseDescription)
             </dt>
-            <dd class="lead">
-                <textarea rows="2" cols="20" asp-for="Order.CloseDescription" class="form-control" placeholder="Примечание"></textarea>
-                <span asp-validation-for="Order.CloseDescription" class="text-danger"></span>
-            </dd>
+	        <dd class="lead">
+		        <textarea rows="2" cols="20" asp-for="Order.CloseDescription" class="form-control" placeholder="Примечание"></textarea>
+		        <span asp-validation-for="Order.CloseDescription" class="text-danger"></span>
+	        </dd>
+	        <dt style="white-space: normal">
+		        @Html.DisplayNameFor(model => model.ShouldCallClient)
+	        </dt>
+	        <dd>
+		        <input type="checkbox" asp-for="ShouldCallClient"/>
+	        </dd>
         </dl>
 
         <div>
