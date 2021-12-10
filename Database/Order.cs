@@ -84,6 +84,9 @@ namespace vproker.Models
         [DisplayFormat(DataFormatString = "{0:G29}", ApplyFormatInEditMode = true)]
         public Decimal Price { get; set; } = 0;
 
+        [Display(Name = "Связаться с клиентом")]
+        public bool ShouldCallClient { get; set; }
+
         // not user fields
         [Required]
         [Display(Name = "Начало аренды")]
@@ -101,6 +104,8 @@ namespace vproker.Models
         [Display(Name = "Сумма заказа")]
         [DisplayFormat(DataFormatString = "{0:G29}", ApplyFormatInEditMode = true)]
         public Decimal? Payment { get; set; }
+
+       
         
         //[HiddenInput(DisplayValue = false)]
         [NotMapped]

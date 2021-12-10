@@ -18,12 +18,16 @@ namespace vproker.Models
             this.DelayedHours = this.Payment.DelayedHours;
             this.TotalPayment = this.Payment.Total;
             this.IsRegularClient = isRegularClient;
+            ShouldCallClient = order.ShouldCallClient;
         }
 
         public string ID { get; private set; }
         public Order Order { get; private set; }
         public Payment Payment { get; }
         public bool IsRegularClient { get; private set; }
+
+        [Display(Name = "Связаться с клиентом")]
+        public bool ShouldCallClient { get; set; }
 
         [Required]
         [Display(Name = "Оплата")]
