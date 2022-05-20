@@ -9,6 +9,11 @@ using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using vproker.Services;
+using System.Net;
+using Microsoft.Extensions.Configuration;
+using System.IO;
+using System.Text;
+using System.Security.Claims;
 
 namespace vproker.Controllers
 {
@@ -21,16 +26,18 @@ namespace vproker.Controllers
 
         private OrderService orderService { get; set; }
         private ClientService clientService { get; set; }
+		public IConfiguration Configuration { get; }
 
-        public OrderController(ILoggerFactory loggerFactory, ApplicationDbContext appContext, OrderService orderService, ClientService clientService)
-        {
-            this.orderService = orderService;
-            this.clientService = clientService;
-            Logger = loggerFactory.CreateLogger<OrderController>();
-            AppContext = appContext;
-        }
+		public OrderController(ILoggerFactory loggerFactory, ApplicationDbContext appContext, OrderService orderService, ClientService clientService, IConfiguration configuration)
+		{
+			this.orderService = orderService;
+			this.clientService = clientService;
+			Configuration = configuration;
+			Logger = loggerFactory.CreateLogger<OrderController>();
+			AppContext = appContext;
+		}
 
-        public IActionResult Index()
+		public IActionResult Index()
         {
             //return User.Identity.Name == AuthData.ADMIN_ID ? History() : ActiveOrders();
             return ActiveOrders();
@@ -149,6 +156,7 @@ namespace vproker.Controllers
                 {
                     model.Save(User, AppContext);
                     await AppContext.SaveChangesAsync();
+                    NotifyClientByWhatsApp(model);
                     return RedirectToAction("ActiveOrders");
                 }
             }
@@ -312,6 +320,37 @@ namespace vproker.Controllers
             byte[] fileBytes = orderService.GetStatsByDaysReport(User, start, end, searchString);
 
             return File(fileBytes, "text/csv; charset=UTF8", fileName);
+        }
+
+        private void NotifyClientByWhatsApp(CreateOrderModel model)
+		{
+            var httpWebRequest = (HttpWebRequest)WebRequest.Create($"{Configuration["WhatsAppMessageRequestUrl"]}");
+            httpWebRequest.ContentType = "application/json";
+            httpWebRequest.Method = "POST";
+            Logger.LogInformation($"{httpWebRequest.Method} {httpWebRequest.RequestUri.AbsoluteUri}");
+
+            using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+            {
+                string message = $"Номер договора: {model.ContractNumber}"
+                    + $"\\nЗалог: {model.PaidPledge}";
+
+                string json = $"{{\"phone\":\"{model.PhoneNumber}\"," +
+                              $"\"message\":\"{message}\"}}";
+
+                streamWriter.Write(json);
+            }
+
+			try
+			{
+                var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+            }
+			catch (WebException we)
+			{
+                using (var stream = we.Response.GetResponseStream()) 
+                using (var reader = new StreamReader(stream)) {
+                    Logger.LogError(reader.ReadToEnd());
+                }
+            }
         }
     }
 }
