@@ -84,8 +84,8 @@ namespace vproker.Services
             return new ClientInfo(client)
             {
                 AllOrdersNumber = orders.Count(),
-                ActiveOrdersNumber = orders.Where(o => !o.IsClosed).Count(),
-                IsRegular = IsRegularClient(orders.Where(o => o.IsClosed).Count())
+                ActiveOrdersNumber = orders.Count(o => !o.IsClosed),
+                IsRegular = IsRegularClient(orders.Count(o => o.IsClosed))
             };
         }
 

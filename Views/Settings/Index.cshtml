@@ -1,15 +1,40 @@
-﻿@model vproker.Models.Settings
+﻿@using vproker.Models
+@model vproker.Models.Settings
 @{
     ViewBag.Title = "Настройки";
 }
 <div>
     <form asp-controller="Settings" asp-action="Update" method="post">
         <div class="validation" asp-validation-summary="ModelOnly"></div>
-        <div class="form-group">
-            <label asp-for="StartContractNumber"></label>
-            <input asp-for="StartContractNumber" class="form-control" />
-            <span asp-validation-for="StartContractNumber" class="text-danger"></span>
-        </div>
+	    <div class="form-group">
+		    <label asp-for="StartContractNumber"></label>
+		    <input asp-for="StartContractNumber" class="form-control" />
+		    <span asp-validation-for="StartContractNumber" class="text-danger"></span>
+	    </div>
+	    <div>
+		    <table border="1" cellpadding="2" cellspacing="2">
+			    <tr>
+					<th>Наименование</th>
+				    <th>Скидка</th>
+			    </tr>
+			    @foreach (var partner in Model.PartnersList)
+			    {
+				    <tr>
+					    <td>@partner.Name</td>
+					    <td>@partner.Discount</td>
+				    </tr>
+			    }
+		    </table>
+	    </div>
+	    <div>
+		    <input asp-for="PartnerName"/>
+	    </div>
+	    <div>
+		    <input asp-for="PartnerDiscount"/>
+	    </div>
+	    <div>
+			<button asp-action="AddPartner" method ="post">Добавить партнера</button>
+	    </div>
         <p>
             <input type="submit" class="btn btn-primary" value="Сохранить" />
             <a asp-action="Index" asp-controller="Order" class="btn btn-default">Отмена</a>

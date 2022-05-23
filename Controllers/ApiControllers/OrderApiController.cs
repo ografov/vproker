@@ -27,11 +27,42 @@ namespace vproker.Controllers.ApiControllers
             AppContext = appContext;
         }
 
+        [HttpPost("createOrder")]
+        public JsonResult CreateOrder([FromBody]Order orderBody)
+        {
+	        var order = new Order()
+	        {
+		        ClientID = orderBody.Client.ID,
+		        Client = orderBody.Client,
+
+		        ToolID = orderBody.Tool?.ID,
+		        Tool = orderBody.Tool,
+
+		        ContractNumber = orderBody.ContractNumber,
+		        PaidPledge = orderBody.PaidPledge,
+		        Description = orderBody.Description,
+		        //CreatedBy = user.Identity.Name,
+
+                ClientPassport = orderBody.Client.Passport,
+		        ClientName = orderBody.Client.Name,
+		        ClientPhoneNumber = orderBody.Client.PhoneNumber
+	        };
+	        AppContext.Orders.Add(order);
+	        return Json("done");
+        }
+
         [HttpGet("actives/{sortOrder?}/{searchString?}")]
         public JsonResult GetActives(string sortOrder = "", string searchString = "")
         {
             var orders = _service.GetActiveOrders(User, sortOrder, searchString);
             return Json(orders);
+        }
+
+        [HttpGet("activesNoUser/{sortOrder?}/{searchString?}")]
+        public JsonResult GetActivesNoUser(string sortOrder = "", string searchString = "")
+        {
+	        var orders = _service.GetActiveOrdersNoUser(sortOrder, searchString);
+	        return Json(orders);
         }
 
         [Authorize(Roles = AuthData.ADMIN_ROLE)]
