@@ -29,7 +29,7 @@ namespace vproker.Models
         [RegularExpression(@"^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7}$", ErrorMessage = "Неправильно набран номер")]
         public string PhoneNumber { get; set; }
 
-        [Display(Name = "Паспорт клиента")]
+        [Display(Name = "Паспорт")]
         [RegularExpression(@"^\d{10}$", ErrorMessage = "Серия и номер паспорта указаны не корректно")]
         [PassportValidation(ErrorMessage ="Паспорт не действителен")]
         public string Passport { get; set; }
