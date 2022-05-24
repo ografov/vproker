@@ -52,7 +52,17 @@ namespace vproker.Services
 
         public IEnumerable<ClientInfo> GetAllInfo()
         {
-            return AppContext.Clients.ToArray<Client>().Select(c => GetClientInfo(c));
+            return (from c in AppContext.Clients
+                    join o in AppContext.Orders on c.ID equals o.ClientID into ClientsWithOrders
+                    from cwo in ClientsWithOrders.DefaultIfEmpty()
+                    select new ClientInfo( c )
+                    {
+                        AllOrdersNumber = ClientsWithOrders.Count( _ => _.ClientID == c.ID ),
+                        ActiveOrdersNumber = ClientsWithOrders.Count( _ => _.ClientID == c.ID && _.EndDate == null )
+                    })
+                    .GroupBy( _ => _.Client.ID ).Select( _ => _.First() );
+
+            //return AppContext.Clients.ToArray<Client>().Select( c => GetClientInfo( c ) );
         }
 
         public Client GetByPhone(ClaimsPrincipal user, string phoneNumber)
