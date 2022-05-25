@@ -1,4 +1,4 @@
-using System;
+п»їusing System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -10,12 +10,12 @@ namespace vproker.Models
 	{
 		public string ID { get; set; }
 
-		[Required(ErrorMessage = "Введите наименование партнера")]
-		[Display(Name = "Наименование")]
+		[Required(ErrorMessage = "Р’РІРµРґРёС‚Рµ РЅР°РёРјРµРЅРѕРІР°РЅРёРµ РїР°СЂС‚РЅРµСЂР°")]
+		[Display(Name = "РќР°РёРјРµРЅРѕРІР°РЅРёРµ")]
 		public string Name { get; set; }
 
-		[Required(ErrorMessage = "Введите размер скидки")]
-		[Display(Name = "Партнерская скидка")]
+		[Required(ErrorMessage = "Р’РІРµРґРёС‚Рµ СЂР°Р·РјРµСЂ СЃРєРёРґРєРё")]
+		[Display(Name = "РџР°СЂС‚РЅРµСЂСЃРєР°СЏ СЃРєРёРґРєР°")]
 		public float Discount { get; set; }
 		public Partners()
 		{
