@@ -72,7 +72,7 @@ namespace vproker.Models
         }
         internal void Save(ClaimsPrincipal user, ApplicationDbContext appContext)
         {
-            Client client = appContext.Clients.FirstOrDefault(o => String.Equals(o.PhoneNumber, this.PhoneNumber, StringComparison.InvariantCultureIgnoreCase));
+            Client client = appContext.Clients.FirstOrDefault(o => o.PhoneNumber == this.PhoneNumber);
             if (client == null)
             {
                 client = new Client() { PhoneNumber = this.PhoneNumber, Name = this.ClientName, DateOfBirth = this.DateOfBirth, Passport = this.Passport };

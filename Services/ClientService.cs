@@ -52,27 +52,24 @@ namespace vproker.Services
 
         public IEnumerable<ClientInfo> GetAllInfo()
         {
-            return (from c in AppContext.Clients
-                    join o in AppContext.Orders on c.ID equals o.ClientID into ClientsWithOrders
-                    from cwo in ClientsWithOrders.DefaultIfEmpty()
-                    select new ClientInfo( c )
-                    {
-                        AllOrdersNumber = ClientsWithOrders.Count( _ => _.ClientID == c.ID ),
-                        ActiveOrdersNumber = ClientsWithOrders.Count( _ => _.ClientID == c.ID && _.EndDate == null )
-                    })
-                    .GroupBy( _ => _.Client.ID ).Select( _ => _.First() );
+            return from c in AppContext.Clients
+                   select new ClientInfo( c )
+                   {
+                       ActiveOrdersNumber = AppContext.Orders.Where( o => o.ClientID == c.ID && o.EndDate == null ).Count(),
+                       AllOrdersNumber = AppContext.Orders.Where( o => o.ClientID == c.ID ).Count(),
+                   };
 
-            //return AppContext.Clients.ToArray<Client>().Select( c => GetClientInfo( c ) );
+            //return AppContext.Clients.AsEnumerable().Select( c => GetClientInfo( c ) );
         }
 
         public Client GetByPhone(ClaimsPrincipal user, string phoneNumber)
         {
-            return AppContext.Clients.FirstOrDefault(o => String.Equals(o.PhoneNumber, phoneNumber, StringComparison.InvariantCultureIgnoreCase));
+            return AppContext.Clients.FirstOrDefault( o => o.PhoneNumber == phoneNumber );
         }
 
         public Client GetByName(ClaimsPrincipal user, string name)
         {
-            return AppContext.Clients.FirstOrDefault(o => String.Equals(o.Name, name, StringComparison.InvariantCultureIgnoreCase));
+            return AppContext.Clients.AsEnumerable().FirstOrDefault(o => String.Equals(o.Name, name, StringComparison.InvariantCultureIgnoreCase));
         }
 
         public ClientInfo GetInfoByPhone(ClaimsPrincipal user, string phoneNumber)
@@ -89,7 +86,7 @@ namespace vproker.Services
 
         private ClientInfo GetClientInfo(Client client)
         {
-            var orders = AppContext.Orders.Where(o => o.ClientID == client.ID);
+            var orders = AppContext.Orders.Where(o => o.ClientID == client.ID).AsEnumerable();
 
             return new ClientInfo(client)
             {
@@ -104,7 +101,7 @@ namespace vproker.Services
 
         public bool IsRegularClient(ClaimsPrincipal user, string id)
         {
-            var orders = AppContext.Orders.Where(o => o.ClientID == id);
+            var orders = AppContext.Orders.Where(o => o.ClientID == id).AsEnumerable();
             var closedOrders = orders.Where(o => o.IsClosed).Count();
 
             return IsRegularClient(closedOrders);
