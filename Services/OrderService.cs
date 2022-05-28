@@ -52,7 +52,7 @@ namespace vproker.Services
 
             if (AppContext.Orders.Count() > 0)
             {
-                orders = AppContext.Orders.Include(o => o.Tool).Include(o => o.Client);
+                orders = AppContext.Orders.Include(o => o.Tool).Include(o => o.Client).AsEnumerable();
 
                 orders = orders.Where(o => !o.IsClosed);
 
@@ -64,27 +64,27 @@ namespace vproker.Services
 
                 if (!String.IsNullOrEmpty(searchString))
                 {
-                    orders = orders.Where(o => o.Client.Name.IndexOf(searchString, StringComparison.OrdinalIgnoreCase) != -1).ToArray();
+                    orders = orders.Where(o => o.Client.Name.IndexOf(searchString, StringComparison.OrdinalIgnoreCase) != -1);
                 }
                 switch (sortOrder)
                 {
                     case "name_desc":
-                        orders = orders.OrderByDescending(s => s.Client.Name).ToArray();
+                        orders = orders.OrderByDescending(s => s.Client.Name);
                         break;
                     case "tool":
-                        orders = orders.OrderBy(o => o.Tool.Name).ToArray();
+                        orders = orders.OrderBy(o => o.Tool.Name);
                         break;
                     case "tool_desc":
-                        orders = orders.OrderByDescending(o => o.Tool.Name).ToArray();
+                        orders = orders.OrderByDescending(o => o.Tool.Name);
                         break;
                     case "date":
-                        orders = orders.OrderBy(o => o.StartDate).ToArray();
+                        orders = orders.OrderBy(o => o.StartDate);
                         break;
                     case "date_desc":
-                        orders = orders.OrderByDescending(o => o.StartDate).ToArray();
+                        orders = orders.OrderByDescending(o => o.StartDate);
                         break;
                     default: //date ascending
-                        orders = orders.OrderBy(s => s.StartDate).ToArray();
+                        orders = orders.OrderBy(s => s.StartDate);
                         break;
                 }
             }
@@ -118,12 +118,14 @@ namespace vproker.Services
                 return o.Client.Name.IndexOf(searchString, StringComparison.InvariantCultureIgnoreCase) >= 0;
             });
 
-            return AppContext.Orders.Where(o => o.IsClosed && startFilter(o) && endFilter(o) && clientFilter(o)).Include(o => o.Tool).Include(o => o.Client);
+            return AppContext.Orders.Include( o => o.Tool ).Include( o => o.Client ).AsEnumerable()
+                .Where( o => o.IsClosed && startFilter( o ) && endFilter( o ) && clientFilter( o ) );
         }
 
         public Order[] GetTodayClosedOrders(ClaimsPrincipal user)
         {
-            return AppContext.Orders.Where(o => o.IsClosed && o.EndDate != null && Equals(o.EndDate.GetValueOrDefault().Date, DateTime.Now.Date)).ToArray();
+            return AppContext.Orders.Where(o => o.EndDate != null && Equals(o.EndDate ?? DateTime.MinValue, DateTime.Now.Date)).AsEnumerable()
+                .Where( o => o.IsClosed ).ToArray();
         }
 
         public byte[] GetHistoryReport(ClaimsPrincipal user, string start, string end, string searchString)
