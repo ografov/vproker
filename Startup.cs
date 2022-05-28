@@ -1,21 +1,21 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System.Collections.Generic;
+using System.Globalization;
+using System.Threading;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Cors.Infrastructure;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using vproker.Models;
-using Microsoft.Data.Sqlite;
-using System.Globalization;
-using System.Threading;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Cors.Infrastructure;
+using Microsoft.OpenApi.Models;
+using Microsoft.Data.Sqlite;
+using vproker.Models;
 using vproker.Services;
-using System.Collections.Generic;
-using Microsoft.AspNetCore.Localization;
-using Swashbuckle.AspNetCore.Swagger;
 
 namespace vproker
 {
@@ -23,18 +23,25 @@ namespace vproker
     {
         private const string CORS_POLICY_NAME = "allowAll";
 
-        public Startup(IConfiguration configuration, IHostingEnvironment hosting)
+        public Startup(IConfiguration configuration, IWebHostEnvironment hosting )
         {
             Configuration = configuration;
             HostingEnvironment = hosting;
         }
 
-        public IHostingEnvironment HostingEnvironment { get; set; }
+        public IWebHostEnvironment HostingEnvironment { get; set; }
         public IConfiguration Configuration { get; set; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddLogging( builder =>
+                builder.AddConfiguration( Configuration.GetSection( "Logging" ) )
+                       .AddConsole()
+                       .AddDebug());
+
+            services.AddDatabaseDeveloperPageExceptionFilter();
+
             // Configure CORS
             ConfigureCors(services);
 
@@ -61,13 +68,12 @@ namespace vproker
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info
+                c.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Version = "v1",
                     Title = "vrpoker API",
                     Description = "vproker Web API",
-                    TermsOfService = "None",
-                    Contact = new Contact() { Name = "Oleg Grafov", Email = "olegraf@gmail.com" }
+                    Contact = new OpenApiContact() { Name = "Oleg Grafov", Email = "olegraf@gmail.com" }
                 });
             });
 
@@ -78,8 +84,7 @@ namespace vproker
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app,
-            IHostingEnvironment env,
-            ILoggerFactory loggerFactory,
+            IWebHostEnvironment env,
             ApplicationDbContext context)
         {
             // setting Ru culture helped for showing right currency, but does not for DateTime
@@ -102,14 +107,10 @@ namespace vproker
             };
             app.UseRequestLocalization(localizationOptions);
 
-            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            loggerFactory.AddDebug();
-
             if (env.IsDevelopment())
             {
                 app.UseBrowserLink();
                 app.UseDeveloperExceptionPage();
-                app.UseDatabaseErrorPage();
             }
             else
             {
@@ -120,18 +121,22 @@ namespace vproker
             //app.UseIISPlatformHandler(); // options => options.AuthenticationDescriptions.Clear());
 
             app.UseStaticFiles();
+
+            app.UseRouting();
+
             app.UseCors(CORS_POLICY_NAME);
 
             app.UseAuthentication();
 
+            app.UseAuthorization();
+
+
             // To configure external authentication please see http://go.microsoft.com/fwlink/?LinkID=532715
 
-            app.UseMvc(routes =>
+            app.UseEndpoints( endpoints =>
             {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Order}/{action=Index}/{id?}");
-            });
+                endpoints.MapControllerRoute( "default", "{controller=Order}/{action=Index}/{id?}" );
+            } );
 
             SampleData.Initialize(app.ApplicationServices);
 
@@ -155,7 +160,6 @@ namespace vproker
             corsBuilder.AllowAnyHeader();
             corsBuilder.AllowAnyMethod();
             corsBuilder.AllowAnyOrigin();
-            corsBuilder.AllowCredentials();
 
             services.AddCors(options =>
             {

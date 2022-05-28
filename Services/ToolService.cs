@@ -52,7 +52,7 @@ namespace vproker.Services
 
         public Tool GetByName(ClaimsPrincipal user, string name)
         {
-            return AppContext.Tools.FirstOrDefault(o => String.Equals(o.Name, name, StringComparison.InvariantCultureIgnoreCase));
+            return AppContext.Tools.AsEnumerable().FirstOrDefault(o => String.Equals(o.Name, name, StringComparison.InvariantCultureIgnoreCase));
         }
 
         internal static IEnumerable<SelectListItem> GetToolsListItems(IEnumerable<Tool> tools, bool optional = false, string selectedId = null)
