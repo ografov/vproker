@@ -4,6 +4,10 @@
 }
 @section Scripts {
     <script src="~/ts/utils.js"></script>
+    <script src="~/ts/clients.js"></script>
+    <script type="text/javascript">
+        vproker.Client.render();
+    </script>
 }
 <p>
     <a asp-action="Create">Новый Клиент</a>
@@ -11,8 +15,11 @@
 
 <div class="container">
     <div id="toolbar">
+        <div>
+            <button id="downloadClients" class="btn btn-default">Сохранить в Файл</button>
+        </div>
     </div>
-
+        
     <table id="table" class="table table-striped table-responsive"
            data-toggle="table"
            data-url="/api/client"
