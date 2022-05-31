@@ -128,6 +128,8 @@ namespace vproker
 
             app.UseMvc(routes =>
             {
+                routes.MapRoute( null, "{controller}/{action}" );
+
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Order}/{action=Index}/{id?}");

@@ -164,5 +164,13 @@ namespace vproker.Controllers
         //            Selected = knowItem.ID == selectedId
         //        });
         //}
+
+        public FileResult DownloadClients()
+        {
+            string fileName = "vproker-clients.csv";
+            byte[] fileBytes = service.DownloadClients();
+            
+            return File( fileBytes, "text/csv; charset=UTF8", fileName );
+        }
     }
 }

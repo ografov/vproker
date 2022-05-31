@@ -126,5 +126,24 @@ namespace vproker.Services
         {
             return PassportCheck.Validate(passport);
         }
+
+        public byte[] DownloadClients()
+        {
+            var clientInfo = GetAllInfo();
+
+            var csv = string.Join( "\n", clientInfo.Select( ci => string.Join( ",", 
+                ci.Client.CreatedAt.Value.ToShortDateString(), 
+                ci.Client.Name.Replace(",", " "), 
+                ci.Client.PhoneNumber, 
+                ci.Client.Passport, 
+                ci.Client.DateOfBirth.Value.ToShortDateString(), 
+                ci.AllOrdersNumber, 
+                ci.ActiveOrdersNumber ) ) )
+                .Insert(0, "Дата регистрации,ФИО,Номер телефона,Паспорт,Дата рождения,Всего заказов,Активных заказов\n" );
+
+            var data = System.Text.Encoding.UTF8.GetBytes( csv );
+            var result = System.Text.Encoding.UTF8.GetPreamble().Concat( data ).ToArray();
+            return result;
+        }
     }
 }

@@ -18,6 +18,7 @@
     <EmbeddedResource Remove="wwwroot\**\*;node_modules\**\*" />
     <None Remove="Tests\**" />
     <Content Remove="wwwroot\ts\api.ts" />
+    <Content Remove="wwwroot\ts\clients.ts" />
     <Content Remove="wwwroot\ts\history.ts" />
     <Content Remove="wwwroot\ts\order.create.ts" />
     <Content Remove="wwwroot\ts\utils.ts" />
@@ -53,6 +54,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="wwwroot\ts\clients.ts" />
     <TypeScriptCompile Include="wwwroot\ts\order.create.ts" />
     <TypeScriptCompile Include="wwwroot\ts\api.ts" />
     <TypeScriptCompile Include="wwwroot\ts\history.ts" />
