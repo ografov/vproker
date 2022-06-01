@@ -25,31 +25,9 @@ namespace vproker.Services
             {
                 while (!reader.EndOfStream)
                 {
-	                string line = reader.ReadLine();
-                    string result = string.Empty;
-	                if (line.Length == 11)
-	                {
-		                result = line.Replace(",", "");
-	                }
-	                else
-	                {
-		                var serialAndNumber = line.Split(",");
-		                var serial = serialAndNumber[0];
-		                var number = serialAndNumber[1];
-		                if (serial.Length != 4)
-		                {
-			                serial = new string('0', 4 - serial.Length) + serial;
-		                }
-
-		                if (number.Length != 6)
-		                {
-			                number = new string('0', 6 - number.Length) + number;
-		                }
-
-		                result = serial + number;
-	                }
-	                
-                    if (String.Equals(passport, result))
+                    string line = reader.ReadLine();
+                    string p = line.Replace(",", "");
+                    if (String.Equals(passport, p))
                     {
                         return false;
                     }
