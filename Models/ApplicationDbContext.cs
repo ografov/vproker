@@ -19,7 +19,6 @@ namespace vproker.Models
         public DbSet<Client> Clients { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Tool> Tools { get; set; }
-        public DbSet<Partners> Partners { get; set; }
         //public DbSet<KnowledgeSource> KnowSources { get; set; }
         public DbSet<Maintain> Maintains { get; set; }
         public DbSet<Settings> Settings { get; set; }

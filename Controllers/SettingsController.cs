@@ -56,13 +56,6 @@ namespace vproker.Controllers
             }
         }
 
-        [HttpPost]
-        public ActionResult AddPartner(Settings model)
-        {
-            model.PartnersList.Add(new Partners(model.PartnerName, model.PartnerDiscount));
-            //Store(model);
-            return RedirectToAction("Index", "Settings");
-        }
         private void Store(Settings settings)
         {
             settings.BeforeStore();

@@ -279,21 +279,6 @@ namespace vproker.Migrations
                     b.ToTable("Order");
                 });
 
-            modelBuilder.Entity("vproker.Models.Partners", b =>
-                {
-                    b.Property<string>("ID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<float>("Discount");
-
-                    b.Property<string>("Name")
-                        .IsRequired();
-
-                    b.HasKey("ID");
-
-                    b.ToTable("Partners");
-                });
-
             modelBuilder.Entity("vproker.Models.Settings", b =>
                 {
                     b.Property<string>("ID")
