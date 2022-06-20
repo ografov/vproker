@@ -48,40 +48,40 @@ namespace vproker.Services
 
         public IEnumerable<Order> GetActiveOrdersNoUser(string sortOrder, string searchString)
         {
-	        IEnumerable<Order> orders = Array.Empty<Order>();
+            IEnumerable<Order> orders = Array.Empty<Order>();
 
-	        if (!AppContext.Orders.Any()) return orders;
-	        orders = AppContext.Orders.Include(o => o.Tool).Include(o => o.Client);
+            if (!AppContext.Orders.Any()) return orders;
+            orders = AppContext.Orders.Include(o => o.Tool).Include(o => o.Client);
 
-	        orders = orders.Where(o => !o.IsClosed);
+            orders = orders.Where(o => !o.IsClosed);
 
-	        if (!string.IsNullOrEmpty(searchString))
-	        {
-		        orders = orders.Where(o => o.Client.Name.IndexOf(searchString, StringComparison.OrdinalIgnoreCase) != -1).ToArray();
-	        }
-	        switch (sortOrder)
-	        {
-		        case "name_desc":
-			        orders = orders.OrderByDescending(s => s.Client.Name).ToArray();
-			        break;
-		        case "tool":
-			        orders = orders.OrderBy(o => o.Tool.Name).ToArray();
-			        break;
-		        case "tool_desc":
-			        orders = orders.OrderByDescending(o => o.Tool.Name).ToArray();
-			        break;
-		        case "date":
-			        orders = orders.OrderBy(o => o.StartDate).ToArray();
-			        break;
-		        case "date_desc":
-			        orders = orders.OrderByDescending(o => o.StartDate).ToArray();
-			        break;
-		        default: //date ascending
-			        orders = orders.OrderBy(s => s.StartDate).ToArray();
-			        break;
-	        }
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                orders = orders.Where(o => o.Client.Name.IndexOf(searchString, StringComparison.OrdinalIgnoreCase) != -1).ToArray();
+            }
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    orders = orders.OrderByDescending(s => s.Client.Name).ToArray();
+                    break;
+                case "tool":
+                    orders = orders.OrderBy(o => o.Tool.Name).ToArray();
+                    break;
+                case "tool_desc":
+                    orders = orders.OrderByDescending(o => o.Tool.Name).ToArray();
+                    break;
+                case "date":
+                    orders = orders.OrderBy(o => o.StartDate).ToArray();
+                    break;
+                case "date_desc":
+                    orders = orders.OrderByDescending(o => o.StartDate).ToArray();
+                    break;
+                default: //date ascending
+                    orders = orders.OrderBy(s => s.StartDate).ToArray();
+                    break;
+            }
 
-	        return orders;
+            return orders;
         }
         public IEnumerable<Order> GetActiveOrders(ClaimsPrincipal user, string sortOrder, string searchString)
         {
@@ -93,14 +93,14 @@ namespace vproker.Services
 
                 orders = orders.Where(o => !o.IsClosed);
 
-				//if not admin, restrict by who created
+                // if not admin, restrict by who created
 
-				if (user.Identity.Name != AuthData.ADMIN_ID)
-				{
-					orders = orders.Where(o => o.CreatedBy == user.Identity.Name);
-				}
+                if (user.Identity.Name != AuthData.ADMIN_ID)
+                {
+                    orders = orders.Where(o => o.CreatedBy == user.Identity.Name);
+                }
 
-				if (!String.IsNullOrEmpty(searchString))
+                if (!String.IsNullOrEmpty(searchString))
                 {
                     orders = orders.Where(o => o.Client.Name.IndexOf(searchString, StringComparison.OrdinalIgnoreCase) != -1).ToArray();
                 }
